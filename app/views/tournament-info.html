@@ -1,0 +1,53 @@
+<div>
+  <div class="card m-5">
+    <div class="card-header">Tournament Data</div>
+
+    <div class="card-body">
+      <h2 id="tournamentName" class="card-title"></h2>
+    </div>
+    <ul class="list-group list-group-flush">
+      <li id="tournamentDate" class="list-group-item"></li>
+      <li id="tournamentLocation" class="list-group-item"></li>
+      <li id="tournamentCategories" class="list-group-item"></li>
+    </ul>
+  </div>
+
+  <div class="card m-5">
+    <div class="card-header">Tournament Actions</div>
+    <div class="card-body">
+      <a href="#" class="btn btn-warning">Add results</a>
+      <a href="#" class="btn btn-info">Update tournament data</a>
+      <a href="#" class="btn btn-danger">Remove tournament</a>
+    </div>
+  </div>
+
+  <div class="card m-5">
+    <div class="card-header">
+      <i class="fas fa-table me-1"></i>
+      Tournament Results
+    </div>
+    <div class="card-body">
+      <table
+        id="tournamentInfoTable"
+        class="table table-bordered"
+        style="width: 100%"
+      >
+        <thead>
+          <tr>
+            <th>Member</th>
+            <th>Opponent</th>
+            <th>Result</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+        <tfoot>
+          <tr>
+            <th>Member</th>
+            <th>Opponent</th>
+            <th>Result</th>
+          </tr>
+        </tfoot>
+      </table>
+    </div>
+  </div>
+</div>

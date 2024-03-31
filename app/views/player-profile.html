@@ -1,0 +1,56 @@
+<div>
+  <div class="card m-5">
+    <div class="card-header">Player Data</div>
+
+    <div class="card-body">
+      <h2 id="playerName" class="card-title"></h2>
+      <h4 id="playerTournamentScore" class="card-text"></h4>
+      <p id="playerJoinDate" class="card-text"></p>
+    </div>
+    <ul class="list-group list-group-flush">
+      <li id="playerDateOfBirth" class="list-group-item"></li>
+      <li id="playerGender" class="list-group-item"></li>
+      <li id="playerBirthplace" class="list-group-item"></li>
+      <li id="playerCategory" class="list-group-item"></li>
+      <li id="playerMembershipStatus" class="list-group-item"></li>
+      <li id="playerBadges" class="list-group-item"></li>
+    </ul>
+  </div>
+
+  <div class="card m-5">
+    <div class="card-header">Player Actions</div>
+    <div class="card-body">
+      <a href="#" class="btn btn-warning">Mark membership as paid</a>
+      <a href="#" class="btn btn-info">Update player data</a>
+      <a href="#" class="btn btn-danger">Remove from club</a>
+    </div>
+  </div>
+
+  <div class="card m-5">
+    <div class="card-header">
+      <i class="fas fa-table me-1"></i>
+      Match Results
+    </div>
+    <div class="card-body">
+      <table
+        id="playerProfileTable"
+        class="table table-bordered"
+        style="width: 100%"
+      >
+        <thead>
+          <tr>
+            <th>Opponent</th>
+            <th>Result</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+        <tfoot>
+          <tr>
+            <th>Opponent</th>
+            <th>Result</th>
+          </tr>
+        </tfoot>
+      </table>
+    </div>
+  </div>
+</div>

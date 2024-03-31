@@ -1,59 +1,29 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta
-      name="viewport"
-      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+<form class="container-fluid">
+  <h2 class="my-4">Update player data</h2>
+  <div class="mb-3">
+    <input
+      type="text"
+      class="form-control"
+      placeholder="First Name"
+      name="firstName"
     />
-    <meta name="description" content="" />
-    <meta name="author" content="" />
-    <title>TTCMS - Members</title>
-    <link
-      href="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/style.min.css"
-      rel="stylesheet"
+  </div>
+  <div class="mb-3">
+    <input
+      type="text"
+      class="form-control"
+      placeholder="Last Name"
+      name="lastName"
     />
-    <link href="css/styles.css" rel="stylesheet" />
-    <script
-      src="https://use.fontawesome.com/releases/v6.3.0/js/all.js"
-      crossorigin="anonymous"
-    ></script>
-  </head>
-  <body class="sb-nav-fixed">
-    <form class="container-fluid">
-      <h2 class="my-4">Update player data</h2>
-      <div class="mb-3">
-        <input
-          type="text"
-          class="form-control"
-          placeholder="First Name"
-          name="firstName"
-        />
-      </div>
-      <div class="mb-3">
-        <input
-          type="text"
-          class="form-control"
-          placeholder="Last Name"
-          name="lastName"
-        />
-      </div>
-      <div class="mb-3">
-        <label for="date">Date Of Birth</label>
-        <input
-          type="date"
-          class="form-control"
-          placeholder="Date"
-          name="date"
-        />
-      </div>
-      <label for="gender">Gender</label>
-      <select class="form-select" name="gender">
-        <option value="MALE">Male</option>
-        <option value="FEMALE">Female</option>
-      </select>
-      <button class="btn btn-success my-3">Submit</button>
-    </form>
-  </body>
-</html>
+  </div>
+  <div class="mb-3">
+    <label for="date">Date Of Birth</label>
+    <input type="date" class="form-control" placeholder="Date" name="date" />
+  </div>
+  <label for="gender">Gender</label>
+  <select class="form-select" name="gender">
+    <option value="MALE">Male</option>
+    <option value="FEMALE">Female</option>
+  </select>
+  <button class="btn btn-success my-3">Submit</button>
+</form>

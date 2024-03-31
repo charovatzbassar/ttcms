@@ -1,0 +1,91 @@
+[
+  {
+    "tournamentID": "1",
+    "name": "Spring Open",
+    "date": "2024-04-15",
+    "categories": ["Junior", "Cadet"],
+    "location": "Belgrade",
+    "status": "UPCOMING"
+  },
+
+  {
+    "tournamentID": "2",
+    "name": "Summer Cup",
+    "date": "2024-07-20",
+    "categories": ["Senior", "Veteran"],
+    "location": "Belgrade",
+    "status": "UPCOMING"
+  },
+
+  {
+    "tournamentID": "3",
+    "name": "Fall Classic",
+    "date": "2024-10-05",
+    "categories": ["Cadet", "Junior"],
+    "location": "Belgrade",
+    "status": "UPCOMING"
+  },
+
+  {
+    "tournamentID": "4",
+    "name": "Winter Games",
+    "date": "2024-12-15",
+    "categories": ["Cadet", "Senior"],
+    "location": "Belgrade",
+    "status": "UPCOMING"
+  },
+
+  {
+    "tournamentID": "5",
+    "name": "National Championship",
+    "date": "2024-02-28",
+    "categories": ["Junior"],
+    "location": "Belgrade",
+    "status": "COMPLETED"
+  },
+
+  {
+    "tournamentID": "6",
+    "name": "Senior Masters",
+    "date": "2024-03-10",
+    "categories": ["Senior"],
+    "location": "Belgrade",
+    "status": "COMPLETED"
+  },
+
+  {
+    "tournamentID": "7",
+    "name": "Veteran League",
+    "date": "2023-12-01",
+    "categories": ["Veteran"],
+    "location": "Belgrade",
+    "status": "COMPLETED"
+  },
+
+  {
+    "tournamentID": "8",
+    "name": "Cadet Finals",
+    "date": "2023-11-15",
+    "categories": ["Cadet"],
+    "location": "Belgrade",
+    "status": "COMPLETED"
+  },
+
+  {
+    "tournamentID": "9",
+    "name": "Junior Masters",
+    "date": "2023-09-20",
+    "categories": ["Junior"],
+    "location": "Belgrade",
+    "status": "COMPLETED"
+  },
+
+  {
+    "tournamentID": "10",
+    "name": "Bosnia Open",
+    "date": "2023-08-05",
+    "categories": ["Senior"],
+    "location": "Belgrade",
+    "status": "COMPLETED"
+  }
+]
