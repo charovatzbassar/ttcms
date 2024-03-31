@@ -1,4 +1,4 @@
-$(document).ready(function () {
+$(document).ready(() => {
   const app = $.spapp({
     templateDir: "./views/",
   });
@@ -7,7 +7,7 @@ $(document).ready(function () {
     view: "dashboard",
     load: "dashboard.html",
 
-    onReady: function () {
+    onReady: () => {
       $.get("assets/data/players.json").done((data) => {
         let members = "";
 
@@ -19,7 +19,6 @@ $(document).ready(function () {
         });
 
         $("#dashboardTable > tbody").html(members);
-
         $("#dashboardTable").DataTable({
           columns: [{ data: "name" }, { data: "membership-status" }],
         });
@@ -31,13 +30,13 @@ $(document).ready(function () {
     view: "members",
     load: "members.html",
 
-    onReady: function () {
+    onReady: () => {
       $.get("assets/data/players.json").done((data) => {
         let members = "";
 
         data.map((member) => {
           members += `<tr>
-                <td>${member.name} ${member.surname}</td>
+                <td><a href="?id=${member.playerID}#player-profile" class="text-black">${member.name} ${member.surname}</a></td>
                 <td>${member.dateOfBirth}</td>
                 <td>${member.gender}</td>
                 <td>${member.birthplace}</td>
@@ -66,13 +65,17 @@ $(document).ready(function () {
     view: "tournaments",
     load: "tournaments.html",
 
-    onReady: function () {
+    onReady: () => {
       $.get("assets/data/tournaments.json").done((data) => {
         let tournaments = "";
 
         data.map((tournament) => {
           tournaments += `<tr>
-                <td>${tournament.name}</td>
+                <td><a href="?id=${
+                  tournament.tournamentID
+                }#tournament-info" class="text-black">${
+            tournament.name
+          }</a></td>
                 <td>${tournament.date}</td>
                 <td>${tournament.categories.join(", ")}</td>
                 <td>${tournament.location}</td>
@@ -99,15 +102,14 @@ $(document).ready(function () {
     view: "news",
     load: "news.html",
 
-    onReady: function () {
+    onReady: () => {
       $.get("assets/data/news-articles.json").done((data) => {
         let articles = "";
 
         data.map((article) => {
           articles += `<tr>
-                <td>${article.title}</td>
+                <td><a href="?id=${article.articleID}#news-details" class="text-black">${article.title}</a></td>
                 <td>${article.dateAdded}</td>
-
             </tr>`;
         });
 
@@ -123,7 +125,7 @@ $(document).ready(function () {
     view: "player-stats",
     load: "player-stats.html",
 
-    onReady: function () {
+    onReady: () => {
       $.get("assets/data/players.json").done((data) => {
         let members = "";
 
@@ -147,7 +149,7 @@ $(document).ready(function () {
     view: "registrations",
     load: "registrations.html",
 
-    onReady: function () {
+    onReady: () => {
       $.get("assets/data/registrations.json").done((data) => {
         let registrations = "";
 
@@ -179,6 +181,110 @@ $(document).ready(function () {
             { data: "actions" },
           ],
         });
+      });
+    },
+  });
+
+  app.route({
+    view: "tournament-info",
+    load: "tournament-info.html",
+
+    onReady: () => {
+      const urlParams = new URLSearchParams(window.location.search);
+      const id = urlParams.get("id");
+
+      $.get("assets/data/tournaments.json").done((data) => {
+        const tournament = data.find((t) => t.tournamentID === id);
+
+        $("#tournamentName").html(tournament.name);
+        $("#tournamentDate").html("Date: " + tournament.date);
+        $("#tournamentLocation").html("Location: " + tournament.location);
+        $("#tournamentCategories").html(
+          "Categories: " + tournament.categories.join(", ")
+        );
+      });
+
+      $.get("assets/data/results.json").done((data) => {
+        let results = "";
+
+        data.map((result) => {
+          results += `<tr>
+                <td>${result.member}</td>
+                <td>${result.opponent}</td>
+                <td>${result.status}</td>
+            </tr>`;
+        });
+
+        $("#tournamentInfoTable > tbody").html(results);
+        $("#tournamentInfoTable").DataTable({
+          columns: [
+            { data: "member" },
+            { data: "opponent" },
+            { data: "result" },
+          ],
+        });
+      });
+    },
+  });
+
+  app.route({
+    view: "player-profile",
+    load: "player-profile.html",
+
+    onReady: () => {
+      const urlParams = new URLSearchParams(window.location.search);
+      const id = urlParams.get("id");
+
+      $.get("assets/data/players.json").done((data) => {
+        const player = data.find((p) => p.playerID === id);
+
+        $("#playerName").html(player.name + " " + player.surname);
+        $("#playerTournamentScore").html("Tournament Score: " + player.score);
+        $("#playerJoinDate").html("Joined on: " + player.joinDate);
+        $("#playerDateOfBirth").html("Date Of Birth: " + player.dateOfBirth);
+        $("#playerGender").html("Gender: " + player.gender);
+        $("#playerBirthplace").html("Birthplace: " + player.birthplace);
+        $("#playerCategory").html("Category: " + player.category);
+        $("#playerMembershipStatus").html(
+          "Membership Status: " + player.membershipStatus
+        );
+        $("#playerBadges").html("Badges: ");
+      });
+
+      $.get("assets/data/results.json").done((data) => {
+        let results = "";
+
+        data.map((result) => {
+          results += `<tr>
+                <td>${result.opponent}</td>
+                <td>${result.status}</td>
+            </tr>`;
+        });
+
+        $("#playerProfileTable > tbody").html(results);
+        $("#playerProfileTable").DataTable({
+          columns: [{ data: "opponent" }, { data: "result" }],
+        });
+      });
+    },
+  });
+
+  app.route({
+    view: "news-details",
+    load: "news-details.html",
+
+    onReady: () => {
+      const urlParams = new URLSearchParams(window.location.search);
+      const id = urlParams.get("id");
+
+      $.get("assets/data/news-articles.json").done((data) => {
+        const article = data.find(
+          (article) => article.articleID === Number(id)
+        );
+
+        $("#articleTitle").html(article.title);
+        $("#articleDateAdded").html("Posted on: " + article.dateAdded);
+        $("#articleContent").html(article.content);
       });
     },
   });
