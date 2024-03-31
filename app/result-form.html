@@ -1,50 +1,25 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta
-      name="viewport"
-      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+<form class="container-fluid">
+  <h2 class="my-4">Add tournament result</h2>
+  <div class="mb-3">
+    <label for="member">Member</label>
+    <select class="form-select" name="member">
+      <option value="1">John Doe</option>
+      <option value="2">Jane Doe</option>
+      <option value="3">John Wick</option>
+    </select>
+  </div>
+  <div class="mb-3">
+    <input
+      type="text"
+      class="form-control"
+      placeholder="Opponent"
+      name="opponent"
     />
-    <meta name="description" content="" />
-    <meta name="author" content="" />
-    <title>TTCMS - Members</title>
-    <link
-      href="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/style.min.css"
-      rel="stylesheet"
-    />
-    <link href="css/styles.css" rel="stylesheet" />
-    <script
-      src="https://use.fontawesome.com/releases/v6.3.0/js/all.js"
-      crossorigin="anonymous"
-    ></script>
-  </head>
-  <body class="sb-nav-fixed">
-    <form class="container-fluid">
-      <h2 class="my-4">Add tournament result</h2>
-      <div class="mb-3">
-        <label for="member">Member</label>
-        <select class="form-select" name="member">
-          <option value="1">John Doe</option>
-          <option value="2">Jane Doe</option>
-          <option value="3">John Wick</option>
-        </select>
-      </div>
-      <div class="mb-3">
-        <input
-          type="text"
-          class="form-control"
-          placeholder="Opponent"
-          name="opponent"
-        />
-      </div>
-      <label for="gender">Result</label>
-      <select class="form-select" name="result">
-        <option value="VICTORY">Victory</option>
-        <option value="LOSS">Loss</option>
-      </select>
-      <button class="btn btn-success my-3">Submit</button>
-    </form>
-  </body>
-</html>
+  </div>
+  <label for="gender">Result</label>
+  <select class="form-select" name="result">
+    <option value="VICTORY">Victory</option>
+    <option value="LOSS">Loss</option>
+  </select>
+  <button class="btn btn-success my-3">Submit</button>
+</form>

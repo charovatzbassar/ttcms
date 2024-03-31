@@ -10,12 +10,9 @@
     <meta name="description" content="" />
     <meta name="author" content="" />
     <title>TTCMS</title>
-    <link
-      href="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/style.min.css"
-      rel="stylesheet"
-    />
-    <link href="css/styles.css" rel="stylesheet" />
-    <link rel="stylesheet" href="./css/spapp.css" />
+    <link rel="stylesheet" href="./assets/css/bootstrap.css" />
+    <link rel="stylesheet" href="./assets/css/dataTables.bootstrap5.css" />
+    <link rel="stylesheet" href="./assets/css/spapp.css" />
   </head>
   <body class="sb-nav-fixed">
     <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
@@ -98,9 +95,9 @@
       </div>
       <div id="layoutSidenav_content">
         <main id="spapp" role="main">
-          <section id="dashboard" data-load="dashboard.html"></section>
           <section id="members" data-load="members.html"></section>
           <section id="news" data-load="news.html"></section>
+          <section id="news-details" data-load="news-details.html"></section>
           <section
             id="player-profile"
             data-load="player-profile.html"
@@ -112,38 +109,18 @@
             id="tournament-info"
             data-load="tournament-info.html"
           ></section>
+          <section id="dashboard" data-load="dashboard.html"></section>
         </main>
         <footer class="py-4 bg-light mt-auto"></footer>
       </div>
     </div>
-    <script
-      src="https://use.fontawesome.com/releases/v6.3.0/js/all.js"
-      crossorigin="anonymous"
-    ></script>
-    <script
-      src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
-      crossorigin="anonymous"
-    ></script>
-    <script src="js/scripts.js"></script>
-    <script
-      src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js"
-      crossorigin="anonymous"
-    ></script>
-    <script src="assets/demo/chart-area-demo.js"></script>
-    <script src="assets/demo/chart-bar-demo.js"></script>
-    <script
-      src="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/umd/simple-datatables.min.js"
-      crossorigin="anonymous"
-    ></script>
-    <script src="./js/jquery.min.js"></script>
-    <script src="./js/jquery.spapp.min.js"></script>
-    <script src="js/datatables-simple-demo.js"></script>
-    <script>
-      var app = $.spapp({
-        templateDir: "./views/",
-      });
-
-      app.run();
-    </script>
+    <script src="./assets/js/jquery.min.js"></script>
+    <script src="./assets/js/bootstrap.bundle.min.js"></script>
+    <script src="./assets/js/dataTables.js"></script>
+    <script src="./assets/js/dataTables.bootstrap5.js"></script>
+    <script src="./assets/js/jquery.spapp.min.js"></script>
+    <script src="./assets/js/navigation.js"></script>
+    <script src="./assets/js/fonts.js"></script>
+    <script src="./assets/js/routes.js"></script>
   </body>
 </html>
