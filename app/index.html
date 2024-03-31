@@ -15,7 +15,10 @@
     <link rel="stylesheet" href="./assets/css/spapp.css" />
   </head>
   <body class="sb-nav-fixed">
-    <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
+    <nav
+      id="mainNav"
+      class="sb-topnav navbar navbar-expand navbar-dark bg-dark"
+    >
       <a class="navbar-brand ps-3 w-100" href="#dashboard">TTCMS</a>
       <button
         class="btn btn-link btn-sm order-1 order-lg-0 me-4 me-lg-0"
@@ -39,7 +42,7 @@
             class="dropdown-menu dropdown-menu-end"
             aria-labelledby="navbarDropdown"
           >
-            <li><a class="dropdown-item" href="#!">Logout</a></li>
+            <li><a class="dropdown-item" href="#login">Logout</a></li>
           </ul>
         </li>
       </ul>
@@ -78,13 +81,6 @@
                 <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
                 Registrations
               </a>
-
-              <a class="nav-link" href="#news">
-                <div class="sb-nav-link-icon">
-                  <i class="fas fa-newspaper"></i>
-                </div>
-                News
-              </a>
             </div>
           </div>
           <div class="sb-sidenav-footer">
@@ -95,9 +91,10 @@
       </div>
       <div id="layoutSidenav_content">
         <main id="spapp" role="main">
+          <section id="login" data-load="login.html"></section>
+          <section id="register" data-load="register.html"></section>
           <section id="members" data-load="members.html"></section>
-          <section id="news" data-load="news.html"></section>
-          <section id="news-details" data-load="news-details.html"></section>
+          <section id="apply" data-load="apply.html"></section>
           <section
             id="player-profile"
             data-load="player-profile.html"
@@ -111,7 +108,6 @@
           ></section>
           <section id="dashboard" data-load="dashboard.html"></section>
         </main>
-        <footer class="py-4 bg-light mt-auto"></footer>
       </div>
     </div>
     <script src="./assets/js/jquery.min.js"></script>

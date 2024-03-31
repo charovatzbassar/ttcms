@@ -15,9 +15,9 @@
   <div class="card m-5">
     <div class="card-header">Tournament Actions</div>
     <div class="card-body">
-      <a href="#" class="btn btn-warning">Add results</a>
-      <a href="#" class="btn btn-info">Update tournament data</a>
-      <a href="#" class="btn btn-danger">Remove tournament</a>
+      <button class="btn btn-warning" id="addResultButton">Add result</button>
+      <button class="btn btn-info">Update tournament data</button>
+      <button class="btn btn-danger">Remove tournament</button>
     </div>
   </div>
 
@@ -48,6 +48,54 @@
           </tr>
         </tfoot>
       </table>
+    </div>
+  </div>
+
+  <div class="modal fade" id="addResultModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h2 class="modal-title" id="exampleModalLabel">
+            Add tournament result
+          </h2>
+        </div>
+        <div class="modal-body">
+          <form class="container-fluid">
+            <div class="mb-3">
+              <label for="member">Member</label>
+              <select class="form-select" name="member">
+                <option value="1">John Doe</option>
+                <option value="2">Jane Doe</option>
+                <option value="3">John Wick</option>
+              </select>
+            </div>
+            <div class="mb-3">
+              <input
+                type="text"
+                class="form-control"
+                placeholder="Opponent"
+                name="opponent"
+              />
+            </div>
+            <label for="gender">Result</label>
+            <select class="form-select" name="result">
+              <option value="VICTORY">Victory</option>
+              <option value="LOSS">Loss</option>
+            </select>
+            <div class="my-3">
+              <button
+                type="button"
+                class="btn btn-secondary"
+                id="closeModalButton"
+                data-dismiss="modal"
+              >
+                Close
+              </button>
+              <button class="btn btn-success my-3">Add result</button>
+            </div>
+          </form>
+        </div>
+      </div>
     </div>
   </div>
 </div>

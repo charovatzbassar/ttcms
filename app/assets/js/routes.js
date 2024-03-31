@@ -8,6 +8,8 @@ $(document).ready(() => {
     load: "dashboard.html",
 
     onReady: () => {
+      $("#mainNav").show();
+      $("#layoutSidenav_nav").show();
       $.get("assets/data/players.json").done((data) => {
         let members = "";
 
@@ -31,6 +33,8 @@ $(document).ready(() => {
     load: "members.html",
 
     onReady: () => {
+      $("#mainNav").show();
+      $("#layoutSidenav_nav").show();
       $.get("assets/data/players.json").done((data) => {
         let members = "";
 
@@ -66,6 +70,16 @@ $(document).ready(() => {
     load: "tournaments.html",
 
     onReady: () => {
+      $("#mainNav").show();
+      $("#layoutSidenav_nav").show();
+      $("#addTournamentButton").click(() => {
+        $("#addTournamentModal").modal("show");
+      });
+
+      $("#closeModalButton").click(() => {
+        $("#addTournamentModal").modal("hide");
+      });
+
       $.get("assets/data/tournaments.json").done((data) => {
         let tournaments = "";
 
@@ -99,33 +113,12 @@ $(document).ready(() => {
   });
 
   app.route({
-    view: "news",
-    load: "news.html",
-
-    onReady: () => {
-      $.get("assets/data/news-articles.json").done((data) => {
-        let articles = "";
-
-        data.map((article) => {
-          articles += `<tr>
-                <td><a href="?id=${article.articleID}#news-details" class="text-black">${article.title}</a></td>
-                <td>${article.dateAdded}</td>
-            </tr>`;
-        });
-
-        $("#newsTable > tbody").html(articles);
-        $("#newsTable").DataTable({
-          columns: [{ data: "title" }, { data: "date-added" }],
-        });
-      });
-    },
-  });
-
-  app.route({
     view: "player-stats",
     load: "player-stats.html",
 
     onReady: () => {
+      $("#mainNav").show();
+      $("#layoutSidenav_nav").show();
       $.get("assets/data/players.json").done((data) => {
         let members = "";
 
@@ -150,6 +143,8 @@ $(document).ready(() => {
     load: "registrations.html",
 
     onReady: () => {
+      $("#mainNav").show();
+      $("#layoutSidenav_nav").show();
       $.get("assets/data/registrations.json").done((data) => {
         let registrations = "";
 
@@ -190,6 +185,9 @@ $(document).ready(() => {
     load: "tournament-info.html",
 
     onReady: () => {
+      $("#mainNav").show();
+      $("#layoutSidenav_nav").show();
+
       const urlParams = new URLSearchParams(window.location.search);
       const id = urlParams.get("id");
 
@@ -224,6 +222,14 @@ $(document).ready(() => {
           ],
         });
       });
+
+      $("#addResultButton").click(() => {
+        $("#addResultModal").modal("show");
+      });
+
+      $("#closeModalButton").click(() => {
+        $("#addResultModal").modal("hide");
+      });
     },
   });
 
@@ -232,6 +238,8 @@ $(document).ready(() => {
     load: "player-profile.html",
 
     onReady: () => {
+      $("#mainNav").show();
+      $("#layoutSidenav_nav").show();
       const urlParams = new URLSearchParams(window.location.search);
       const id = urlParams.get("id");
 
@@ -249,6 +257,19 @@ $(document).ready(() => {
           "Membership Status: " + player.membershipStatus
         );
         $("#playerBadges").html("Badges: ");
+
+        $("#updatePlayerButton").click(() => {
+          $("#updatePlayerModal").modal("show");
+        });
+
+        $("[name='firstName']").val(player.name);
+        $("[name='lastName']").val(player.surname);
+        $("[name='dateOfBirth']").val(player.dateOfBirth);
+        $("select[name='gender']").val(player.gender);
+
+        $("#closeModalButton").click(() => {
+          $("#updatePlayerModal").modal("hide");
+        });
       });
 
       $.get("assets/data/results.json").done((data) => {
@@ -270,22 +291,32 @@ $(document).ready(() => {
   });
 
   app.route({
-    view: "news-details",
-    load: "news-details.html",
+    view: "login",
+    load: "login.html",
 
     onReady: () => {
-      const urlParams = new URLSearchParams(window.location.search);
-      const id = urlParams.get("id");
+      $("#mainNav").hide();
+      $("#layoutSidenav_nav").hide();
+    },
+  });
 
-      $.get("assets/data/news-articles.json").done((data) => {
-        const article = data.find(
-          (article) => article.articleID === Number(id)
-        );
+  app.route({
+    view: "register",
+    load: "register.html",
 
-        $("#articleTitle").html(article.title);
-        $("#articleDateAdded").html("Posted on: " + article.dateAdded);
-        $("#articleContent").html(article.content);
-      });
+    onReady: () => {
+      $("#mainNav").hide();
+      $("#layoutSidenav_nav").hide();
+    },
+  });
+
+  app.route({
+    view: "apply",
+    load: "apply.html",
+
+    onReady: () => {
+      $("#mainNav").hide();
+      $("#layoutSidenav_nav").hide();
     },
   });
 
