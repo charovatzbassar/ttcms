@@ -72,6 +72,23 @@ $(document).ready(() => {
     onReady: () => {
       $("#mainNav").show();
       $("#layoutSidenav_nav").show();
+      $("#addTournamentForm").submit(function (e) {
+        e.preventDefault();
+        const formData = $(this).serialize().split("&");
+
+        const tournament = {
+          name: formData[0].split("=")[1],
+          date: formData[1].split("=")[1],
+          location: formData[2].split("=")[1],
+          categories: formData
+            .slice(3)
+            .map((category) => category.split("=")[1]),
+          status: "UPCOMING",
+        };
+
+        console.log(tournament);
+      });
+
       $("#addTournamentButton").click(() => {
         $("#addTournamentModal").modal("show");
       });
@@ -200,6 +217,33 @@ $(document).ready(() => {
         $("#tournamentCategories").html(
           "Categories: " + tournament.categories.join(", ")
         );
+
+        $("#updateTournamentButton").click(() => {
+          $("#updateTournamentModal").modal("show");
+        });
+
+        $("#closeUpdateTournamentModalButton").click(() => {
+          $("#updateTournamentModal").modal("hide");
+        });
+
+        $("[name='name']").val(tournament.name);
+        $("[name='date']").val(tournament.date);
+        $("[name='location']").val(tournament.location);
+
+        for (let i = 0; i < tournament.categories.length; i++) {
+          console.log(
+            $(
+              `[name='category'][value='${tournament.categories[
+                i
+              ].toUpperCase()}']`
+            )
+          );
+          $(
+            `[name='category'][value='${tournament.categories[
+              i
+            ].toUpperCase()}']`
+          ).prop("checked", true);
+        }
       });
 
       $.get("assets/data/results.json").done((data) => {
@@ -227,7 +271,7 @@ $(document).ready(() => {
         $("#addResultModal").modal("show");
       });
 
-      $("#closeModalButton").click(() => {
+      $("#closeAddResultModalButton").click(() => {
         $("#addResultModal").modal("hide");
       });
     },
@@ -256,7 +300,22 @@ $(document).ready(() => {
         $("#playerMembershipStatus").html(
           "Membership Status: " + player.membershipStatus
         );
-        $("#playerBadges").html("Badges: ");
+
+        let badges = "";
+        if (player.score >= 10) {
+          badges += "&#10020; ";
+        }
+        if (player.score >= 25) {
+          badges += "&#10021; ";
+        }
+        if (player.score >= 50) {
+          badges += "&#10045; ";
+        }
+        if (player.score >= 100) {
+          badges += "&#10051; ";
+        }
+
+        $("#playerBadges").html("Badges: " + badges);
 
         $("#updatePlayerButton").click(() => {
           $("#updatePlayerModal").modal("show");

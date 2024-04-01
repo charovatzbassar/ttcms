@@ -16,7 +16,7 @@
     <div class="card-header">Tournament Actions</div>
     <div class="card-body">
       <button class="btn btn-warning" id="addResultButton">Add result</button>
-      <button class="btn btn-info">Update tournament data</button>
+      <button class="btn btn-info" id="updateTournamentButton">Update tournament data</button>
       <button class="btn btn-danger">Remove tournament</button>
     </div>
   </div>
@@ -86,12 +86,139 @@
               <button
                 type="button"
                 class="btn btn-secondary"
-                id="closeModalButton"
+                id="closeAddResultModalButton"
                 data-dismiss="modal"
               >
                 Close
               </button>
               <button class="btn btn-success my-3">Add result</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal fade" id="updateTournamentModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h2 class="modal-title" id="exampleModalLabel">
+            Update tournament
+          </h2>
+        </div>
+        <div class="modal-body">
+          <form class="container-fluid" id="updateTournamentForm">
+            <div class="mb-3">
+              <input
+                type="text"
+                class="form-control"
+                placeholder="Name"
+                name="name"
+              />
+            </div>
+            <div class="mb-3">
+              <input
+                type="text"
+                class="form-control"
+                placeholder="Location"
+                name="location"
+              />
+            </div>
+            <div class="mb-3">
+              <label for="date">Date</label>
+              <input
+                type="date"
+                class="form-control"
+                placeholder="Date"
+                name="date"
+              />
+            </div>
+            <h3>Choose categories</h3>
+            <div class="form-check">
+              <input
+                class="form-check-input"
+                type="checkbox"
+                name="category"
+                value="MINI-CADET"
+                id="flexCheckDefault"
+              />
+              <label class="form-check-label" for="flexCheckDefault">
+                Mini cadet
+              </label>
+            </div>
+            <div class="form-check">
+              <input
+                class="form-check-input"
+                type="checkbox"
+                name="category"
+                value="YOUTH-CADET"
+                id="flexCheckDefault"
+              />
+              <label class="form-check-label" for="flexCheckDefault">
+                Youth cadet
+              </label>
+            </div>
+            <div class="form-check">
+              <input
+                class="form-check-input"
+                type="checkbox"
+                name="category"
+                value="CADET"
+                id="flexCheckDefault"
+              />
+              <label class="form-check-label" for="flexCheckDefault">
+                Cadet
+              </label>
+            </div>
+            <div class="form-check">
+              <input
+                class="form-check-input"
+                type="checkbox"
+                name="category"
+                value="JUNIOR"
+                id="flexCheckDefault"
+              />
+              <label class="form-check-label" for="flexCheckDefault">
+                Junior
+              </label>
+            </div>
+            <div class="form-check">
+              <input
+                class="form-check-input"
+                type="checkbox"
+                name="category"
+                value="SENIOR"
+                id="flexCheckDefault"
+              />
+              <label class="form-check-label" for="flexCheckDefault">
+                Senior
+              </label>
+            </div>
+            <div class="form-check">
+              <input
+                class="form-check-input"
+                type="checkbox"
+                name="category"
+                value="VETERAN"
+                id="flexCheckDefault"
+              />
+              <label class="form-check-label" for="flexCheckDefault">
+                Veteran
+              </label>
+            </div>
+            <div class="my-3">
+              <button
+                id="closeUpdateTournamentModalButton"
+                type="button"
+                class="btn btn-secondary"
+                data-dismiss="modal"
+              >
+                Close
+              </button>
+              <button class="btn btn-success" type="submit">
+                Save changes
+              </button>
             </div>
           </form>
         </div>

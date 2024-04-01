@@ -3,7 +3,7 @@
     "tournamentID": "1",
     "name": "Spring Open",
     "date": "2024-04-15",
-    "categories": ["Junior", "Cadet"],
+    "categories": ["Cadet", "Junior"],
     "location": "Belgrade",
     "status": "UPCOMING"
   },
