@@ -8,7 +8,7 @@
   </header>
 
   <section class="py-5">
-    <form class="container">
+    <form class="container" id="applyForm">
       <div class="mb-3">
         <input
           type="text"
@@ -31,7 +31,7 @@
           type="date"
           class="form-control"
           placeholder="Date"
-          name="date"
+          name="dateOfBirth"
         />
       </div>
       <div class="mb-3">
@@ -47,7 +47,8 @@
         <option value="MALE">Male</option>
         <option value="FEMALE">Female</option>
       </select>
-      <button class="btn btn-success my-3">Submit</button>
+      <button class="btn btn-success my-3" type="submit">Submit</button>
     </form>
   </section>
+  <div class="g-recaptcha" data-sitekey="YOUR_SITE_KEY"></div>
 </div>
