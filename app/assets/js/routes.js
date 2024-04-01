@@ -75,23 +75,59 @@ $(document).ready(() => {
     onReady: () => {
       $("#mainNav").show();
       $("#layoutSidenav_nav").show();
-      $("#addTournamentForm").submit(function (e) {
-        e.preventDefault();
-        Utils.block_ui("#addTournamentModal .modal-content");
-        const formData = $(this).serialize().split("&");
 
-        const tournament = {
-          name: formData[0].split("=")[1],
-          date: formData[1].split("=")[1],
-          location: formData[2].split("=")[1],
-          categories: formData
-            .slice(3)
-            .map((category) => category.split("=")[1]),
-          status: "UPCOMING",
-        };
+      $($("#addTournamentForm")).validate({
+        errorElement: "span",
+        errorClass: "help-block help-block-error",
+        rules: {
+          name: {
+            required: true,
+          },
+          location: {
+            required: true,
+          },
+          date: {
+            required: true,
+          },
+          category: {
+            required: true,
+          },
+        },
 
-        console.log(tournament);
-        Utils.unblock_ui("#addTournamentModal .modal-content");
+        messages: {
+          name: {
+            required: "Please enter a name",
+          },
+          date: {
+            required: "Please enter a date date",
+          },
+
+          location: {
+            required: "Please enter a location",
+          },
+          category: {
+            required: "Please select at least one category",
+          },
+        },
+
+        submitHandler: function (f, e) {
+          e.preventDefault();
+          Utils.block_ui("#addTournamentModal .modal-content");
+          const formData = $(f).serialize().split("&");
+
+          const tournament = {
+            name: formData[0].split("=")[1],
+            date: formData[1].split("=")[1],
+            location: formData[2].split("=")[1],
+            categories: formData
+              .slice(3)
+              .map((category) => category.split("=")[1]),
+            status: "UPCOMING",
+          };
+
+          console.log(tournament);
+          Utils.unblock_ui("#addTournamentModal .modal-content");
+        },
       });
 
       $("#addTournamentButton").click(() => {
@@ -167,6 +203,16 @@ $(document).ready(() => {
     load: "registrations.html",
 
     onReady: () => {
+      window.handleAccept = (id) => {
+        console.log(id);
+        toastr.success("Registration accepted");
+      };
+
+      window.handleReject = (id) => {
+        console.log(id);
+        toastr.error("Registration rejected");
+      };
+
       $("#mainNav").show();
       $("#layoutSidenav_nav").show();
       $.get("assets/data/registrations.json").done((data) => {
@@ -181,8 +227,8 @@ $(document).ready(() => {
                 <td>${registration.gender}</td>
                 <td>${registration.birthplace}</td>
                 <td><div class="d-flex justify-content-around">
-                <button class="btn btn-success w-50">Accept</button
-                ><button class="btn btn-danger w-50">Reject</button>
+                <button class="btn btn-success w-50" onclick="handleAccept('${registration.registrationID}')">Accept</button
+                ><button class="btn btn-danger w-50" onclick="handleReject('${registration.registrationID}')">Reject</button>
               </div></td>
             </tr>`;
           }
@@ -212,18 +258,41 @@ $(document).ready(() => {
     onReady: () => {
       $("#mainNav").show();
       $("#layoutSidenav_nav").show();
-      $("#markAsCompleted").hide();
 
-      $("#markAsCompletedButton").click(() => {
-        $("#markAsCompleted").show();
-      });
+      $($("#addResultForm")).validate({
+        errorElement: "span",
+        errorClass: "help-block help-block-error",
+        rules: {
+          member: {
+            required: true,
+          },
+          opponent: {
+            required: true,
+          },
+          result: {
+            required: true,
+          },
+        },
 
-      $("#addResultForm").submit(function (e) {
-        e.preventDefault();
-        Utils.block_ui("#addResultModal .modal-content");
-        const formData = $(this).serialize();
-        console.log(formData);
-        Utils.unblock_ui("#addResultModal .modal-content");
+        messages: {
+          member: {
+            required: "Please select a member",
+          },
+          opponent: {
+            required: "Please select an opponent",
+          },
+          result: {
+            required: "Please select a result",
+          },
+        },
+
+        submitHandler: function (f, e) {
+          e.preventDefault();
+          Utils.block_ui("#addResultModal .modal-content");
+          const formData = $(f).serialize();
+          console.log(formData);
+          Utils.unblock_ui("#addResultModal .modal-content");
+        },
       });
 
       $("#updateResultForm").submit(function (e) {
@@ -234,12 +303,57 @@ $(document).ready(() => {
         Utils.unblock_ui("#updateResultModal .modal-content");
       });
 
-      $("#updateTournamentForm").submit(function (e) {
-        e.preventDefault();
-        Utils.block_ui("#updateTournamentModal .modal-content");
-        const formData = $(this).serialize();
-        console.log(formData);
-        Utils.unblock_ui("#updateTournamentModal .modal-content");
+      $($("#updateTournamentForm")).validate({
+        errorElement: "span",
+        errorClass: "help-block help-block-error",
+        rules: {
+          name: {
+            required: true,
+          },
+          location: {
+            required: true,
+          },
+          date: {
+            required: true,
+          },
+          category: {
+            required: true,
+          },
+        },
+
+        messages: {
+          name: {
+            required: "Please enter a name",
+          },
+          date: {
+            required: "Please enter a date date",
+          },
+
+          location: {
+            required: "Please enter a location",
+          },
+          category: {
+            required: "Please select at least one category",
+          },
+        },
+
+        submitHandler: function (f, e) {
+          e.preventDefault();
+          Utils.block_ui("#updateTournamentModal .modal-content");
+          const formData = $(f).serialize().split("&");
+
+          const tournament = {
+            name: formData[0].split("=")[1],
+            date: formData[1].split("=")[1],
+            location: formData[2].split("=")[1],
+            categories: formData
+              .slice(3)
+              .map((category) => category.split("=")[1]),
+          };
+
+          console.log(tournament);
+          Utils.unblock_ui("#updateTournamentModal .modal-content");
+        },
       });
 
       const urlParams = new URLSearchParams(window.location.search);
@@ -350,6 +464,10 @@ $(document).ready(() => {
       $("#removeTournamentButton").click(() => {
         $("#removeTournamentModal").modal("show");
       });
+
+      $("#markAsCompletedButton").click(() => {
+        toastr.success("Tournament marked as completed");
+      });
     },
   });
 
@@ -361,6 +479,19 @@ $(document).ready(() => {
     onReady: () => {
       $("#mainNav").show();
       $("#layoutSidenav_nav").show();
+
+      $("#markAsPaid").click(() => {
+        toastr.success("Player marked as paid");
+      });
+
+      $("#removePlayerButton").click(() => {
+        $("#removePlayerModal").modal("show");
+      });
+
+      $("#closeRemovePlayerModalButton").click(() => {
+        $("#removePlayerModal").modal("hide");
+      });
+
       const urlParams = new URLSearchParams(window.location.search);
       const id = urlParams.get("id");
 
@@ -406,6 +537,48 @@ $(document).ready(() => {
         $("#closeModalButton").click(() => {
           $("#updatePlayerModal").modal("hide");
         });
+
+        $($("#updatePlayerForm")).validate({
+          errorElement: "span",
+          errorClass: "help-block help-block-error",
+          rules: {
+            firstName: {
+              required: true,
+            },
+            lastName: {
+              required: true,
+            },
+            dateOfBirth: {
+              required: true,
+            },
+            gender: {
+              required: true,
+            },
+          },
+
+          messages: {
+            firstName: {
+              required: "Please enter a first name",
+            },
+            lastName: {
+              required: "Please enter a last name",
+            },
+            dateOfBirth: {
+              required: "Please enter a date of birth",
+            },
+            gender: {
+              required: "Please select gender",
+            },
+          },
+
+          submitHandler: function (f, e) {
+            e.preventDefault();
+            Utils.block_ui("#updatePlayerModal .modal-content");
+            const formData = $(f).serialize();
+            console.log(formData);
+            Utils.unblock_ui("#updatePlayerModal .modal-content");
+          },
+        });
       });
 
       $.get("assets/data/results.json").done((data) => {
@@ -434,6 +607,38 @@ $(document).ready(() => {
     onReady: () => {
       $("#mainNav").hide();
       $("#layoutSidenav_nav").hide();
+
+      $($("#loginForm")).validate({
+        errorElement: "span",
+        errorClass: "help-block help-block-error",
+        rules: {
+          email: {
+            required: true,
+            email: true,
+          },
+          password: {
+            required: true,
+          },
+        },
+
+        messages: {
+          email: {
+            required: "Please enter an email",
+            email: "Please enter a valid email",
+          },
+          password: {
+            required: "Please enter a password",
+          },
+        },
+
+        submitHandler: function (f, e) {
+          e.preventDefault();
+          Utils.block_ui("#loginForm .card-body");
+          const formData = $(f).serialize();
+          console.log(formData);
+          Utils.unblock_ui("#loginForm .card-body");
+        },
+      });
     },
   });
 
@@ -445,6 +650,58 @@ $(document).ready(() => {
     onReady: () => {
       $("#mainNav").hide();
       $("#layoutSidenav_nav").hide();
+
+      $($("#registerForm")).validate({
+        errorElement: "span",
+        errorClass: "help-block help-block-error",
+        rules: {
+          firstName: {
+            required: true,
+          },
+          lastName: {
+            required: true,
+          },
+          email: {
+            required: true,
+            email: true,
+          },
+          password: {
+            required: true,
+          },
+          confirmPassword: {
+            required: true,
+            equalTo: "#password",
+          },
+        },
+
+        messages: {
+          firstName: {
+            required: "Please enter a first name",
+          },
+          lastName: {
+            required: "Please enter a last name",
+          },
+          email: {
+            required: "Please enter an email",
+            email: "Please enter a valid email",
+          },
+          password: {
+            required: "Please enter a password",
+          },
+          confirmPassword: {
+            required: "Please confirm your password",
+            equalTo: "Passwords do not match",
+          },
+        },
+
+        submitHandler: function (f, e) {
+          e.preventDefault();
+          Utils.block_ui("#registerForm .card-body");
+          const formData = $(f).serialize();
+          console.log(formData);
+          Utils.unblock_ui("#registerForm .card-body");
+        },
+      });
     },
   });
 
