@@ -1,4 +1,7 @@
 <div>
+  <div class="alert alert-success" role="alert" id="markAsCompleted">
+    Tournament completed!
+  </div>
   <div class="card m-5">
     <div class="card-header">Tournament Data</div>
 
@@ -16,8 +19,13 @@
     <div class="card-header">Tournament Actions</div>
     <div class="card-body">
       <button class="btn btn-warning" id="addResultButton">Add result</button>
-      <button class="btn btn-info" id="updateTournamentButton">Update tournament data</button>
-      <button class="btn btn-danger">Remove tournament</button>
+      <button class="btn btn-success" id="markAsCompletedButton">Mark as completed</button>
+      <button class="btn btn-info" id="updateTournamentButton">
+        Update tournament data
+      </button>
+      <button class="btn btn-danger" id="removeTournamentButton">
+        Remove tournament
+      </button>
     </div>
   </div>
 
@@ -37,6 +45,7 @@
             <th>Member</th>
             <th>Opponent</th>
             <th>Result</th>
+            <th>Actions</th>
           </tr>
         </thead>
         <tbody></tbody>
@@ -45,6 +54,7 @@
             <th>Member</th>
             <th>Opponent</th>
             <th>Result</th>
+            <th>Actions</th>
           </tr>
         </tfoot>
       </table>
@@ -60,14 +70,10 @@
           </h2>
         </div>
         <div class="modal-body">
-          <form class="container-fluid">
+          <form class="container-fluid" id="addResultForm">
             <div class="mb-3">
               <label for="member">Member</label>
-              <select class="form-select" name="member">
-                <option value="1">John Doe</option>
-                <option value="2">Jane Doe</option>
-                <option value="3">John Wick</option>
-              </select>
+              <select class="form-select" name="member"></select>
             </div>
             <div class="mb-3">
               <input
@@ -99,13 +105,60 @@
     </div>
   </div>
 
-  <div class="modal fade" id="updateTournamentModal" tabindex="-1" role="dialog">
+  <div class="modal fade" id="updateResultModal" tabindex="-1" role="dialog">
     <div class="modal-dialog" role="document">
       <div class="modal-content">
         <div class="modal-header">
           <h2 class="modal-title" id="exampleModalLabel">
-            Update tournament
+            Update tournament result
           </h2>
+        </div>
+        <div class="modal-body">
+          <form class="container-fluid" id="updateResultForm">
+            <div class="mb-3">
+              <label for="member">Member</label>
+              <select class="form-select" name="member"></select>
+            </div>
+            <div class="mb-3">
+              <input
+                type="text"
+                class="form-control"
+                placeholder="Opponent"
+                name="opponent"
+              />
+            </div>
+            <label for="gender">Result</label>
+            <select class="form-select" name="result">
+              <option value="VICTORY">Victory</option>
+              <option value="DEFEAT">Defeat</option>
+            </select>
+            <div class="my-3">
+              <button
+                type="button"
+                class="btn btn-secondary"
+                id="closeUpdateResultModalButton"
+                data-dismiss="modal"
+              >
+                Close
+              </button>
+              <button class="btn btn-success my-3">Save changes</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div
+    class="modal fade"
+    id="updateTournamentModal"
+    tabindex="-1"
+    role="dialog"
+  >
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h2 class="modal-title" id="exampleModalLabel">Update tournament</h2>
         </div>
         <div class="modal-body">
           <form class="container-fluid" id="updateTournamentForm">
@@ -221,6 +274,59 @@
               </button>
             </div>
           </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div
+    class="modal fade"
+    id="removeTournamentModal"
+    tabindex="-1"
+    role="dialog"
+  >
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h2 class="modal-title" id="exampleModalLabel">Remove tournament</h2>
+        </div>
+        <div class="modal-body">
+          <p>Are you sure you want to remove this tournament?</p>
+          <div class="my-3">
+            <button
+              type="button"
+              class="btn btn-secondary"
+              id="closeRemoveTournamentModalButton"
+              data-dismiss="modal"
+            >
+              Close
+            </button>
+            <button class="btn btn-danger">Remove tournament</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal fade" id="removeResultModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h2 class="modal-title" id="exampleModalLabel">Remove result</h2>
+        </div>
+        <div class="modal-body">
+          <p>Are you sure you want to remove this result?</p>
+          <div class="my-3">
+            <button
+              type="button"
+              class="btn btn-secondary"
+              id="closeRemoveResultModalButton"
+              data-dismiss="modal"
+            >
+              Close
+            </button>
+            <button class="btn btn-danger">Remove result</button>
+          </div>
         </div>
       </div>
     </div>

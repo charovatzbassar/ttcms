@@ -3,6 +3,7 @@ $(document).ready(() => {
     templateDir: "./views/",
   });
 
+  // Dashboard route
   app.route({
     view: "dashboard",
     load: "dashboard.html",
@@ -28,6 +29,7 @@ $(document).ready(() => {
     },
   });
 
+  // Members route
   app.route({
     view: "members",
     load: "members.html",
@@ -65,6 +67,7 @@ $(document).ready(() => {
     },
   });
 
+  // Tournaments route
   app.route({
     view: "tournaments",
     load: "tournaments.html",
@@ -74,6 +77,7 @@ $(document).ready(() => {
       $("#layoutSidenav_nav").show();
       $("#addTournamentForm").submit(function (e) {
         e.preventDefault();
+        Utils.block_ui("#addTournamentModal .modal-content");
         const formData = $(this).serialize().split("&");
 
         const tournament = {
@@ -87,6 +91,7 @@ $(document).ready(() => {
         };
 
         console.log(tournament);
+        Utils.unblock_ui("#addTournamentModal .modal-content");
       });
 
       $("#addTournamentButton").click(() => {
@@ -129,6 +134,7 @@ $(document).ready(() => {
     },
   });
 
+  // Player Stats route
   app.route({
     view: "player-stats",
     load: "player-stats.html",
@@ -155,6 +161,7 @@ $(document).ready(() => {
     },
   });
 
+  // Registrations route
   app.route({
     view: "registrations",
     load: "registrations.html",
@@ -197,6 +204,7 @@ $(document).ready(() => {
     },
   });
 
+  // Tournament Info route
   app.route({
     view: "tournament-info",
     load: "tournament-info.html",
@@ -204,6 +212,35 @@ $(document).ready(() => {
     onReady: () => {
       $("#mainNav").show();
       $("#layoutSidenav_nav").show();
+      $("#markAsCompleted").hide();
+
+      $("#markAsCompletedButton").click(() => {
+        $("#markAsCompleted").show();
+      });
+
+      $("#addResultForm").submit(function (e) {
+        e.preventDefault();
+        Utils.block_ui("#addResultModal .modal-content");
+        const formData = $(this).serialize();
+        console.log(formData);
+        Utils.unblock_ui("#addResultModal .modal-content");
+      });
+
+      $("#updateResultForm").submit(function (e) {
+        e.preventDefault();
+        Utils.block_ui("#updateResultModal .modal-content");
+        const formData = $(this).serialize();
+        console.log(formData);
+        Utils.unblock_ui("#updateResultModal .modal-content");
+      });
+
+      $("#updateTournamentForm").submit(function (e) {
+        e.preventDefault();
+        Utils.block_ui("#updateTournamentModal .modal-content");
+        const formData = $(this).serialize();
+        console.log(formData);
+        Utils.unblock_ui("#updateTournamentModal .modal-content");
+      });
 
       const urlParams = new URLSearchParams(window.location.search);
       const id = urlParams.get("id");
@@ -226,18 +263,15 @@ $(document).ready(() => {
           $("#updateTournamentModal").modal("hide");
         });
 
+        $("#closeUpdateResultModalButton").click(() => {
+          $("#updateResultModal").modal("hide");
+        });
+
         $("[name='name']").val(tournament.name);
         $("[name='date']").val(tournament.date);
         $("[name='location']").val(tournament.location);
 
         for (let i = 0; i < tournament.categories.length; i++) {
-          console.log(
-            $(
-              `[name='category'][value='${tournament.categories[
-                i
-              ].toUpperCase()}']`
-            )
-          );
           $(
             `[name='category'][value='${tournament.categories[
               i
@@ -249,20 +283,36 @@ $(document).ready(() => {
       $.get("assets/data/results.json").done((data) => {
         let results = "";
 
+        window.handleEditResult = (member, opponent, status) => {
+          console.log(member, opponent, status);
+          $("#updateResultModal").modal("show");
+          $("[name='member']").val(member);
+          $("[name='opponent']").val(opponent);
+          $("[name='result']").val(status.toUpperCase());
+        };
+
+        window.handleRemoveResult = (resultID) => {
+          console.log(resultID);
+          $("#removeResultModal").modal("show");
+        };
+
         data.map((result) => {
           results += `<tr>
                 <td>${result.member}</td>
                 <td>${result.opponent}</td>
                 <td>${result.status}</td>
+                <td><button class="btn btn-warning w-50" id="${result.resultID}" onclick="handleEditResult('${result.member}', '${result.opponent}', '${result.status}')">Edit</button><button class="btn btn-danger w-50" onclick="handleRemoveResult('${result.resultID}')">Remove</button></td>
             </tr>`;
         });
 
         $("#tournamentInfoTable > tbody").html(results);
+
         $("#tournamentInfoTable").DataTable({
           columns: [
             { data: "member" },
             { data: "opponent" },
             { data: "result" },
+            { data: "actions" },
           ],
         });
       });
@@ -271,12 +321,39 @@ $(document).ready(() => {
         $("#addResultModal").modal("show");
       });
 
+      $.get("assets/data/players.json").done((data) => {
+        let players = "";
+
+        data.map((player) => {
+          players += `<option value="${player.playerID}">${player.name} ${player.surname}</option>`;
+        });
+
+        $("select[name='member']").html(players);
+      });
+
       $("#closeAddResultModalButton").click(() => {
         $("#addResultModal").modal("hide");
+      });
+
+      $("#closeUpdateResultModalButton").click(() => {
+        $("#updateResultModal").modal("hide");
+      });
+
+      $("#closeRemoveResultModalButton").click(() => {
+        $("#removeResultModal").modal("hide");
+      });
+
+      $("#closeRemoveTournamentModalButton").click(() => {
+        $("#removeTournamentModal").modal("hide");
+      });
+
+      $("#removeTournamentButton").click(() => {
+        $("#removeTournamentModal").modal("show");
       });
     },
   });
 
+  // Player Profile route
   app.route({
     view: "player-profile",
     load: "player-profile.html",
@@ -349,6 +426,7 @@ $(document).ready(() => {
     },
   });
 
+  // Login route
   app.route({
     view: "login",
     load: "login.html",
@@ -359,6 +437,7 @@ $(document).ready(() => {
     },
   });
 
+  // Register route
   app.route({
     view: "register",
     load: "register.html",
@@ -369,6 +448,7 @@ $(document).ready(() => {
     },
   });
 
+  // Apply route
   app.route({
     view: "apply",
     load: "apply.html",
