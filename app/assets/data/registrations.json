@@ -1,0 +1,102 @@
+[
+  {
+    "registrationID": "1",
+    "firstName": "Alice",
+    "lastName": "Smith",
+    "email": "alice@example.com",
+    "dateOfBirth": "1990-01-15",
+    "gender": "Female",
+    "birthplace": "New York",
+    "status": "PENDING"
+  },
+  {
+    "registrationID": "2",
+    "firstName": "Bob",
+    "lastName": "Johnson",
+    "email": "bob@example.com",
+    "dateOfBirth": "1985-03-20",
+    "gender": "Male",
+    "birthplace": "Los Angeles",
+    "status": "PENDING"
+  },
+  {
+    "registrationID": "3",
+    "firstName": "Carol",
+    "lastName": "Williams",
+    "email": "carol@example.com",
+    "dateOfBirth": "1978-07-10",
+    "gender": "Female",
+    "birthplace": "Chicago",
+    "status": "PENDING"
+  },
+  {
+    "registrationID": "4",
+    "firstName": "David",
+    "lastName": "Brown",
+    "email": "david@example.com",
+    "dateOfBirth": "1965-11-25",
+    "gender": "Male",
+    "birthplace": "Houston",
+    "status": "PENDING"
+  },
+  {
+    "registrationID": "5",
+    "firstName": "Emily",
+    "lastName": "Jones",
+    "email": "emily@example.com",
+    "dateOfBirth": "1995-04-05",
+    "gender": "Female",
+    "birthplace": "Miami",
+    "status": "PENDING"
+  },
+  {
+    "registrationID": "6",
+    "firstName": "Frank",
+    "lastName": "Davis",
+    "email": "frank@example.com",
+    "dateOfBirth": "1982-09-30",
+    "gender": "Male",
+    "birthplace": "Seattle",
+    "status": "PENDING"
+  },
+  {
+    "registrationID": "7",
+    "firstName": "Grace",
+    "lastName": "Miller",
+    "email": "grace@example.com",
+    "dateOfBirth": "1970-03-12",
+    "gender": "Female",
+    "birthplace": "Dallas",
+    "status": "PENDING"
+  },
+  {
+    "registrationID": "8",
+    "firstName": "Henry",
+    "lastName": "Wilson",
+    "email": "henry@example.com",
+    "dateOfBirth": "1960-08-20",
+    "gender": "Male",
+    "birthplace": "San Francisco",
+    "status": "PENDING"
+  },
+  {
+    "registrationID": "9",
+    "firstName": "Isabel",
+    "lastName": "Martinez",
+    "email": "isabel@example.com",
+    "dateOfBirth": "1988-12-10",
+    "gender": "Female",
+    "birthplace": "Boston",
+    "status": "PENDING"
+  },
+  {
+    "registrationID": "10",
+    "firstName": "Jack",
+    "lastName": "Garcia",
+    "email": "jack@example.com",
+    "dateOfBirth": "1975-06-25",
+    "gender": "Male",
+    "birthplace": "Philadelphia",
+    "status": "PENDING"
+  }
+]

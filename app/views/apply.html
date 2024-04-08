@@ -1,0 +1,54 @@
+<div>
+  <header class="bg-dark py-5">
+    <div class="container px-4 px-lg-5 my-5">
+      <div class="text-center text-white">
+        <h1 class="display-5 fw-bolder">Become a member today!</h1>
+      </div>
+    </div>
+  </header>
+
+  <section class="py-5">
+    <form class="container" id="applyForm">
+      <div class="mb-3">
+        <input
+          type="text"
+          class="form-control"
+          placeholder="First Name"
+          name="firstName"
+        />
+      </div>
+      <div class="mb-3">
+        <input
+          type="text"
+          class="form-control"
+          placeholder="Last Name"
+          name="lastName"
+        />
+      </div>
+      <div class="mb-3">
+        <label for="date">Date Of Birth</label>
+        <input
+          type="date"
+          class="form-control"
+          placeholder="Date"
+          name="dateOfBirth"
+        />
+      </div>
+      <div class="mb-3">
+        <input
+          type="text"
+          class="form-control"
+          placeholder="Birthplace"
+          name="birthplace"
+        />
+      </div>
+      <label for="gender">Gender</label>
+      <select class="form-select" name="gender">
+        <option value="MALE">Male</option>
+        <option value="FEMALE">Female</option>
+      </select>
+      <button class="btn btn-success my-3" type="submit">Submit</button>
+    </form>
+  </section>
+  <div class="g-recaptcha" data-sitekey="YOUR_SITE_KEY"></div>
+</div>

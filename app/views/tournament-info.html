@@ -1,0 +1,332 @@
+<div>
+
+  <div class="card m-5">
+    <div class="card-header">Tournament Data</div>
+
+    <div class="card-body">
+      <h2 id="tournamentName" class="card-title"></h2>
+    </div>
+    <ul class="list-group list-group-flush">
+      <li id="tournamentDate" class="list-group-item"></li>
+      <li id="tournamentLocation" class="list-group-item"></li>
+      <li id="tournamentCategories" class="list-group-item"></li>
+    </ul>
+  </div>
+
+  <div class="card m-5">
+    <div class="card-header">Tournament Actions</div>
+    <div class="card-body">
+      <button class="btn btn-warning" id="addResultButton">Add result</button>
+      <button class="btn btn-success" id="markAsCompletedButton">Mark as completed</button>
+      <button class="btn btn-info" id="updateTournamentButton">
+        Update tournament data
+      </button>
+      <button class="btn btn-danger" id="removeTournamentButton">
+        Remove tournament
+      </button>
+    </div>
+  </div>
+
+  <div class="card m-5">
+    <div class="card-header">
+      <i class="fas fa-table me-1"></i>
+      Tournament Results
+    </div>
+    <div class="card-body">
+      <table
+        id="tournamentInfoTable"
+        class="table table-bordered"
+        style="width: 100%"
+      >
+        <thead>
+          <tr>
+            <th>Member</th>
+            <th>Opponent</th>
+            <th>Result</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+        <tfoot>
+          <tr>
+            <th>Member</th>
+            <th>Opponent</th>
+            <th>Result</th>
+            <th>Actions</th>
+          </tr>
+        </tfoot>
+      </table>
+    </div>
+  </div>
+
+  <div class="modal fade" id="addResultModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h2 class="modal-title" id="exampleModalLabel">
+            Add tournament result
+          </h2>
+        </div>
+        <div class="modal-body">
+          <form class="container-fluid" id="addResultForm">
+            <div class="mb-3">
+              <label for="member">Member</label>
+              <select class="form-select" name="member"></select>
+            </div>
+            <div class="mb-3">
+              <input
+                type="text"
+                class="form-control"
+                placeholder="Opponent"
+                name="opponent"
+              />
+            </div>
+            <label for="gender">Result</label>
+            <select class="form-select" name="result">
+              <option value="VICTORY">Victory</option>
+              <option value="LOSS">Loss</option>
+            </select>
+            <div class="my-3">
+              <button
+                type="button"
+                class="btn btn-secondary"
+                id="closeAddResultModalButton"
+                data-dismiss="modal"
+              >
+                Close
+              </button>
+              <button class="btn btn-success my-3">Add result</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal fade" id="updateResultModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h2 class="modal-title" id="exampleModalLabel">
+            Update tournament result
+          </h2>
+        </div>
+        <div class="modal-body">
+          <form class="container-fluid" id="updateResultForm">
+            <div class="mb-3">
+              <label for="member">Member</label>
+              <select class="form-select" name="member"></select>
+            </div>
+            <div class="mb-3">
+              <input
+                type="text"
+                class="form-control"
+                placeholder="Opponent"
+                name="opponent"
+              />
+            </div>
+            <label for="gender">Result</label>
+            <select class="form-select" name="result">
+              <option value="VICTORY">Victory</option>
+              <option value="DEFEAT">Defeat</option>
+            </select>
+            <div class="my-3">
+              <button
+                type="button"
+                class="btn btn-secondary"
+                id="closeUpdateResultModalButton"
+                data-dismiss="modal"
+              >
+                Close
+              </button>
+              <button class="btn btn-success my-3">Save changes</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div
+    class="modal fade"
+    id="updateTournamentModal"
+    tabindex="-1"
+    role="dialog"
+  >
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h2 class="modal-title" id="exampleModalLabel">Update tournament</h2>
+        </div>
+        <div class="modal-body">
+          <form class="container-fluid" id="updateTournamentForm">
+            <div class="mb-3">
+              <input
+                type="text"
+                class="form-control"
+                placeholder="Name"
+                name="name"
+              />
+            </div>
+            <div class="mb-3">
+              <input
+                type="text"
+                class="form-control"
+                placeholder="Location"
+                name="location"
+              />
+            </div>
+            <div class="mb-3">
+              <label for="date">Date</label>
+              <input
+                type="date"
+                class="form-control"
+                placeholder="Date"
+                name="date"
+              />
+            </div>
+            <h3>Choose categories</h3>
+            <div class="form-check">
+              <input
+                class="form-check-input"
+                type="checkbox"
+                name="category"
+                value="MINI-CADET"
+                id="flexCheckDefault"
+              />
+              <label class="form-check-label" for="flexCheckDefault">
+                Mini cadet
+              </label>
+            </div>
+            <div class="form-check">
+              <input
+                class="form-check-input"
+                type="checkbox"
+                name="category"
+                value="YOUTH-CADET"
+                id="flexCheckDefault"
+              />
+              <label class="form-check-label" for="flexCheckDefault">
+                Youth cadet
+              </label>
+            </div>
+            <div class="form-check">
+              <input
+                class="form-check-input"
+                type="checkbox"
+                name="category"
+                value="CADET"
+                id="flexCheckDefault"
+              />
+              <label class="form-check-label" for="flexCheckDefault">
+                Cadet
+              </label>
+            </div>
+            <div class="form-check">
+              <input
+                class="form-check-input"
+                type="checkbox"
+                name="category"
+                value="JUNIOR"
+                id="flexCheckDefault"
+              />
+              <label class="form-check-label" for="flexCheckDefault">
+                Junior
+              </label>
+            </div>
+            <div class="form-check">
+              <input
+                class="form-check-input"
+                type="checkbox"
+                name="category"
+                value="SENIOR"
+                id="flexCheckDefault"
+              />
+              <label class="form-check-label" for="flexCheckDefault">
+                Senior
+              </label>
+            </div>
+            <div class="form-check">
+              <input
+                class="form-check-input"
+                type="checkbox"
+                name="category"
+                value="VETERAN"
+                id="flexCheckDefault"
+              />
+              <label class="form-check-label" for="flexCheckDefault">
+                Veteran
+              </label>
+            </div>
+            <div class="my-3">
+              <button
+                id="closeUpdateTournamentModalButton"
+                type="button"
+                class="btn btn-secondary"
+                data-dismiss="modal"
+              >
+                Close
+              </button>
+              <button class="btn btn-success" type="submit">
+                Save changes
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div
+    class="modal fade"
+    id="removeTournamentModal"
+    tabindex="-1"
+    role="dialog"
+  >
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h2 class="modal-title" id="exampleModalLabel">Remove tournament</h2>
+        </div>
+        <div class="modal-body">
+          <p>Are you sure you want to remove this tournament?</p>
+          <div class="my-3">
+            <button
+              type="button"
+              class="btn btn-secondary"
+              id="closeRemoveTournamentModalButton"
+              data-dismiss="modal"
+            >
+              Close
+            </button>
+            <button class="btn btn-danger">Remove tournament</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal fade" id="removeResultModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h2 class="modal-title" id="exampleModalLabel">Remove result</h2>
+        </div>
+        <div class="modal-body">
+          <p>Are you sure you want to remove this result?</p>
+          <div class="my-3">
+            <button
+              type="button"
+              class="btn btn-secondary"
+              id="closeRemoveResultModalButton"
+              data-dismiss="modal"
+            >
+              Close
+            </button>
+            <button class="btn btn-danger">Remove result</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

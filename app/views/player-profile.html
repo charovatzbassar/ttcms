@@ -1,0 +1,139 @@
+<div>
+  <div class="card m-5">
+    <div class="card-header">Player Data</div>
+
+    <div class="card-body">
+      <h2 id="playerName" class="card-title"></h2>
+      <h4 id="playerTournamentScore" class="card-text"></h4>
+      <p id="playerJoinDate" class="card-text"></p>
+    </div>
+    <ul class="list-group list-group-flush">
+      <li id="playerDateOfBirth" class="list-group-item"></li>
+      <li id="playerGender" class="list-group-item"></li>
+      <li id="playerBirthplace" class="list-group-item"></li>
+      <li id="playerCategory" class="list-group-item"></li>
+      <li id="playerMembershipStatus" class="list-group-item"></li>
+      <li id="playerBadges" class="list-group-item"></li>
+    </ul>
+  </div>
+
+  <div class="card m-5">
+    <div class="card-header">Player Actions</div>
+    <div class="card-body">
+      <button class="btn btn-warning" id="markAsPaid">
+        Mark membership as paid
+      </button>
+      <button class="btn btn-info" id="updatePlayerButton">
+        Update player data
+      </button>
+      <button class="btn btn-danger" id="removePlayerButton">Remove from club</button>
+    </div>
+  </div>
+
+  <div class="card m-5">
+    <div class="card-header">
+      <i class="fas fa-table me-1"></i>
+      Match Results
+    </div>
+    <div class="card-body">
+      <table
+        id="playerProfileTable"
+        class="table table-bordered"
+        style="width: 100%"
+      >
+        <thead>
+          <tr>
+            <th>Opponent</th>
+            <th>Result</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+        <tfoot>
+          <tr>
+            <th>Opponent</th>
+            <th>Result</th>
+          </tr>
+        </tfoot>
+      </table>
+    </div>
+  </div>
+  <div class="modal fade" id="updatePlayerModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h2 class="modal-title">Update player data</h2>
+        </div>
+        <div class="modal-body">
+          <form class="container-fluid" id="updatePlayerForm">
+            <div class="mb-3">
+              <input
+                type="text"
+                class="form-control"
+                placeholder="First Name"
+                name="firstName"
+              />
+            </div>
+            <div class="mb-3">
+              <input
+                type="text"
+                class="form-control"
+                placeholder="Last Name"
+                name="lastName"
+              />
+            </div>
+            <div class="mb-3">
+              <label for="date">Date Of Birth</label>
+              <input
+                type="date"
+                class="form-control"
+                placeholder="Date"
+                name="dateOfBirth"
+              />
+            </div>
+            <label for="gender">Gender</label>
+            <select class="form-select" name="gender">
+              <option value="Male">Male</option>
+              <option value="Female">Female</option>
+            </select>
+            <div class="my-3">
+              <button
+                id="closeModalButton"
+                class="btn btn-secondary"
+                data-dismiss="modal"
+              >
+                Close
+              </button>
+              <button class="btn btn-success my-3" type="submit">
+                Save changes
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal fade" id="removePlayerModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h2 class="modal-title" id="exampleModalLabel">Remove player</h2>
+        </div>
+        <div class="modal-body">
+          <p>Are you sure you want to remove this player?</p>
+          <div class="my-3">
+            <button
+              type="button"
+              class="btn btn-secondary"
+              id="closeRemovePlayerModalButton"
+              data-dismiss="modal"
+            >
+              Close
+            </button>
+            <button class="btn btn-danger">Remove player</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
