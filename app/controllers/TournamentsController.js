@@ -1,4 +1,4 @@
-var TournamentsController = () => {
+var TournamentsController = async () => {
   $("#mainNav").show();
   $("#layoutSidenav_nav").show();
 
@@ -62,31 +62,31 @@ var TournamentsController = () => {
     $("#addTournamentModal").modal("hide");
   });
 
-  $.get("assets/data/tournaments.json").done((data) => {
-    let tournaments = "";
+  const data = await TournamentsService.getTournaments();
 
-    data.map((tournament) => {
-      tournaments += `<tr>
-              <td><a href="?id=${
-                tournament.tournamentID
-              }#tournament-info" class="text-black">${tournament.name}</a></td>
-              <td>${tournament.date}</td>
-              <td>${tournament.categories.join(", ")}</td>
-              <td>${tournament.location}</td>
-              <td>${tournament.status}</td>
-          </tr>`;
-    });
+  let tournaments = "";
 
-    $("#tournamentsTable > tbody").html(tournaments);
+  data.map((tournament) => {
+    tournaments += `<tr>
+            <td><a href="?id=${
+              tournament.tournamentID
+            }#tournament-info" class="text-black">${tournament.name}</a></td>
+            <td>${tournament.date}</td>
+            <td>${tournament.categories.join(", ")}</td>
+            <td>${tournament.location}</td>
+            <td>${tournament.status}</td>
+        </tr>`;
+  });
 
-    $("#tournamentsTable").DataTable({
-      columns: [
-        { data: "name" },
-        { data: "date" },
-        { data: "categories" },
-        { data: "location" },
-        { data: "status" },
-      ],
-    });
+  $("#tournamentsTable > tbody").html(tournaments);
+
+  $("#tournamentsTable").DataTable({
+    columns: [
+      { data: "name" },
+      { data: "date" },
+      { data: "categories" },
+      { data: "location" },
+      { data: "status" },
+    ],
   });
 };

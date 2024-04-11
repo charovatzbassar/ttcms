@@ -1,4 +1,4 @@
-var RegistrationsController = () => {
+var RegistrationsController = async () => {
   window.handleAccept = (id) => {
     console.log(id);
     toastr.success("Registration accepted");
@@ -11,12 +11,14 @@ var RegistrationsController = () => {
 
   $("#mainNav").show();
   $("#layoutSidenav_nav").show();
-  $.get("assets/data/registrations.json").done((data) => {
-    let registrations = "";
 
-    data.map((registration) => {
-      if (registration.status === "PENDING") {
-        registrations += `<tr>
+  const data = await RegistrationsService.getRegistrations();
+
+  let registrations = "";
+
+  data.map((registration) => {
+    if (registration.status === "PENDING") {
+      registrations += `<tr>
               <td>${registration.firstName} ${registration.lastName}</td>
               <td>${registration.email}</td>
               <td>${registration.dateOfBirth}</td>
@@ -27,20 +29,19 @@ var RegistrationsController = () => {
               ><button class="btn btn-danger w-50" onclick="handleReject('${registration.registrationID}')">Reject</button>
             </div></td>
           </tr>`;
-      }
-    });
+    }
+  });
 
-    $("#registrationsTable > tbody").html(registrations);
+  $("#registrationsTable > tbody").html(registrations);
 
-    $("#registrationsTable").DataTable({
-      columns: [
-        { data: "name" },
-        { data: "email" },
-        { data: "date-of-birth" },
-        { data: "gender" },
-        { data: "birthplace" },
-        { data: "actions" },
-      ],
-    });
+  $("#registrationsTable").DataTable({
+    columns: [
+      { data: "name" },
+      { data: "email" },
+      { data: "date-of-birth" },
+      { data: "gender" },
+      { data: "birthplace" },
+      { data: "actions" },
+    ],
   });
 };
