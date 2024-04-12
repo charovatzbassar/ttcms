@@ -27,12 +27,12 @@ $(document).ready(() => {
     onReady: TournamentsController,
   });
 
-  // Player Stats route
+  // Member Stats route
   app.route({
-    view: "player-stats",
-    load: "player-stats.html",
+    view: "member-stats",
+    load: "member-stats.html",
 
-    onReady: PlayerStatsController,
+    onReady: MemberStatsController,
   });
 
   // Registrations route
@@ -53,10 +53,10 @@ $(document).ready(() => {
 
   // Player Profile route
   app.route({
-    view: "player-profile",
-    load: "player-profile.html",
+    view: "member-profile",
+    load: "member-profile.html",
 
-    onReady: PlayerProfileController,
+    onReady: MemberProfileController,
   });
 
   // Login route
