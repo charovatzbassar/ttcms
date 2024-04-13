@@ -15,4 +15,20 @@ var Utils = {
   unblock_ui: function (element) {
     $(element).unblock({});
   },
+  calculateBadges: (score) => {
+    let badges = "";
+    if (score >= 10) {
+      badges += "&#10020; ";
+    }
+    if (score >= 25) {
+      badges += "&#10021; ";
+    }
+    if (score >= 50) {
+      badges += "&#10045; ";
+    }
+    if (score >= 100) {
+      badges += "&#10051; ";
+    }
+    return badges;
+  },
 };

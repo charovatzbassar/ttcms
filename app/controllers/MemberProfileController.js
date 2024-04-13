@@ -17,7 +17,9 @@ var MemberProfileController = async () => {
   const urlParams = new URLSearchParams(window.location.search);
   const id = urlParams.get("id");
 
-  const member = await MemberService.getMember(id);
+  const members = await MemberService.getMembers();
+
+  const member = members.find((m) => m.playerID === id);
 
   $("#playerName").html(member.name + " " + member.surname);
   $("#playerTournamentScore").html("Tournament Score: " + member.score);
@@ -30,19 +32,7 @@ var MemberProfileController = async () => {
     "Membership Status: " + member.membershipStatus
   );
 
-  let badges = "";
-  if (member.score >= 10) {
-    badges += "&#10020; ";
-  }
-  if (member.score >= 25) {
-    badges += "&#10021; ";
-  }
-  if (member.score >= 50) {
-    badges += "&#10045; ";
-  }
-  if (member.score >= 100) {
-    badges += "&#10051; ";
-  }
+  const badges = Utils.calculateBadges(member.score);
 
   $("#playerBadges").html("Badges: " + badges);
 

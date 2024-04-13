@@ -17,7 +17,9 @@ var TournamentInfoController = async () => {
   const urlParams = new URLSearchParams(window.location.search);
   const id = urlParams.get("id");
 
-  const tournament = await TournamentsService.getTournament(id);
+  const tournaments = await TournamentsService.getTournaments();
+
+  const tournament = tournaments.find((t) => t.tournamentID === id);
 
   $("#tournamentName").html(tournament.name);
   $("#tournamentDate").html("Date: " + tournament.date);
