@@ -120,13 +120,17 @@ class BaseDao {
     {
       $this->executeUpdate($this->table, $id, $entity, $id_column); 
     }
-  
-    public function get_by_id($id)
-    {
-      return $this->queryUnique("SELECT * FROM " . $this->table . " WHERE id = :id", ["id" => $id]);
+
+    public function delete($id, $id_column = "id") {
+      return $this->query("DELETE FROM " . $this->table . " WHERE $id_column = :$id_column", [$id_column => $id]);
     }
   
-    public function get_all($offset = 0, $limit = 25, $order = "-id")
+    public function get_by_id($id, $id_column = "id")
+    {
+      return $this->queryUnique("SELECT * FROM " . $this->table . " WHERE $id_column = :$id_column", [$id_column => $id]);
+    }
+  
+    public function get($offset = 0, $limit = 25, $order = "-id")
     {
       list($order_column, $order_direction) = self::parseOrder($order);
   
@@ -134,6 +138,11 @@ class BaseDao {
                            FROM " . $this->table . "
                            ORDER BY {$order_column} {$order_direction}
                            LIMIT {$limit} OFFSET {$offset}", []);
+    }
+
+    public function get_all()
+    {
+      return $this->query("SELECT * FROM " . $this->table, []);
     }
 }
 

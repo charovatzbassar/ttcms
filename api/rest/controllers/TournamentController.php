@@ -2,27 +2,37 @@
 
 Flight::group('/tournaments', function () {
     Flight::route('GET /', function(){
-        echo 'List of all tournaments';
+        $tournamentService = new TournamentService(new TournamentDao());
+        $tournaments = $tournamentService->getAllTournaments();
+        Flight::json($tournaments);
     });
 
     Flight::route('GET /@id', function($id){
-        echo 'Details of tournament with id: ' . $id;
+        $tournamentService = new TournamentService(new TournamentDao());
+        $tournament = $tournamentService->getTournamentByID($id);
+        Flight::json($tournament);
     });
 
     Flight::route('POST /', function(){
-        echo 'Create a new tournament';
+        $data = Flight::request()->data->getData();
+        $tournamentService = new TournamentService(new TournamentDao());
+        $tournamentService->addTournament($data);
     });
 
     Flight::route('PUT /@id', function($id){
-        echo 'Update tournament with id: ' . $id;
+        $data = Flight::request()->data->getData();
+        $tournamentService = new TournamentService(new TournamentDao());
+        $tournamentService->updateTournament($id, $data);
     });
 
     Flight::route('PUT /@id/complete', function($id){
-        echo 'Tournament with id ' . $id.' marked as completed';
+        $tournamentService = new TournamentService(new TournamentDao());
+        $tournamentService->markTournamentAsCompleted($id);
     });
 
     Flight::route('DELETE /@id', function($id){
-        echo 'Delete tournament with id: ' . $id;
+        $tournamentService = new TournamentService(new TournamentDao());
+        $tournamentService->deleteTournament($id);
     });
 });
 

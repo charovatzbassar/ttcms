@@ -2,23 +2,32 @@
 
 Flight::group('/results', function () {
     Flight::route('GET /', function(){
-        echo 'List of all results';
+        $resultService = new ResultService(new ResultDao());
+        $results = $resultService->getAllResults();
+        Flight::json($results);
     });
 
     Flight::route('GET /@id', function($id){
-        echo 'Details of result with id: ' . $id;
+        $resultService = new ResultService(new ResultDao());
+        $result = $resultService->getResultByID($id);
+        Flight::json($result);
     });
 
     Flight::route('POST /', function(){
-        echo 'Create a new result';
+        $data = Flight::request()->data->getData();
+        $resultService = new ResultService(new ResultDao());
+        $resultService->addResult($data);
     });
 
     Flight::route('PUT /@id', function($id){
-        echo 'Update result with id: ' . $id;
+        $data = Flight::request()->data->getData();
+        $resultService = new ResultService(new ResultDao());
+        $resultService->updateResult($id, $data);
     });
 
     Flight::route('DELETE /@id', function($id){
-        echo 'Delete result with id: ' . $id;
+        $resultService = new ResultService(new ResultDao());
+        $resultService->deleteResult($id);
     });
 });
 

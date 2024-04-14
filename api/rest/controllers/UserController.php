@@ -2,23 +2,34 @@
 
 Flight::group('/users', function () {
     Flight::route('GET /', function(){
-        echo 'List of all users';
+        $userService = new UserService(new UserDao());
+        $users = $userService->getAllUsers();
+        Flight::json($users);
     });
 
     Flight::route('GET /@id', function($id){
-        echo 'Details of user with id: ' . $id;
+        $userService = new UserService(new UserDao());
+        $user = $userService->getUserByID($id);
+        Flight::json($user);
     });
 
     Flight::route('POST /', function(){
-        echo 'Create a new user';
+        $data = Flight::request()->data->getData();
+        $userService = new UserService(new UserDao());
+        $userService->addUser($data);
     });
 
     Flight::route('PUT /@id', function($id){
-        echo 'Set user with id ' . $id;
+        $data = Flight::request()->data->getData();
+
+        $userService = new UserService(new UserDao());
+
+        $userService->updateUser($id, $data);
     });
 
     Flight::route('DELETE /@id', function($id){
-        echo 'Delete user with id: ' . $id;
+        $userService = new UserService(new UserDao());
+        $userService->deleteUser($id);
     });
 });
 

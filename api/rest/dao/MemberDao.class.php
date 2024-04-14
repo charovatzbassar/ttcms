@@ -9,19 +9,15 @@ class MemberDao extends BaseDao {
     }
 
     public function getAllMembers() {
-        return $this->query("SELECT * FROM clubMember", []);
+        return $this->get_all();
     }
 
     public function getMembers($offset, $limit, $order) {
-        list($order_column, $order_direction) = parent::parseOrder($order);
-
-        return $this->query("SELECT * FROM clubMember
-                             ORDER BY $order_column $order_direction
-                             LIMIT $limit OFFSET $offset", []);
+        return $this->get($offset, $limit, $order);
     }
 
     public function getMemberByID($id) {
-        return $this->queryUnique("SELECT * FROM clubMember WHERE clubMemberID = :clubMemberID", ["clubMemberID" => $id]);
+        return $this->get_by_id($id, "clubMemberID");
     }
 
     public function addMember($member) {
@@ -33,7 +29,7 @@ class MemberDao extends BaseDao {
     }
 
     public function deleteMember($id) {
-        $this->query("DELETE FROM clubMember WHERE clubMemberID = :clubMemberID", ["clubMemberID" => $id]);
+        $this->delete($id, "clubMemberID");
     }
 
     public function markMembershipAsPaid($id) {
