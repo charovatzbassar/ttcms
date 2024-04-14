@@ -2,8 +2,18 @@
 
     Flight::group('/members', function(){
         Flight::route('GET /', function(){
-            $memberService = new MemberService(new MemberDao()); // dependency injection
-            $members = $memberService->getAllMembers();
+            $memberService = new MemberService(new MemberDao());
+
+            $offset = Flight::request()->query['offset'];
+            $limit = Flight::request()->query['limit'];
+
+            if ($offset == NULL && $limit == NULL) {
+                $members = $memberService->getAllMembers();
+            } else {
+                $members = $memberService->getMembers($offset, $limit, '-clubMemberID');
+            }
+
+            
             Flight::json($members);
         });
     

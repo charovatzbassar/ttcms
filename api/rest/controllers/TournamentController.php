@@ -3,7 +3,16 @@
 Flight::group('/tournaments', function () {
     Flight::route('GET /', function(){
         $tournamentService = new TournamentService(new TournamentDao());
-        $tournaments = $tournamentService->getAllTournaments();
+
+        $offset = Flight::request()->query['offset'];
+        $limit = Flight::request()->query['limit'];
+
+        if ($offset == NULL && $limit == NULL) {
+            $tournaments = $tournamentService->getAllTournaments();
+        } else {
+            $tournaments = $tournamentService->getTournaments($offset, $limit, '-tournamentID');
+        }
+
         Flight::json($tournaments);
     });
 

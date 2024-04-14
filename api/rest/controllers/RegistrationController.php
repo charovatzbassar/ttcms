@@ -3,7 +3,16 @@
 Flight::group('/registrations', function () {
     Flight::route('GET /', function(){
         $registrationService = new RegistrationService(new RegistrationDao());
-        $registrations = $registrationService->getAllRegistrations();
+
+        $offset = Flight::request()->query['offset'];
+        $limit = Flight::request()->query['limit'];
+
+        if ($offset == NULL && $limit == NULL) {
+            $registrations = $registrationService->getAllRegistrations();
+        } else {
+            $registrations = $registrationService->getRegistrations($offset, $limit, '-registrationID');
+        }
+
         Flight::json($registrations);
     });
 

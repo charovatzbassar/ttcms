@@ -3,7 +3,16 @@
 Flight::group('/results', function () {
     Flight::route('GET /', function(){
         $resultService = new ResultService(new ResultDao());
-        $results = $resultService->getAllResults();
+
+        $offset = Flight::request()->query['offset'];
+        $limit = Flight::request()->query['limit'];
+
+        if ($offset == NULL && $limit == NULL) {
+            $results = $resultService->getAllResults();
+        } else {
+            $results = $resultService->getResults($offset, $limit, '-resultID');
+        }
+
         Flight::json($results);
     });
 

@@ -3,7 +3,16 @@
 Flight::group('/users', function () {
     Flight::route('GET /', function(){
         $userService = new UserService(new UserDao());
-        $users = $userService->getAllUsers();
+        
+        $offset = Flight::request()->query['offset'];
+        $limit = Flight::request()->query['limit'];
+
+        if ($offset == NULL && $limit == NULL) {
+            $users = $userService->getAllUsers();
+        } else {
+            $users = $userService->getUsers($offset, $limit, '-appUserID');
+        }
+
         Flight::json($users);
     });
 
