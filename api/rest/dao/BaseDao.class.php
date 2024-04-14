@@ -7,7 +7,7 @@ class BaseDao {
 
     private $table;
   
-    public function begin_transaction() {
+    public function beginTransaction() {
        $this->connection->beginTransaction();
     }
   
@@ -18,7 +18,7 @@ class BaseDao {
     public function rollback() {
        $this->connection->rollBack();
     }
-    public function parse_order($order)
+    public function parseOrder($order)
     {
       switch (substr($order, 0, 1)) {
         case '-':
@@ -72,17 +72,17 @@ class BaseDao {
       return $entity;
     }
   
-    protected function execute_update($table, $id, $entity, $id_column = "id")
+    protected function executeUpdate($table, $id, $entity, $id_column = "id")
     {
       $query = "UPDATE {$table} SET ";
       foreach ($entity as $name => $value) {
         $query .= $name . "= :" . $name . ", ";
       }
       $query = substr($query, 0, -2);
-      $query .= " WHERE {$id_column} = :id";
+      $query .= " WHERE {$id_column} = :$id_column";
   
       $stmt = $this->connection->prepare($query);
-      $entity['id'] = $id;
+      $entity[$id_column] = $id;
       $stmt->execute($entity);
     }
   
@@ -93,7 +93,7 @@ class BaseDao {
       return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
   
-    protected function query_unique($query, $params)
+    protected function queryUnique($query, $params)
     {
       $results = $this->query($query, $params);
       return reset($results);
@@ -116,19 +116,19 @@ class BaseDao {
       return $this->insert($this->table, $entity);
     }
   
-    public function update($id, $entity)
+    public function update($id, $entity, $id_column = "id")
     {
-      $this->execute_update($this->table, $id, $entity);
+      $this->executeUpdate($this->table, $id, $entity, $id_column); 
     }
   
     public function get_by_id($id)
     {
-      return $this->query_unique("SELECT * FROM " . $this->table . " WHERE id = :id", ["id" => $id]);
+      return $this->queryUnique("SELECT * FROM " . $this->table . " WHERE id = :id", ["id" => $id]);
     }
   
     public function get_all($offset = 0, $limit = 25, $order = "-id")
     {
-      list($order_column, $order_direction) = self::parse_order($order);
+      list($order_column, $order_direction) = self::parseOrder($order);
   
       return $this->query("SELECT *
                            FROM " . $this->table . "
