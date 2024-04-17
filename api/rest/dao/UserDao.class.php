@@ -20,6 +20,10 @@ class UserDao extends BaseDao {
         return $this->get_by_id($id, "appUserID");
     }
 
+    public function getUserByEmail($email) {
+        return $this->queryUnique("SELECT * FROM appUser WHERE email = :email", ["email" => $email]);
+    }
+
     public function addUser($user) {
         $this->add($user);
     }

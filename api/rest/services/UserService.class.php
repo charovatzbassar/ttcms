@@ -32,6 +32,9 @@ class UserService {
         return $this->userDao->deleteUser($id);
     }
 
+    public function getUserByEmail($email) {
+        return $this->userDao->getUserByEmail($email);
+    }
 
 
 }

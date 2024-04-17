@@ -31,6 +31,18 @@ Flight::group('/registrations', function () {
     Flight::route('POST /', function(){
         $data = Flight::request()->data->getData();
         $registrationService = new RegistrationService(new RegistrationDao());
+
+        $registrationData = array(
+            "firstName" => $data['firstName'],
+            "lastName" => $data['lastName'],
+            "dateOfBirth" => $data['dateOfBirth'],
+            "birthplace" => $data['birthplace'],
+            "gender" => $data['gender'],
+            "email" => $data['email'],
+            "registrationStatus" => "PENDING",
+            "appUserID" => 1,
+        );
+
         $registrationService->addRegistration($data);
     });
 
@@ -57,6 +69,7 @@ Flight::group('/registrations', function () {
                 "membershipStatus" => "UNPAID",
                 "category" => Utils::calculateCategory($registration['dateOfBirth']),
                 "score" => 0,
+                "appUserID" => 1,
             );
 
             $memberService->addMember($memberData);

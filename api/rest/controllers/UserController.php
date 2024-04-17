@@ -1,46 +1,46 @@
 <?php
 
-Flight::group('/users', function () {
-    Flight::route('GET /', function(){
+Flight::group('/auth', function () {
+    Flight::route('POST /login', function(){
+        $data = Flight::request()->data->getData();
         $userService = new UserService(new UserDao());
-        
-        $offset = Flight::request()->query['offset'];
-        $limit = Flight::request()->query['limit'];
+        $user = $userService->getUserByEmail($data['email']);
 
-        if ($offset == NULL && $limit == NULL) {
-            $users = $userService->getAllUsers();
-        } else {
-            $users = $userService->getUsers($offset, $limit, '-appUserID');
+        if ($user == null) {
+            Flight::json(["message" => "User does not exist."]);
+            return;
         }
 
-        Flight::json($users);
-    });
+        if ($user['password'] != $data['passwordHash']) {
+            Flight::json(["message" => "Invalid password."]);
+            return;
+        }
 
-    Flight::route('GET /@id', function($id){
-        $userService = new UserService(new UserDao());
-        $user = $userService->getUserByID($id);
         Flight::json($user);
     });
 
-    Flight::route('POST /', function(){
+    Flight::route('POST /register', function(){
         $data = Flight::request()->data->getData();
         $userService = new UserService(new UserDao());
-        $userService->addUser($data);
+        $user = $userService->getUserByEmail($data['email']);
+
+        if ($user != null) {
+            Flight::json(["message" => "User already exists."]);
+            return;
+        }
+
+        $user = [
+            "email" => $data['email'],
+            "passwordHash" => $data['passwordHash'],
+            "firstName" => $data['firstName'],
+            "lastName" => $data['lastName'],
+            "clubName" => $data['clubName'],
+        ];
+
+        $userService->addUser($user);
+        Flight::json(["message" => "User has been registered."]);
     });
 
-    Flight::route('PUT /@id', function($id){
-        $data = Flight::request()->data->getData();
-
-        $userService = new UserService(new UserDao());
-
-        $userService->updateUser($id, $data);
-    });
-
-    Flight::route('DELETE /@id', function($id){
-        $userService = new UserService(new UserDao());
-        $userService->deleteUser($id);
-    });
 });
-
 
 ?>
