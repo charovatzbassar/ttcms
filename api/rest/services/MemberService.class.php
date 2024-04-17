@@ -36,6 +36,9 @@ class MemberService {
         return $this->memberDao->markMembershipAsPaid($id);
     }
 
+    public function setAllUnpaid() {
+        return $this->memberDao->setAllUnpaid();
+    }
 
 }
 

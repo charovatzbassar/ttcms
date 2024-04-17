@@ -12,6 +12,10 @@ class RegistrationDao extends BaseDao {
         return $this->get_all();
     }
 
+    public function getRegistrationsByStatus($status) {
+        return $this->query("SELECT * FROM registration WHERE registrationStatus = :status", ["status" => $status]);
+    }
+
     public function getRegistrations($offset, $limit, $order) {
         return $this->get($offset, $limit, $order);
     }
@@ -21,7 +25,7 @@ class RegistrationDao extends BaseDao {
     }
 
     public function addRegistration($registration) {
-        $this->insert("registration", $registration);
+        $this->add($registration);
     }
 
     public function updateRegistration($id, $registration) {

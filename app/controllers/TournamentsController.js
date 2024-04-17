@@ -18,17 +18,19 @@ var TournamentsController = async () => {
 
   data.map((tournament) => {
     tournaments += `<tr>
-            <td><a href="?id=${
-              tournament.tournamentID
-            }#tournament-info" class="text-black">${tournament.name}</a></td>
-            <td>${tournament.date}</td>
-            <td>${tournament.categories.join(", ")}</td>
-            <td>${tournament.location}</td>
-            <td>${tournament.status}</td>
+            <td><a href="?id=${tournament.tournamentID}#tournament-info" class="text-black">${tournament.tournamentName}</a></td>
+            <td>${tournament.tournamentDate}</td>
+            <td>${tournament.categories}</td>
+            <td>${tournament.tournamentLocation}</td>
+            <td>${tournament.tournamentStatus}</td>
         </tr>`;
   });
 
   $("#tournamentsTable > tbody").html(tournaments);
+
+  if ($.fn.dataTable.isDataTable("#tournamentsTable")) {
+    $("#tournamentsTable").DataTable().destroy();
+  }
 
   $("#tournamentsTable").DataTable({
     columns: [

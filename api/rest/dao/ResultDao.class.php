@@ -21,7 +21,7 @@ class ResultDao extends BaseDao {
     }
 
     public function addresult($result) {
-        $this->insert("result", $result);
+        $this->add($result);
     }
 
     public function updateresult($id, $result) {
@@ -30,6 +30,14 @@ class ResultDao extends BaseDao {
 
     public function deleteresult($id) {
         $this->delete($id, "resultID");
+    }
+
+    public function getResultsByTournamentID($tournamentID) {
+        return $this->query("SELECT * FROM result WHERE tournamentID = :tournamentID", ["tournamentID" => $tournamentID]);
+    }
+
+    public function getResultsByClubMemberID($clubMemberID) {
+        return $this->query("SELECT * FROM result WHERE clubMemberID = :clubMemberID", ["clubMemberID" => $clubMemberID]);
     }
 }
 

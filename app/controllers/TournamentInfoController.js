@@ -1,4 +1,4 @@
-var TournamentInfoController = async () => {
+var TournamentInfoController = () => {
   $("#mainNav").show();
   $("#layoutSidenav_nav").show();
 
@@ -17,110 +17,109 @@ var TournamentInfoController = async () => {
   const urlParams = new URLSearchParams(window.location.search);
   const id = urlParams.get("id");
 
-  const tournaments = await TournamentsService.getTournaments();
+  TournamentsService.getTournament(id).then((tournament) => {
+    $("#tournamentName").html(tournament.tournamentName);
+    $("#tournamentDate").html("Date: " + tournament.tournamentDate);
+    $("#tournamentLocation").html("Location: " + tournament.tournamentLocation);
+    $("#tournamentCategories").html("Categories: " + tournament.categories);
 
-  const tournament = tournaments.find((t) => t.tournamentID === id);
+    $("#updateTournamentButton").click(() => {
+      $("#updateTournamentModal").modal("show");
+    });
 
-  $("#tournamentName").html(tournament.name);
-  $("#tournamentDate").html("Date: " + tournament.date);
-  $("#tournamentLocation").html("Location: " + tournament.location);
-  $("#tournamentCategories").html(
-    "Categories: " + tournament.categories.join(", ")
-  );
+    $("#closeUpdateTournamentModalButton").click(() => {
+      $("#updateTournamentModal").modal("hide");
+    });
 
-  $("#updateTournamentButton").click(() => {
-    $("#updateTournamentModal").modal("show");
-  });
+    $("#closeUpdateResultModalButton").click(() => {
+      $("#updateResultModal").modal("hide");
+    });
 
-  $("#closeUpdateTournamentModalButton").click(() => {
-    $("#updateTournamentModal").modal("hide");
-  });
+    $("[name='name']").val(tournament.tournamentName);
+    $("[name='date']").val(tournament.tournamentDate);
+    $("[name='location']").val(tournament.tournamentLocation);
 
-  $("#closeUpdateResultModalButton").click(() => {
-    $("#updateResultModal").modal("hide");
-  });
+    for (let i = 0; i < tournament.categories.split(", ").length; i++) {
+      $(
+        `[name='category'][value='${tournament.categories[i].toUpperCase()}']`
+      ).prop("checked", true);
+    }
 
-  $("[name='name']").val(tournament.name);
-  $("[name='date']").val(tournament.date);
-  $("[name='location']").val(tournament.location);
+    ResultsService.getResultsByTournamentId(id).then((data) => {
+      let results = "";
 
-  for (let i = 0; i < tournament.categories.length; i++) {
-    $(
-      `[name='category'][value='${tournament.categories[i].toUpperCase()}']`
-    ).prop("checked", true);
-  }
+      window.handleEditResult = (member, opponent, status) => {
+        $("#updateResultModal").modal("show");
+        $("[name='member']").val(member);
+        $("[name='opponent']").val(opponent);
+        $("[name='result']").val(status.toUpperCase());
+      };
 
-  const resultsData = await ResultsService.getResults();
-  let results = "";
+      window.handleRemoveResult = (resultID) => {
+        $("#removeResultModal").modal("show");
+      };
 
-  window.handleEditResult = (member, opponent, status) => {
-    console.log(member, opponent, status);
-    $("#updateResultModal").modal("show");
-    $("[name='member']").val(member);
-    $("[name='opponent']").val(opponent);
-    $("[name='result']").val(status.toUpperCase());
-  };
+      data.map((result) => {
+        results += `<tr>
+                <td>${result.member}</td>
+                <td>${result.opponent}</td>
+                <td>${result.status}</td>
+                <td><button class="btn btn-warning w-50" id="${result.resultID}" onclick="handleEditResult('${result.member}', '${result.opponent}', '${result.status}')">Edit</button><button class="btn btn-danger w-50" onclick="handleRemoveResult('${result.resultID}')">Remove</button></td>
+            </tr>`;
+      });
 
-  window.handleRemoveResult = (resultID) => {
-    console.log(resultID);
-    $("#removeResultModal").modal("show");
-  };
+      $("#tournamentInfoTable > tbody").html(results);
 
-  resultsData.map((result) => {
-    results += `<tr>
-              <td>${result.member}</td>
-              <td>${result.opponent}</td>
-              <td>${result.status}</td>
-              <td><button class="btn btn-warning w-50" id="${result.resultID}" onclick="handleEditResult('${result.member}', '${result.opponent}', '${result.status}')">Edit</button><button class="btn btn-danger w-50" onclick="handleRemoveResult('${result.resultID}')">Remove</button></td>
-          </tr>`;
-  });
+      if ($.fn.dataTable.isDataTable("#tournamentInfoTable")) {
+        $("#tournamentInfoTable").DataTable().destroy();
+      }
 
-  $("#tournamentInfoTable > tbody").html(results);
+      $("#tournamentInfoTable").DataTable({
+        columns: [
+          { data: "member" },
+          { data: "opponent" },
+          { data: "result" },
+          { data: "actions" },
+        ],
+      });
 
-  $("#tournamentInfoTable").DataTable({
-    columns: [
-      { data: "member" },
-      { data: "opponent" },
-      { data: "result" },
-      { data: "actions" },
-    ],
-  });
+      $("#addResultButton").click(() => {
+        $("#addResultModal").modal("show");
+      });
 
-  $("#addResultButton").click(() => {
-    $("#addResultModal").modal("show");
-  });
+      MemberService.getMembers().then((memberData) => {
+        let members = "";
 
-  const memberData = await MemberService.getMembers();
+        memberData.map((member) => {
+          members += `<option value="${member.playerID}">${member.firstName} ${member.lastName}</option>`;
+        });
 
-  let members = "";
+        $("select[name='member']").html(members);
 
-  memberData.map((member) => {
-    members += `<option value="${member.playerID}">${member.name} ${member.surname}</option>`;
-  });
+        $("#closeAddResultModalButton").click(() => {
+          $("#addResultModal").modal("hide");
+        });
 
-  $("select[name='member']").html(members);
+        $("#closeUpdateResultModalButton").click(() => {
+          $("#updateResultModal").modal("hide");
+        });
 
-  $("#closeAddResultModalButton").click(() => {
-    $("#addResultModal").modal("hide");
-  });
+        $("#closeRemoveResultModalButton").click(() => {
+          $("#removeResultModal").modal("hide");
+        });
 
-  $("#closeUpdateResultModalButton").click(() => {
-    $("#updateResultModal").modal("hide");
-  });
+        $("#closeRemoveTournamentModalButton").click(() => {
+          $("#removeTournamentModal").modal("hide");
+        });
 
-  $("#closeRemoveResultModalButton").click(() => {
-    $("#removeResultModal").modal("hide");
-  });
+        $("#removeTournamentButton").click(() => {
+          $("#removeTournamentModal").modal("show");
+        });
 
-  $("#closeRemoveTournamentModalButton").click(() => {
-    $("#removeTournamentModal").modal("hide");
-  });
-
-  $("#removeTournamentButton").click(() => {
-    $("#removeTournamentModal").modal("show");
-  });
-
-  $("#markAsCompletedButton").click(() => {
-    toastr.success("Tournament marked as completed");
+        $("#markAsCompletedButton").click(() => {
+          toastr.success("Tournament marked as completed");
+        });
+      });
+    });
   });
 };

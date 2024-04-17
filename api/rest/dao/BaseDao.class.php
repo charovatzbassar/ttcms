@@ -52,9 +52,23 @@ class BaseDao {
       }
     }
   
-    public function insert($table, $entity)
+    protected function query($query, $params)
     {
-      $query = "INSERT INTO {$table} (";
+      $stmt = $this->connection->prepare($query);
+      $stmt->execute($params);
+      return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+  
+    protected function queryUnique($query, $params)
+    {
+      $results = $this->query($query, $params);
+      return reset($results);
+    }
+
+  
+    protected function add($entity)
+    {
+      $query = "INSERT INTO {$this->table} (";
       foreach ($entity as $column => $value) {
         $query .= $column . ", ";
       }
@@ -72,9 +86,9 @@ class BaseDao {
       return $entity;
     }
   
-    protected function executeUpdate($table, $id, $entity, $id_column = "id")
+    protected function update($id, $entity, $id_column = "id")
     {
-      $query = "UPDATE {$table} SET ";
+      $query = "UPDATE {$this->table} SET ";
       foreach ($entity as $name => $value) {
         $query .= $name . "= :" . $name . ", ";
       }
@@ -85,52 +99,17 @@ class BaseDao {
       $entity[$id_column] = $id;
       $stmt->execute($entity);
     }
-  
-    protected function query($query, $params)
-    {
-      $stmt = $this->connection->prepare($query);
-      $stmt->execute($params);
-      return $stmt->fetchAll(PDO::FETCH_ASSOC);
-    }
-  
-    protected function queryUnique($query, $params)
-    {
-      $results = $this->query($query, $params);
-      return reset($results);
-    }
-  
-    protected function execute($query, $params)
-    {
-      $prepared_statement = $this->connection->prepare($query);
-      if ($params) {
-        foreach ($params as $key => $param) {
-          $prepared_statement->bindValue($key, $param);
-        }
-      }
-      $prepared_statement->execute();
-      return $prepared_statement;
-    }
-  
-    public function add($entity)
-    {
-      return $this->insert($this->table, $entity);
-    }
-  
-    public function update($id, $entity, $id_column = "id")
-    {
-      $this->executeUpdate($this->table, $id, $entity, $id_column); 
-    }
 
-    public function delete($id, $id_column = "id") {
+    protected function delete($id, $id_column = "id") {
       return $this->query("DELETE FROM " . $this->table . " WHERE $id_column = :$id_column", [$id_column => $id]);
     }
   
-    public function get_by_id($id, $id_column = "id")
+    protected function get_by_id($id, $id_column = "id")
     {
       return $this->queryUnique("SELECT * FROM " . $this->table . " WHERE $id_column = :$id_column", [$id_column => $id]);
     }
   
-    public function get($offset = 0, $limit = 25, $order = "-id")
+    protected function get($offset = 0, $limit = 25, $order = "-id")
     {
       list($order_column, $order_direction) = self::parseOrder($order);
   
@@ -140,7 +119,7 @@ class BaseDao {
                            LIMIT {$limit} OFFSET {$offset}", []);
     }
 
-    public function get_all()
+    protected function get_all()
     {
       return $this->query("SELECT * FROM " . $this->table, []);
     }

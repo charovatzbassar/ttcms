@@ -6,7 +6,7 @@ var MembersController = async () => {
 
   data.map((member) => {
     members += `<tr>
-                <td><a href="?id=${member.playerID}#member-profile" class="text-black">${member.name} ${member.surname}</a></td>
+                <td><a href="?id=${member.clubMemberID}#member-profile" class="text-black">${member.firstName} ${member.lastName}</a></td>
                 <td>${member.dateOfBirth}</td>
                 <td>${member.gender}</td>
                 <td>${member.birthplace}</td>
@@ -16,6 +16,10 @@ var MembersController = async () => {
   });
 
   $("#membersTable > tbody").html(members);
+
+  if ($.fn.dataTable.isDataTable("#membersTable")) {
+    $("#membersTable").DataTable().destroy();
+  }
 
   $("#membersTable").DataTable({
     columns: [

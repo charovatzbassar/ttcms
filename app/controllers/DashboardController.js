@@ -8,12 +8,17 @@ var DashboardController = async () => {
 
   data.map((member) => {
     members += `<tr>
-                  <td>${member.name}</td>
+                  <td>${member.firstName} ${member.lastName}</td>
                   <td>${member.membershipStatus}</td>
               </tr>`;
   });
 
   $("#dashboardTable > tbody").html(members);
+
+  if ($.fn.dataTable.isDataTable("#dashboardTable")) {
+    $("#dashboardTable").DataTable().destroy();
+  }
+
   $("#dashboardTable").DataTable({
     columns: [{ data: "name" }, { data: "membership-status" }],
   });

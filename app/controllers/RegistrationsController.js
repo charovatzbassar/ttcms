@@ -12,13 +12,12 @@ var RegistrationsController = async () => {
   $("#mainNav").show();
   $("#layoutSidenav_nav").show();
 
-  const data = await RegistrationsService.getRegistrations();
+  const data = await RegistrationsService.getRegistrationsByStatus("PENDING");
 
   let registrations = "";
 
   data.map((registration) => {
-    if (registration.status === "PENDING") {
-      registrations += `<tr>
+    registrations += `<tr>
               <td>${registration.firstName} ${registration.lastName}</td>
               <td>${registration.email}</td>
               <td>${registration.dateOfBirth}</td>
@@ -29,10 +28,13 @@ var RegistrationsController = async () => {
               ><button class="btn btn-danger w-50" onclick="handleReject('${registration.registrationID}')">Reject</button>
             </div></td>
           </tr>`;
-    }
   });
 
   $("#registrationsTable > tbody").html(registrations);
+
+  if ($.fn.dataTable.isDataTable("#registrationsTable")) {
+    $("#registrationsTable").DataTable().destroy();
+  }
 
   $("#registrationsTable").DataTable({
     columns: [

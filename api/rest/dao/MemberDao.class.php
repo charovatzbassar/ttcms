@@ -21,7 +21,7 @@ class MemberDao extends BaseDao {
     }
 
     public function addMember($member) {
-        $this->insert("clubMember", $member);
+        $this->add($member);
     }
 
     public function updateMember($id, $member) {
@@ -34,6 +34,10 @@ class MemberDao extends BaseDao {
 
     public function markMembershipAsPaid($id) {
         $this->query("UPDATE clubMember SET membershipStatus = 'PAID' WHERE clubMemberID = :clubMemberID", ["clubMemberID" => $id]);
+    }
+
+    public function setAllUnpaid() {
+        $this->query("UPDATE clubMember SET membershipStatus = 'UNPAID'", []);
     }
 }
 

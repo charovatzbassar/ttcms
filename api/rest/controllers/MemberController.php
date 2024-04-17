@@ -1,8 +1,27 @@
 <?php
 
+require_once __DIR__.'/../utils/Utils.class.php';
+
     Flight::group('/members', function(){
         Flight::route('GET /', function(){
             $memberService = new MemberService(new MemberDao());
+
+            $date = date("Y-m-d");
+            $day = date('d', strtotime($date));
+            $month = date('m', strtotime($date));
+
+            if ($day == 1) {
+                $memberService->setAllUnpaid();
+            }
+
+            if ($day == 1 && $month == 9) {
+                $members = $memberService->getAllMembers();
+                foreach ($members as $member) {
+                    $memberService->updateMember($member['clubMemberID'], array(
+                        'category' => Utils::calculateCategory($member['dateOfBirth'])
+                    ));
+                }
+            }
 
             $offset = Flight::request()->query['offset'];
             $limit = Flight::request()->query['limit'];

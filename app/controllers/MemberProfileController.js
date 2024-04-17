@@ -1,4 +1,4 @@
-var MemberProfileController = async () => {
+var MemberProfileController = () => {
   $("#mainNav").show();
   $("#layoutSidenav_nav").show();
 
@@ -17,52 +17,59 @@ var MemberProfileController = async () => {
   const urlParams = new URLSearchParams(window.location.search);
   const id = urlParams.get("id");
 
-  const members = await MemberService.getMembers();
+  MemberService.getMember(id).then((member) => {
 
-  const member = members.find((m) => m.playerID === id);
+    $("#playerName").html(member.firstName + " " + member.lastName);
+    $("#playerTournamentScore").html("Tournament Score: " + member.score);
+    $("#playerJoinDate").html("Joined on: " + member.joinDate);
+    $("#playerDateOfBirth").html("Date Of Birth: " + member.dateOfBirth);
+    $("#playerGender").html("Gender: " + member.gender);
+    $("#playerBirthplace").html("Birthplace: " + member.birthplace);
+    $("#playerCategory").html("Category: " + member.category);
+    $("#playerMembershipStatus").html(
+      "Membership Status: " + member.membershipStatus
+    );
 
-  $("#playerName").html(member.name + " " + member.surname);
-  $("#playerTournamentScore").html("Tournament Score: " + member.score);
-  $("#playerJoinDate").html("Joined on: " + member.joinDate);
-  $("#playerDateOfBirth").html("Date Of Birth: " + member.dateOfBirth);
-  $("#playerGender").html("Gender: " + member.gender);
-  $("#playerBirthplace").html("Birthplace: " + member.birthplace);
-  $("#playerCategory").html("Category: " + member.category);
-  $("#playerMembershipStatus").html(
-    "Membership Status: " + member.membershipStatus
-  );
+    const badges = Utils.calculateBadges(member.score);
 
-  const badges = Utils.calculateBadges(member.score);
+    $("#playerBadges").html("Badges: " + badges);
 
-  $("#playerBadges").html("Badges: " + badges);
+    $("#updatePlayerButton").click(() => {
+      $("#updatePlayerModal").modal("show");
+    });
 
-  $("#updatePlayerButton").click(() => {
-    $("#updatePlayerModal").modal("show");
-  });
+    $("[name='firstName']").val(member.name);
+    $("[name='lastName']").val(member.surname);
+    $("[name='dateOfBirth']").val(member.dateOfBirth);
+    $("select[name='gender']").val(member.gender);
 
-  $("[name='firstName']").val(member.name);
-  $("[name='lastName']").val(member.surname);
-  $("[name='dateOfBirth']").val(member.dateOfBirth);
-  $("select[name='gender']").val(member.gender);
+    $("#closeModalButton").click(() => {
+      $("#updatePlayerModal").modal("hide");
+    });
 
-  $("#closeModalButton").click(() => {
-    $("#updatePlayerModal").modal("hide");
-  });
+    Validate.validateUpdateMemberForm();
 
-  Validate.validateUpdateMemberForm();
+    ResultsService.getResultsByClubMemberId(id).then((data) => {
+      let results = "";
 
-  const resultsData = await ResultsService.getResults();
-  let results = "";
+      data.map((result) => {
+        results += `<tr>
+                  <td>${result.opponentFirstName} ${result.opponentLastName}</td>
+                  <td>${result.resultStatus}</td>
+              </tr>`;
+      });
 
-  resultsData.map((result) => {
-    results += `<tr>
-              <td>${result.opponent}</td>
-              <td>${result.status}</td>
-          </tr>`;
-  });
+      $("#playerProfileTable > tbody").html(results);
 
-  $("#playerProfileTable > tbody").html(results);
-  $("#playerProfileTable").DataTable({
-    columns: [{ data: "opponent" }, { data: "result" }],
+
+      if ($.fn.dataTable.isDataTable("#playerProfileTable")) {
+        $("#playerProfileTable").DataTable().destroy();
+      }
+
+
+      $("#playerProfileTable").DataTable({
+        columns: [{ data: "opponent" }, { data: "result" }],
+      });
+    });
   });
 };

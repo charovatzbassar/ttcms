@@ -21,7 +21,7 @@ class UserDao extends BaseDao {
     }
 
     public function addUser($user) {
-        $this->insert("appUser", $user);
+        $this->add($user);
     }
 
     public function updateUser($id, $user) {
@@ -31,7 +31,6 @@ class UserDao extends BaseDao {
     public function deleteUser($id) {
         $this->delete($id, "appUserID");
     }
-
 }
 
 ?>

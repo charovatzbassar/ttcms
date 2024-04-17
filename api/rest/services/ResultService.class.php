@@ -32,6 +32,14 @@ class ResultService {
         return $this->resultDao->deleteResult($id);
     }
 
+    public function getResultsByTournamentID($tournamentID) {
+        return $this->resultDao->getResultsByTournamentID($tournamentID);
+    }
+
+    public function getResultsByClubMemberID($clubMemberID) {
+        return $this->resultDao->getResultsByClubMemberID($clubMemberID);
+    }
+
 
 }
 
