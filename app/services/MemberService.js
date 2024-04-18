@@ -17,19 +17,21 @@ var MemberService = {
       error: (xhr, status, error) => [],
     })
   },
-  addMember: () => {
+  addMember: (memberData) => {
     return $.ajax({
       url: `${API_BASE_URL}/members`,
       type: "POST",
+      data: memberData,
       dataType: "json",
       success: (data) => data,
       error: (xhr, status, error) => [],
     });
   },
-  editMember: (id) => {
+  editMember: (id, editData) => {
     return $.ajax({
       url: `${API_BASE_URL}/members/${id}?_method=PUT`,
       type: "POST",
+      data: editData,
       dataType: "json",
       success: (data) => data,
       error: (xhr, status, error) => [],

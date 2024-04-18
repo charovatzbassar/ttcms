@@ -17,19 +17,21 @@ var ResultsService = {
       error: (xhr, status, error) => [],
     });
   },
-  addResult: () => {
+  addResult: (resultData) => {
     return $.ajax({
       url: `${API_BASE_URL}/results`,
       type: "POST",
       dataType: "json",
+      data: resultData,
       success: (data) => data,
       error: (xhr, status, error) => [],
     });
   },
-  editResult: (id) => {
+  editResult: (id, editData) => {
     return $.ajax({
       url: `${API_BASE_URL}/results/${id}?_method=PUT`,
       type: "POST",
+      data: editData,
       dataType: "json",
       success: (data) => data,
       error: (xhr, status, error) => [],

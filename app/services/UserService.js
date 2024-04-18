@@ -1,47 +1,29 @@
 var UserService = {
-  getUsers: () => {
+  login: (loginData) => {
     return $.ajax({
-      url: `${API_BASE_URL}/users`,
-      type: "GET",
+      url: `${API_BASE_URL}/auth/login`,
+      type: "POST",
+      data: loginData,
       dataType: "json",
-      success: (data) => data,
+      success: (data) => {
+        localStorage.setItem("token", data);
+      },
       error: (xhr, status, error) => [],
     });
   },
-    getUser: (id) => {
-        return $.ajax({
-        url: `${API_BASE_URL}/users/${id}`,
-        type: "GET",
-        dataType: "json",
-        success: (data) => data,
-        error: (xhr, status, error) => [],
-        });
-    },
-    addUser: () => {
-        return $.ajax({
-        url: `${API_BASE_URL}/users`,
-        type: "POST",
-        dataType: "json",
-        success: (data) => data,
-        error: (xhr, status, error) => [],
-        });
-    },
-    editUser: (id) => {
-        return $.ajax({
-        url: `${API_BASE_URL}/users/${id}?_method=PUT`,
-        type: "POST",
-        dataType: "json",
-        success: (data) => data,
-        error: (xhr, status, error) => [],
-        });
-    },
-    deleteUser: (id) => {
-        return $.ajax({
-        url: `${API_BASE_URL}/users/${id}`,
-        type: "DELETE",
-        dataType: "json",
-        success: (data) => data,
-        error: (xhr, status, error) => [],
-        });
-    },
+  register: (registerData) => {
+    return $.ajax({
+      url: `${API_BASE_URL}/auth/register`,
+      type: "POST",
+      data: registerData,
+      dataType: "json",
+      success: (data) => {
+        localStorage.setItem("token", data);
+      },
+      error: (xhr, status, error) => [],
+    });
+  },
+  logout: () => {
+    localStorage.removeItem("token");
+  },
 };

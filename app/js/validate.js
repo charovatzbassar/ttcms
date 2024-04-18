@@ -57,22 +57,8 @@ var Validate = {
             .then(function (token) {
               Utils.block_ui("#applyForm .card-body");
               const formData = $(f).serialize();
-              $.ajax({
-                url: `${API_BASE_URL}/registrations`,
-                type: "POST",
-                data: formData,
-                success: function (data) {
-                  console.log(data);
-                  toastr.success("Application submitted successfully");
-                },
-                error: function (error) {
-                  console.log(error);
-                  toastr.error("An error occurred while submitting the application");
-                },
-              
-              })
+              RegistrationsService.addRegistration(formData);
               Utils.unblock_ui("#applyForm .card-body");
-              
             });
         });
       },
@@ -128,23 +114,9 @@ var Validate = {
           status: "UPCOMING",
         };
 
-        $.ajax({
-          url: `${API_BASE_URL}/tournaments`,
-          type: "POST",
-          data: JSON.stringify(tournament),
-          contentType: "application/json",
-          success: function (data) {
-            console.log(data);
-            toastr.success("Tournament added successfully");
-          },
-          error: function (error) {
-            console.log(error);
-            toastr.error("An error occurred while adding the tournament");
-          },
-        });
+        TournamentsService.addTournament(tournament);
         Utils.unblock_ui("#addTournamentModal .modal-content");
         $("#addTournamentModal").modal("hide");
-
       },
     });
   },
@@ -180,19 +152,7 @@ var Validate = {
         e.preventDefault();
         Utils.block_ui("#addResultModal .modal-content");
         const formData = $(f).serialize();
-        $.ajax({
-          url: `${API_BASE_URL}/results`,
-          type: "POST",
-          data: formData,
-          success: function (data) {
-            console.log(data);
-            toastr.success("Result added successfully");
-          },
-          error: function (error) {
-            console.log(error);
-            toastr.error("An error occurred while adding the result");
-          },
-        });
+        ResultsService.addResult(formData);
         Utils.unblock_ui("#addResultModal .modal-content");
         $("#addResultModal").modal("hide");
       },
@@ -247,21 +207,7 @@ var Validate = {
             .map((category) => category.split("=")[1]),
         };
 
-        
-
-        $.ajax({
-          url: `${API_BASE_URL}/results/${id}?_method=PUT`,
-          type: "POST",
-          data: tournament,
-          success: function (data) {
-            console.log(data);
-            toastr.success("Tournament updated successfully");
-          },
-          error: function (error) {
-            console.log(error);
-            toastr.error("An error occurred while updating the tournament");
-          },
-        });
+        TournamentsService.editTournament(id, tournament);  
         Utils.unblock_ui("#updateTournamentModal .modal-content");
         $("#updateTournamentModal").modal("hide");
       },
@@ -327,21 +273,8 @@ var Validate = {
             .then(function (token) {
               Utils.block_ui("#registerForm .card-body");
               const formData = $(f).serialize();
-              
-              $.ajax({
-                url: `${API_BASE_URL}/auth/register`,
-                type: "POST",
-                data: formData,
-                success: function (data) {
-                  console.log(data);
-                  window.location.href = "/#dashboard";
-                },
-                error: function (error) {
-                  console.log(error);
-                  toastr.error("An error occurred while registering");
 
-                },
-              });
+              UserService.register(formData);
 
               Utils.unblock_ui("#registerForm .card-body");
             });
@@ -387,19 +320,7 @@ var Validate = {
         e.preventDefault();
         Utils.block_ui("#updatePlayerModal .modal-content");
         const formData = $(f).serialize();
-        $.ajax({
-          url: `${API_BASE_URL}/members/${id}`,
-          type: "POST",
-          data: formData,
-          success: function (data) {
-            console.log(data);
-            toastr.success("Member updated successfully");
-          },
-          error: function (error) {
-            console.log(error);
-            toastr.error("An error occured when updating member.")
-          },
-        });
+        MembersService.editMember(id, formData);
         Utils.unblock_ui("#updatePlayerModal .modal-content");
         $("#updatePlayerModal").modal("hide");
       },
@@ -439,19 +360,7 @@ var Validate = {
             .then(function (token) {
               Utils.block_ui("#loginForm .card-body");
               const formData = $(f).serialize();
-              $.ajax({
-                url: `${API_BASE_URL}/auth/login`,
-                type: "POST",
-                data: formData,
-                success: function (data) {
-                  console.log(data);
-                  window.location.href = "/#dashboard"
-                },
-                error: function (error) {
-                  console.log(error);
-                  toastr.error("An error occured when logging in.")
-                },
-              });
+              UserService.login(formData);
               Utils.unblock_ui("#loginForm .card-body");
             });
         });

@@ -26,19 +26,21 @@ var RegistrationsService = {
       error: (xhr, status, error) => [],
     });
   },
-  addRegistration: () => {
+  addRegistration: (registrationData) => {
     return $.ajax({
       url: `${API_BASE_URL}/registrations`,
       type: "POST",
+      data: registrationData,
       dataType: "json",
       success: (data) => data,
       error: (xhr, status, error) => [],
     });
   },
-  editRegistration: (id) => {
+  editRegistration: (id, editData) => {
     return $.ajax({
       url: `${API_BASE_URL}/registrations/${id}?_method=PUT`,
       type: "POST",
+      data: editData,
       dataType: "json",
       success: (data) => data,
       error: (xhr, status, error) => [],

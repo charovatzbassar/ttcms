@@ -10,23 +10,6 @@ var MemberProfileController = () => {
     $("#removePlayerModal").modal("show");
   });
 
-  $("#removePlayer").click(() => {
-    $.ajax({
-      url: `${API_BASE_URL}/members/${id}?_method=DELETE`,
-      type: "POST",
-      success: function (data) {
-        console.log(data);
-        toastr.success("Player removed successfully");
-      },
-      error: function (error) {
-        console.log(error);
-        toastr.error("An error occurred while removing the player");
-      },
-    
-    })
-    $("#removePlayerModal").modal("hide");
-  });
-
   $("#closeRemovePlayerModalButton").click(() => {
     $("#removePlayerModal").modal("hide");
   });
@@ -35,7 +18,6 @@ var MemberProfileController = () => {
   const id = urlParams.get("id");
 
   MemberService.getMember(id).then((member) => {
-
     $("#playerName").html(member.firstName + " " + member.lastName);
     $("#playerTournamentScore").html("Tournament Score: " + member.score);
     $("#playerJoinDate").html("Joined on: " + member.joinDate);
@@ -66,6 +48,18 @@ var MemberProfileController = () => {
 
     Validate.validateUpdateMemberForm(id);
 
+    $("#removePlayer").click(() => {
+      MemberService.deleteMember(id)
+        .then(() => {
+          window.location.href = "/#dashboard";
+          toastr.success("Member removed");
+        })
+        .catch(() => {
+          $("#removePlayerModal").modal("hide");
+          toastr.error("Error removing member");
+        });
+    });
+
     ResultsService.getResultsByClubMemberId(id).then((data) => {
       let results = "";
 
@@ -78,11 +72,9 @@ var MemberProfileController = () => {
 
       $("#playerProfileTable > tbody").html(results);
 
-
       if ($.fn.dataTable.isDataTable("#playerProfileTable")) {
         $("#playerProfileTable").DataTable().destroy();
       }
-
 
       $("#playerProfileTable").DataTable({
         columns: [{ data: "opponent" }, { data: "result" }],

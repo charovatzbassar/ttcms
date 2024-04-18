@@ -17,19 +17,21 @@ var TournamentsService = {
       error: (xhr, status, error) => [],
     });
   },
-  addTournament: () => {
+  addTournament: (tournamentData) => {
     return $.ajax({
       url: `${API_BASE_URL}/tournaments`,
       type: "POST",
+      data: tournamentData,
       dataType: "json",
       success: (data) => data,
       error: (xhr, status, error) => [],
     });
   },
-  editTournament: (id) => {
+  editTournament: (id, editData) => {
     return $.ajax({
       url: `${API_BASE_URL}/tournaments/${id}?_method=PUT`,
       type: "POST",
+      data: editData,
       dataType: "json",
       success: (data) => data,
       error: (xhr, status, error) => [],
