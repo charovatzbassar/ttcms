@@ -32,6 +32,9 @@ class TournamentCategoryService {
         return $this->tournamentCategoryDao->deleteTournamentCategory($id);
     }
 
+    public function deleteTournamentCategoriesForTournament($tournamentID) {
+        return $this->tournamentCategoryDao->deleteTournamentCategoriesForTournament($tournamentID);
+    }
 
 }
 

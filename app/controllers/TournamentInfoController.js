@@ -8,14 +8,26 @@ var TournamentInfoController = () => {
     e.preventDefault();
     Utils.block_ui("#updateResultModal .modal-content");
     const formData = $(this).serialize();
-    console.log(formData);
+    $.ajax({
+      url: `${API_BASE_URL}/results/${id}?_method=PUT`,
+      type: "POST",
+      data: formData,
+      success: function (data) {
+        console.log(data);
+        toastr.success("Result updated successfully");
+      },
+      error: function (error) {
+        console.log(error);
+        toastr.error("An error occurred while updating the result");
+      },
+    });
     Utils.unblock_ui("#updateResultModal .modal-content");
+    $("#updateResultModal").modal("hide");
   });
-
-  Validate.validateUpdateTournamentForm();
 
   const urlParams = new URLSearchParams(window.location.search);
   const id = urlParams.get("id");
+  Validate.validateUpdateTournamentForm(id);
 
   TournamentsService.getTournament(id).then((tournament) => {
     $("#tournamentName").html(tournament.tournamentName);
@@ -106,6 +118,23 @@ var TournamentInfoController = () => {
 
         $("#closeRemoveResultModalButton").click(() => {
           $("#removeResultModal").modal("hide");
+        });
+
+        $("#removeTournament").click(() => {
+          $.ajax({
+            url: `${API_BASE_URL}/tournaments/${id}?_method=DELETE`,
+            type: "POST",
+            success: function (data) {
+              console.log(data);
+              toastr.success("Tournament removed successfully");
+            },
+            error: function (error) {
+              console.log(error);
+              toastr.error("An error occurred while removing the tournament");
+            },
+          
+          })
+          $("#removePlayerModal").modal("hide");
         });
 
         $("#closeRemoveTournamentModalButton").click(() => {

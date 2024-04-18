@@ -32,6 +32,10 @@ class TournamentCategoryDao extends BaseDao {
         $this->delete($id, "tournamentCategoryID");
     }
 
+    public function deleteTournamentCategoriesForTournament($tournamentID) {
+        $this->query("DELETE FROM tournamentCategory WHERE tournamentID = :tournamentID", ["tournamentID" => $tournamentID]);
+    }
+
 }
 
 ?>

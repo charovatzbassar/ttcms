@@ -63,6 +63,10 @@ require_once __DIR__.'/../utils/Utils.class.php';
     
         Flight::route('DELETE /@id', function($id){
             $memberService = new MemberService(new MemberDao());
+            $resultService = new ResultService(new ResultDao());
+
+            $resultService->deleteResultsForMember($id);
+
             $memberService->deleteMember($id);
         });
     });   

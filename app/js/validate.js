@@ -48,17 +48,31 @@ var Validate = {
       },
 
       submitHandler: function (f, e) {
+        e.preventDefault();
         grecaptcha.ready(function () {
           grecaptcha
             .execute("6LfDPKspAAAAABrj0BsU6yudlW0Z_pFR3HhR0V_W", {
               action: "submit",
             })
             .then(function (token) {
-              e.preventDefault();
               Utils.block_ui("#applyForm .card-body");
               const formData = $(f).serialize();
-              console.log(formData);
+              $.ajax({
+                url: `${API_BASE_URL}/registrations`,
+                type: "POST",
+                data: formData,
+                success: function (data) {
+                  console.log(data);
+                  toastr.success("Application submitted successfully");
+                },
+                error: function (error) {
+                  console.log(error);
+                  toastr.error("An error occurred while submitting the application");
+                },
+              
+              })
               Utils.unblock_ui("#applyForm .card-body");
+              
             });
         });
       },
@@ -114,8 +128,23 @@ var Validate = {
           status: "UPCOMING",
         };
 
-        console.log(tournament);
+        $.ajax({
+          url: `${API_BASE_URL}/tournaments`,
+          type: "POST",
+          data: JSON.stringify(tournament),
+          contentType: "application/json",
+          success: function (data) {
+            console.log(data);
+            toastr.success("Tournament added successfully");
+          },
+          error: function (error) {
+            console.log(error);
+            toastr.error("An error occurred while adding the tournament");
+          },
+        });
         Utils.unblock_ui("#addTournamentModal .modal-content");
+        $("#addTournamentModal").modal("hide");
+
       },
     });
   },
@@ -151,12 +180,25 @@ var Validate = {
         e.preventDefault();
         Utils.block_ui("#addResultModal .modal-content");
         const formData = $(f).serialize();
-        console.log(formData);
+        $.ajax({
+          url: `${API_BASE_URL}/results`,
+          type: "POST",
+          data: formData,
+          success: function (data) {
+            console.log(data);
+            toastr.success("Result added successfully");
+          },
+          error: function (error) {
+            console.log(error);
+            toastr.error("An error occurred while adding the result");
+          },
+        });
         Utils.unblock_ui("#addResultModal .modal-content");
+        $("#addResultModal").modal("hide");
       },
     });
   },
-  validateUpdateTournamentForm: () => {
+  validateUpdateTournamentForm: (id) => {
     $($("#updateTournamentForm")).validate({
       errorElement: "span",
       errorClass: "help-block help-block-error",
@@ -205,8 +247,23 @@ var Validate = {
             .map((category) => category.split("=")[1]),
         };
 
-        console.log(tournament);
+        
+
+        $.ajax({
+          url: `${API_BASE_URL}/results/${id}?_method=PUT`,
+          type: "POST",
+          data: tournament,
+          success: function (data) {
+            console.log(data);
+            toastr.success("Tournament updated successfully");
+          },
+          error: function (error) {
+            console.log(error);
+            toastr.error("An error occurred while updating the tournament");
+          },
+        });
         Utils.unblock_ui("#updateTournamentModal .modal-content");
+        $("#updateTournamentModal").modal("hide");
       },
     });
   },
@@ -224,6 +281,9 @@ var Validate = {
         email: {
           required: true,
           email: true,
+        },
+        clubName: {
+          required: true,
         },
         password: {
           required: true,
@@ -245,6 +305,9 @@ var Validate = {
           required: "Please enter an email",
           email: "Please enter a valid email",
         },
+        clubName: {
+          required: "Please enter a club name",
+        },
         password: {
           required: "Please enter a password",
         },
@@ -256,14 +319,37 @@ var Validate = {
 
       submitHandler: function (f, e) {
         e.preventDefault();
-        Utils.block_ui("#registerForm .card-body");
-        const formData = $(f).serialize();
-        console.log(formData);
-        Utils.unblock_ui("#registerForm .card-body");
+        grecaptcha.ready(function () {
+          grecaptcha
+            .execute("6LfDPKspAAAAABrj0BsU6yudlW0Z_pFR3HhR0V_W", {
+              action: "submit",
+            })
+            .then(function (token) {
+              Utils.block_ui("#registerForm .card-body");
+              const formData = $(f).serialize();
+              
+              $.ajax({
+                url: `${API_BASE_URL}/auth/register`,
+                type: "POST",
+                data: formData,
+                success: function (data) {
+                  console.log(data);
+                  window.location.href = "/#dashboard";
+                },
+                error: function (error) {
+                  console.log(error);
+                  toastr.error("An error occurred while registering");
+
+                },
+              });
+
+              Utils.unblock_ui("#registerForm .card-body");
+            });
+        });
       },
     });
   },
-  validateUpdateMemberForm: () => {
+  validateUpdateMemberForm: (id) => {
     $($("#updatePlayerForm")).validate({
       errorElement: "span",
       errorClass: "help-block help-block-error",
@@ -301,8 +387,21 @@ var Validate = {
         e.preventDefault();
         Utils.block_ui("#updatePlayerModal .modal-content");
         const formData = $(f).serialize();
-        console.log(formData);
+        $.ajax({
+          url: `${API_BASE_URL}/members/${id}`,
+          type: "POST",
+          data: formData,
+          success: function (data) {
+            console.log(data);
+            toastr.success("Member updated successfully");
+          },
+          error: function (error) {
+            console.log(error);
+            toastr.error("An error occured when updating member.")
+          },
+        });
         Utils.unblock_ui("#updatePlayerModal .modal-content");
+        $("#updatePlayerModal").modal("hide");
       },
     });
   },
@@ -332,10 +431,30 @@ var Validate = {
 
       submitHandler: function (f, e) {
         e.preventDefault();
-        Utils.block_ui("#loginForm .card-body");
-        const formData = $(f).serialize();
-        console.log(formData);
-        Utils.unblock_ui("#loginForm .card-body");
+        grecaptcha.ready(function () {
+          grecaptcha
+            .execute("6LfDPKspAAAAABrj0BsU6yudlW0Z_pFR3HhR0V_W", {
+              action: "submit",
+            })
+            .then(function (token) {
+              Utils.block_ui("#loginForm .card-body");
+              const formData = $(f).serialize();
+              $.ajax({
+                url: `${API_BASE_URL}/auth/login`,
+                type: "POST",
+                data: formData,
+                success: function (data) {
+                  console.log(data);
+                  window.location.href = "/#dashboard"
+                },
+                error: function (error) {
+                  console.log(error);
+                  toastr.error("An error occured when logging in.")
+                },
+              });
+              Utils.unblock_ui("#loginForm .card-body");
+            });
+        });
       },
     });
   },

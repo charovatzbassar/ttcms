@@ -25,6 +25,19 @@ Flight::group('/tournaments', function () {
     Flight::route('POST /', function(){
         $data = Flight::request()->data->getData();
         $tournamentService = new TournamentService(new TournamentDao());
+
+        $tournamentCategoryService = new TournamentCategoryService(new TournamentCategoryDao());
+
+        $tournamentCategories = $data['categories'];
+
+        foreach ($tournamentCategories as $tournamentCategory) {
+            $tournamentCategoryService->addTournamentCategory([
+                'tournamentID' => $data['tournamentID'],
+                'categoryID' => $tournamentCategory['categoryID'],
+                'appUserID' => 1
+            ]);
+        }
+
         $tournamentService->addTournament($data);
     });
 
@@ -41,6 +54,11 @@ Flight::group('/tournaments', function () {
 
     Flight::route('DELETE /@id', function($id){
         $tournamentService = new TournamentService(new TournamentDao());
+        $resultService = new ResultService(new ResultDao());
+        $tournamentCategoryService = new TournamentCategoryService(new TournamentCategoryDao());
+        $resultService->deleteResultsForTournament($id);
+        $tournamentCategoryService->deleteTournamentCategoriesForTournament($id);
+
         $tournamentService->deleteTournament($id);
     });
 });

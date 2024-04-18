@@ -10,6 +10,23 @@ var MemberProfileController = () => {
     $("#removePlayerModal").modal("show");
   });
 
+  $("#removePlayer").click(() => {
+    $.ajax({
+      url: `${API_BASE_URL}/members/${id}?_method=DELETE`,
+      type: "POST",
+      success: function (data) {
+        console.log(data);
+        toastr.success("Player removed successfully");
+      },
+      error: function (error) {
+        console.log(error);
+        toastr.error("An error occurred while removing the player");
+      },
+    
+    })
+    $("#removePlayerModal").modal("hide");
+  });
+
   $("#closeRemovePlayerModalButton").click(() => {
     $("#removePlayerModal").modal("hide");
   });
@@ -47,7 +64,7 @@ var MemberProfileController = () => {
       $("#updatePlayerModal").modal("hide");
     });
 
-    Validate.validateUpdateMemberForm();
+    Validate.validateUpdateMemberForm(id);
 
     ResultsService.getResultsByClubMemberId(id).then((data) => {
       let results = "";

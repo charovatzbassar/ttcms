@@ -39,6 +39,14 @@ class ResultDao extends BaseDao {
     public function getResultsByClubMemberID($clubMemberID) {
         return $this->query("SELECT * FROM result WHERE clubMemberID = :clubMemberID", ["clubMemberID" => $clubMemberID]);
     }
+
+    public function deleteResultsForTournament($tournamentID) {
+        $this->query("DELETE FROM result WHERE tournamentID = :tournamentID", ["tournamentID" => $tournamentID]);
+    }
+
+    public function deleteResultsForMember($clubMemberID) {
+        $this->query("DELETE FROM result WHERE clubMemberID = :clubMemberID", ["clubMemberID" => $clubMemberID]);
+    }
 }
 
 ?>
