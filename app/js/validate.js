@@ -63,7 +63,7 @@ var Validate = {
                 lastName: formData.split("&")[1].split("=")[1],
                 email: formData.split("&")[2].split("=")[1].replace("%40", "@"),
                 dateOfBirth: formData.split("&")[3].split("=")[1],
-                birthplace: formData.split("&")[4].split("=")[1],
+                birthplace: formData.split("&")[4].split("=")[1].split("%20").join(" "),
                 gender: formData.split("&")[5].split("=")[1],
                 registrationStatus: "PENDING",
                 appUserID: 1,
@@ -258,6 +258,9 @@ var Validate = {
           });
         Utils.unblock_ui("#updateTournamentModal .modal-content");
         $("#updateTournamentModal").modal("hide");
+        setTimeout(() => {
+          window.location.reload();
+        }, 500);
       },
     });
   },
@@ -377,6 +380,9 @@ var Validate = {
           });
         Utils.unblock_ui("#updatePlayerModal .modal-content");
         $("#updatePlayerModal").modal("hide");
+        setTimeout(() => {
+          window.location.reload();
+        }, 500);
       },
     });
   },

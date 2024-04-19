@@ -97,6 +97,9 @@ var TournamentInfoController = () => {
             });
           Utils.unblock_ui("#updateResultModal .modal-content");
           $("#updateResultModal").modal("hide");
+          setTimeout(() => {
+            window.location.reload();
+          }, 500);
         });
       });
 
