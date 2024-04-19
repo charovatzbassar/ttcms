@@ -25,19 +25,19 @@ class RegistrationDao extends BaseDao {
     }
 
     public function addRegistration($registration) {
-        $this->add($registration);
+        return $this->add($registration);
     }
 
     public function updateRegistration($id, $registration) {
-        $this->update($id, $registration, "registrationID");
+        return $this->update($id, $registration, "registrationID");
     }
 
     public function deleteRegistration($id) {
-        $this->delete($id, "registrationID");
+        return $this->delete($id, "registrationID");
     }
 
     public function setRegistrationStatus($id, $status) {
-        $this->query("UPDATE registration SET registrationStatus = $status WHERE registrationID = :registrationID", ["registrationID" => $id]);
+        return $this->query("UPDATE registration SET registrationStatus = :registrationStatus WHERE registrationID = :registrationID", ["registrationID" => $id, "registrationStatus" => $status]);
     }
 }
 

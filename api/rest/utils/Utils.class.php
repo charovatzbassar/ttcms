@@ -2,7 +2,7 @@
 
 class Utils {
     public static function calculateCategory($dateOfBirth) {
-        $today = new DateTime();
+        $today = new DateTime(date("Y-m-d"));
         $dob = new DateTime($dateOfBirth);
         $age = $today->diff($dob)->y;
 

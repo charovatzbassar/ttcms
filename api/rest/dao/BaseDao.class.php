@@ -98,6 +98,7 @@ class BaseDao {
       $stmt = $this->connection->prepare($query);
       $entity[$id_column] = $id;
       $stmt->execute($entity);
+      return $entity;
     }
 
     protected function delete($id, $id_column = "id") {

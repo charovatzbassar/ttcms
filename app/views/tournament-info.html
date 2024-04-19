@@ -1,5 +1,4 @@
 <div>
-
   <div class="card m-5">
     <div class="card-header">Tournament Data</div>
 
@@ -17,7 +16,9 @@
     <div class="card-header">Tournament Actions</div>
     <div class="card-body">
       <button class="btn btn-warning" id="addResultButton">Add result</button>
-      <button class="btn btn-success" id="markAsCompletedButton">Mark as completed</button>
+      <button class="btn btn-success" id="markAsCompletedButton">
+        Mark as completed
+      </button>
       <button class="btn btn-info" id="updateTournamentButton">
         Update tournament data
       </button>
@@ -77,14 +78,22 @@
               <input
                 type="text"
                 class="form-control"
-                placeholder="Opponent"
-                name="opponent"
+                placeholder="Opponent First Name"
+                name="opponentFirstName"
+              />
+            </div>
+            <div class="mb-3">
+              <input
+                type="text"
+                class="form-control"
+                placeholder="Opponent Last Name"
+                name="opponentLastName"
               />
             </div>
             <label for="gender">Result</label>
-            <select class="form-select" name="result">
+            <select class="form-select" name="resultStatus">
               <option value="VICTORY">Victory</option>
-              <option value="LOSS">Loss</option>
+              <option value="DEFEAT">Defeat</option>
             </select>
             <div class="my-3">
               <button
@@ -121,8 +130,16 @@
               <input
                 type="text"
                 class="form-control"
-                placeholder="Opponent"
-                name="opponent"
+                placeholder="Opponent First Name"
+                name="opponentFirstName"
+              />
+            </div>
+            <div class="mb-3">
+              <input
+                type="text"
+                class="form-control"
+                placeholder="Opponent Last Name"
+                name="opponentLastName"
               />
             </div>
             <label for="gender">Result</label>
@@ -191,11 +208,11 @@
                 class="form-check-input"
                 type="checkbox"
                 name="category"
-                value="MINI-CADET"
+                value="MINI_MINI_CADET"
                 id="flexCheckDefault"
               />
               <label class="form-check-label" for="flexCheckDefault">
-                Mini cadet
+                Mini Mini cadet
               </label>
             </div>
             <div class="form-check">
@@ -203,11 +220,11 @@
                 class="form-check-input"
                 type="checkbox"
                 name="category"
-                value="YOUTH-CADET"
+                value="MINI_CADET"
                 id="flexCheckDefault"
               />
               <label class="form-check-label" for="flexCheckDefault">
-                Youth cadet
+                Mini cadet
               </label>
             </div>
             <div class="form-check">
@@ -299,7 +316,9 @@
             >
               Close
             </button>
-            <button class="btn btn-danger" id="removeTournament">Remove tournament</button>
+            <button class="btn btn-danger" id="removeTournament">
+              Remove tournament
+            </button>
           </div>
         </div>
       </div>
@@ -323,7 +342,9 @@
             >
               Close
             </button>
-            <button class="btn btn-danger">Remove result</button>
+            <button class="btn btn-danger" id="removeResult">
+              Remove result
+            </button>
           </div>
         </div>
       </div>

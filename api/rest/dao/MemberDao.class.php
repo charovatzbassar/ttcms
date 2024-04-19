@@ -21,23 +21,23 @@ class MemberDao extends BaseDao {
     }
 
     public function addMember($member) {
-        $this->add($member);
+        return $this->add($member);
     }
 
     public function updateMember($id, $member) {
-        $this->update($id, $member, "clubMemberID");
+        return $this->update($id, $member, "clubMemberID");
     }
 
     public function deleteMember($id) {
-        $this->delete($id, "clubMemberID");
+        return $this->delete($id, "clubMemberID");
     }
 
     public function markMembershipAsPaid($id) {
-        $this->query("UPDATE clubMember SET membershipStatus = 'PAID' WHERE clubMemberID = :clubMemberID", ["clubMemberID" => $id]);
+        return $this->query("UPDATE clubMember SET membershipStatus = 'PAID' WHERE clubMemberID = :clubMemberID", ["clubMemberID" => $id]);
     }
 
     public function setAllUnpaid() {
-        $this->query("UPDATE clubMember SET membershipStatus = 'UNPAID'", []);
+        return $this->query("UPDATE clubMember SET membershipStatus = 'UNPAID'", []);
     }
 }
 

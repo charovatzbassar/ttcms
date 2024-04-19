@@ -1,12 +1,22 @@
 var RegistrationsController = async () => {
   window.handleAccept = (id) => {
-    console.log(id);
-    toastr.success("Registration accepted");
+    RegistrationsService.editRegistrationStatus(id, "ACCEPTED")
+      .then(() => {
+        toastr.success("Registration accepted");
+      })
+      .catch(() => {
+        toastr.error("Error accepting registration");
+      });
   };
 
   window.handleReject = (id) => {
-    console.log(id);
-    toastr.error("Registration rejected");
+    RegistrationsService.editRegistrationStatus(id, "REJECTED")
+      .then(() => {
+        toastr.success("Registration rejected");
+      })
+      .catch(() => {
+        toastr.error("Error rejecting registration");
+      });
   };
 
   $("#mainNav").show();

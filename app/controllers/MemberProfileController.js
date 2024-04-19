@@ -2,10 +2,6 @@ var MemberProfileController = () => {
   $("#mainNav").show();
   $("#layoutSidenav_nav").show();
 
-  $("#markAsPaid").click(() => {
-    toastr.success("Player marked as paid");
-  });
-
   $("#removePlayerButton").click(() => {
     $("#removePlayerModal").modal("show");
   });
@@ -37,8 +33,18 @@ var MemberProfileController = () => {
       $("#updatePlayerModal").modal("show");
     });
 
-    $("[name='firstName']").val(member.name);
-    $("[name='lastName']").val(member.surname);
+    $("#markAsPaid").click(() => {
+      MemberService.markMembershipAsPaid(id)
+        .then(() => {
+          toastr.error("Error marking membership as paid");
+        })
+        .catch(() => {
+          toastr.success("Membership marked as paid");
+        });
+    });
+
+    $("[name='firstName']").val(member.firstName);
+    $("[name='lastName']").val(member.lastName);
     $("[name='dateOfBirth']").val(member.dateOfBirth);
     $("select[name='gender']").val(member.gender);
 
@@ -51,12 +57,13 @@ var MemberProfileController = () => {
     $("#removePlayer").click(() => {
       MemberService.deleteMember(id)
         .then(() => {
-          window.location.href = "/#dashboard";
+          window.location.hash = "dashboard";
           toastr.success("Member removed");
+          $("#removePlayerModal").modal("hide");
         })
         .catch(() => {
-          $("#removePlayerModal").modal("hide");
           toastr.error("Error removing member");
+          $("#removePlayerModal").modal("hide");
         });
     });
 

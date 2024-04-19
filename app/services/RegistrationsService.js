@@ -15,7 +15,7 @@ var RegistrationsService = {
       dataType: "json",
       success: (data) => data,
       error: (xhr, status, error) => [],
-    })
+    });
   },
   getRegistrationsByStatus: (status) => {
     return $.ajax({
@@ -50,6 +50,16 @@ var RegistrationsService = {
     return $.ajax({
       url: `${API_BASE_URL}/registrations/${id}`,
       type: "DELETE",
+      dataType: "json",
+      success: (data) => data,
+      error: (xhr, status, error) => [],
+    });
+  },
+  editRegistrationStatus: (id, status) => {
+    return $.ajax({
+      url: `${API_BASE_URL}/registrations/${id}/${status}?_method=PUT`,
+      type: "POST",
+      data: { status },
       dataType: "json",
       success: (data) => data,
       error: (xhr, status, error) => [],

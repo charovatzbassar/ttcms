@@ -34,19 +34,19 @@ class TournamentDao extends BaseDao {
     }
 
     public function addTournament($tournament) {
-        $this->add($tournament);
+        return $this->add($tournament);
     }
 
     public function updateTournament($id, $tournament) {
-        $this->update($id, $tournament, "tournamentID");
+        return $this->update($id, $tournament, "tournamentID");
     }
 
     public function deleteTournament($id) {
-        $this->delete($id, "tournamentID");
+        return $this->delete($id, "tournamentID");
     }
 
     public function markTournamentAsCompleted($id) {
-        $this->query("UPDATE tournament SET tournamentStatus = 'COMPLETED' WHERE tournamentID = :tournamentID", ["tournamentID" => $id]);
+        return $this->query("UPDATE tournament SET tournamentStatus = 'COMPLETED' WHERE tournamentID = :tournamentID", ["tournamentID" => $id]);
     }
 }
 

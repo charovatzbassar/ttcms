@@ -2,26 +2,10 @@ var TournamentInfoController = () => {
   $("#mainNav").show();
   $("#layoutSidenav_nav").show();
 
-  Validate.validateAddResultForm();
-
-  $("#updateResultForm").submit(function (e) {
-    e.preventDefault();
-    Utils.block_ui("#updateResultModal .modal-content");
-    const formData = $(this).serialize();
-    ResultsService.updateResult(formData)
-      .then(() => {
-        toastr.success("Result updated successfully");
-      })
-      .catch(() => {
-        toastr.error("An error occurred while updating the result");
-      });
-    Utils.unblock_ui("#updateResultModal .modal-content");
-    $("#updateResultModal").modal("hide");
-  });
-
   const urlParams = new URLSearchParams(window.location.search);
   const id = urlParams.get("id");
   Validate.validateUpdateTournamentForm(id);
+  Validate.validateAddResultForm(id);
 
   TournamentsService.getTournament(id).then((tournament) => {
     $("#tournamentName").html(tournament.tournamentName);
@@ -54,10 +38,16 @@ var TournamentInfoController = () => {
     ResultsService.getResultsByTournamentId(id).then((data) => {
       let results = "";
 
-      window.handleEditResult = (member, opponent, status) => {
+      window.handleEditResult = (
+        member,
+        opponentFirstName,
+        opponentLastName,
+        status
+      ) => {
         $("#updateResultModal").modal("show");
         $("[name='member']").val(member);
-        $("[name='opponent']").val(opponent);
+        $("[name='opponentFirstName']").val(opponentFirstName);
+        $("[name='opponentLastName']").val(opponentLastName);
         $("[name='result']").val(status.toUpperCase());
       };
 
@@ -67,11 +57,47 @@ var TournamentInfoController = () => {
 
       data.map((result) => {
         results += `<tr>
-                <td>${result.member}</td>
-                <td>${result.opponent}</td>
-                <td>${result.status}</td>
-                <td><button class="btn btn-warning w-50" id="${result.resultID}" onclick="handleEditResult('${result.member}', '${result.opponent}', '${result.status}')">Edit</button><button class="btn btn-danger w-50" onclick="handleRemoveResult('${result.resultID}')">Remove</button></td>
+                <td>${result.firstName} ${result.lastName}</td>
+                <td>${result.opponentFirstName} ${result.opponentLastName}</td>
+                <td>${result.resultStatus}</td>
+                <td><button class="btn btn-warning w-50" id="${result.resultID}" onclick="handleEditResult('${result.clubMemberID}', '${result.opponentFirstName}', '${result.opponentLastName}', '${result.resultStatus}')">Edit</button><button class="btn btn-danger w-50" onclick="handleRemoveResult('${result.resultID}')">Remove</button></td>
             </tr>`;
+
+        $("#removeResult").click(() => {
+          ResultsService.deleteResult(result.resultID)
+            .then(() => {
+              toastr.success("Result removed");
+            })
+            .catch(() => {
+              toastr.error("Error removing result");
+            });
+          $("#removeResultModal").modal("hide");
+        });
+
+        $("#updateResultForm").submit(function (e) {
+          e.preventDefault();
+          Utils.block_ui("#updateResultModal .modal-content");
+          const formData = $(this).serialize();
+
+          const resultData = {
+            clubMemberID: formData.split("&")[0].split("=")[1],
+            opponentFirstName: formData.split("&")[1].split("=")[1],
+            opponentLastName: formData.split("&")[2].split("=")[1],
+            resultStatus: formData.split("&")[3].split("=")[1],
+            tournamentID: id,
+            appUserID: 1,
+          };
+
+          ResultsService.editResult(result.resultID, resultData)
+            .then(() => {
+              toastr.success("Result updated successfully");
+            })
+            .catch(() => {
+              toastr.error("An error occurred while updating the result");
+            });
+          Utils.unblock_ui("#updateResultModal .modal-content");
+          $("#updateResultModal").modal("hide");
+        });
       });
 
       $("#tournamentInfoTable > tbody").html(results);
@@ -97,7 +123,7 @@ var TournamentInfoController = () => {
         let members = "";
 
         memberData.map((member) => {
-          members += `<option value="${member.playerID}">${member.firstName} ${member.lastName}</option>`;
+          members += `<option value="${member.clubMemberID}">${member.firstName} ${member.lastName}</option>`;
         });
 
         $("select[name='member']").html(members);
@@ -117,13 +143,13 @@ var TournamentInfoController = () => {
         $("#removeTournament").click(() => {
           TournamentsService.deleteTournament(id)
             .then(() => {
-              window.location.href = "/#tournaments";
+              window.location.hash = "#tournaments";
               toastr.success("Tournament removed");
             })
             .catch(() => {
-              $("#removeTournamentModal").modal("hide");
               toastr.error("Error removing tournament");
             });
+          $("#removeTournamentModal").modal("hide");
         });
 
         $("#closeRemoveTournamentModalButton").click(() => {
@@ -135,7 +161,15 @@ var TournamentInfoController = () => {
         });
 
         $("#markAsCompletedButton").click(() => {
-          toastr.success("Tournament marked as completed");
+          TournamentsService.markAsCompleted(id)
+            .then(() => {
+              toastr.success("Tournament marked as completed");
+            })
+            .catch(() => {
+              toastr.error(
+                "An error occurred while marking the tournament as completed"
+              );
+            });
         });
       });
     });

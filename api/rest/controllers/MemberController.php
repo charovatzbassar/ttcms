@@ -45,7 +45,8 @@ require_once __DIR__.'/../utils/Utils.class.php';
         Flight::route('POST /', function(){
             $data = Flight::request()->data->getData();
             $memberService = new MemberService(new MemberDao());
-            $memberService->addMember($data);
+            $response = $memberService->addMember($data);
+            Flight::json($response);
         });
     
         Flight::route('PUT /@id', function($id){
@@ -53,12 +54,14 @@ require_once __DIR__.'/../utils/Utils.class.php';
 
             $memberService = new MemberService(new MemberDao());
 
-            $memberService->updateMember($id, $data);
+            $response = $memberService->updateMember($id, $data);
+            Flight::json($response);
         });
     
         Flight::route('PUT /@id/paid', function($id){
             $memberService = new MemberService(new MemberDao());
-            $memberService->markMembershipAsPaid($id);
+            $response = $memberService->markMembershipAsPaid($id);
+            Flight::json($response);
         });
     
         Flight::route('DELETE /@id', function($id){
@@ -67,7 +70,8 @@ require_once __DIR__.'/../utils/Utils.class.php';
 
             $resultService->deleteResultsForMember($id);
 
-            $memberService->deleteMember($id);
+            $response = $memberService->deleteMember($id);
+            Flight::json($response);
         });
     });   
 

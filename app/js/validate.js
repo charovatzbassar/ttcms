@@ -57,7 +57,26 @@ var Validate = {
             .then(function (token) {
               Utils.block_ui("#applyForm .card-body");
               const formData = $(f).serialize();
-              RegistrationsService.addRegistration(formData);
+
+              const registration = {
+                firstName: formData.split("&")[0].split("=")[1],
+                lastName: formData.split("&")[1].split("=")[1],
+                email: formData.split("&")[2].split("=")[1].replace("%40", "@"),
+                dateOfBirth: formData.split("&")[3].split("=")[1],
+                birthplace: formData.split("&")[4].split("=")[1],
+                gender: formData.split("&")[5].split("=")[1],
+                registrationStatus: "PENDING",
+                appUserID: 1,
+              };
+
+              RegistrationsService.addRegistration(registration)
+                .then(() => {
+                  toastr.success("Application submitted");
+                  $("#applyForm")[0].reset();
+                })
+                .catch(() => {
+                  toastr.error("Error submitting application");
+                });
               Utils.unblock_ui("#applyForm .card-body");
             });
         });
@@ -105,22 +124,29 @@ var Validate = {
         const formData = $(f).serialize().split("&");
 
         const tournament = {
-          name: formData[0].split("=")[1],
-          date: formData[1].split("=")[1],
-          location: formData[2].split("=")[1],
+          tournamentName: formData[0].split("=")[1].split("%20").join(" "),
+          tournamentDate: formData[2].split("=")[1],
+          tournamentLocation: formData[1].split("=")[1],
           categories: formData
             .slice(3)
             .map((category) => category.split("=")[1]),
-          status: "UPCOMING",
+          tournamentStatus: "UPCOMING",
+          appUserID: 1,
         };
 
-        TournamentsService.addTournament(tournament);
+        TournamentsService.addTournament(tournament)
+          .then(() => {
+            toastr.success("Tournament added");
+          })
+          .catch(() => {
+            toastr.error("Error adding tournament");
+          });
         Utils.unblock_ui("#addTournamentModal .modal-content");
         $("#addTournamentModal").modal("hide");
       },
     });
   },
-  validateAddResultForm: () => {
+  validateAddResultForm: (tournamentID) => {
     $($("#addResultForm")).validate({
       errorElement: "span",
       errorClass: "help-block help-block-error",
@@ -152,7 +178,23 @@ var Validate = {
         e.preventDefault();
         Utils.block_ui("#addResultModal .modal-content");
         const formData = $(f).serialize();
-        ResultsService.addResult(formData);
+
+        const resultData = {
+          clubMemberID: formData.split("&")[0].split("=")[1],
+          opponentFirstName: formData.split("&")[1].split("=")[1],
+          opponentLastName: formData.split("&")[2].split("=")[1],
+          resultStatus: formData.split("&")[3].split("=")[1],
+          tournamentID,
+          appUserID: 1,
+        };
+
+        ResultsService.addResult(resultData)
+          .then(() => {
+            toastr.success("Result added");
+          })
+          .catch(() => {
+            toastr.error("Error adding result");
+          });
         Utils.unblock_ui("#addResultModal .modal-content");
         $("#addResultModal").modal("hide");
       },
@@ -199,15 +241,21 @@ var Validate = {
         const formData = $(f).serialize().split("&");
 
         const tournament = {
-          name: formData[0].split("=")[1],
-          date: formData[1].split("=")[1],
-          location: formData[2].split("=")[1],
+          tournamentName: formData[0].split("=")[1].split("%20").join(" "),
+          tournamentDate: formData[2].split("=")[1],
+          tournamentLocation: formData[1].split("=")[1],
           categories: formData
             .slice(3)
             .map((category) => category.split("=")[1]),
         };
 
-        TournamentsService.editTournament(id, tournament);  
+        TournamentsService.editTournament(id, tournament)
+          .then(() => {
+            toastr.success("Tournament updated");
+          })
+          .catch(() => {
+            toastr.error("Error updating tournament");
+          });
         Utils.unblock_ui("#updateTournamentModal .modal-content");
         $("#updateTournamentModal").modal("hide");
       },
@@ -320,7 +368,13 @@ var Validate = {
         e.preventDefault();
         Utils.block_ui("#updatePlayerModal .modal-content");
         const formData = $(f).serialize();
-        MembersService.editMember(id, formData);
+        MemberService.editMember(id, formData)
+          .then(() => {
+            toastr.success("Member updated");
+          })
+          .catch(() => {
+            toastr.error("Error updating member");
+          });
         Utils.unblock_ui("#updatePlayerModal .modal-content");
         $("#updatePlayerModal").modal("hide");
       },

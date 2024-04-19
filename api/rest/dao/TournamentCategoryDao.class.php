@@ -21,19 +21,19 @@ class TournamentCategoryDao extends BaseDao {
     }
 
     public function addTournamentCategory($tournamentCategory) {
-        $this->add($tournamentCategory);
+        return $this->add($tournamentCategory);
     }
 
     public function updateTournamentCategory($id, $tournamentCategory) {
-        $this->update($id, $tournamentCategory, "tournamentCategoryID");
+        return $this->update($id, $tournamentCategory, "tournamentCategoryID");
     }
 
     public function deleteTournamentCategory($id) {
-        $this->delete($id, "tournamentCategoryID");
+        return $this->delete($id, "tournamentCategoryID");
     }
 
     public function deleteTournamentCategoriesForTournament($tournamentID) {
-        $this->query("DELETE FROM tournamentCategory WHERE tournamentID = :tournamentID", ["tournamentID" => $tournamentID]);
+        return $this->query("DELETE FROM tournamentCategory WHERE tournamentID = :tournamentID", ["tournamentID" => $tournamentID]);
     }
 
 }

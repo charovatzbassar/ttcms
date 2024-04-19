@@ -43,18 +43,21 @@ Flight::group('/results', function () {
             ));
         }
 
-        $resultService->addResult($data);
+        $response = $resultService->addResult($data);
+        Flight::json($response);
     });
 
     Flight::route('PUT /@id', function($id){
         $data = Flight::request()->data->getData();
         $resultService = new ResultService(new ResultDao());
-        $resultService->updateResult($id, $data);
+        $response = $resultService->updateResult($id, $data);
+        Flight::json($response);
     });
 
     Flight::route('DELETE /@id', function($id){
         $resultService = new ResultService(new ResultDao());
-        $resultService->deleteResult($id);
+        $response = $resultService->deleteResult($id);
+        Flight::json($response);
     });
 });
 

@@ -32,24 +32,17 @@ Flight::group('/registrations', function () {
         $data = Flight::request()->data->getData();
         $registrationService = new RegistrationService(new RegistrationDao());
 
-        $registrationData = array(
-            "firstName" => $data['firstName'],
-            "lastName" => $data['lastName'],
-            "dateOfBirth" => $data['dateOfBirth'],
-            "birthplace" => $data['birthplace'],
-            "gender" => $data['gender'],
-            "email" => $data['email'],
-            "registrationStatus" => "PENDING",
-            "appUserID" => 1,
-        );
-
-        $registrationService->addRegistration($data);
+        
+        $response = $registrationService->addRegistration($data);
+        Flight::json($response);
     });
 
     Flight::route('PUT /@id', function($id){
         $data = Flight::request()->data->getData();
         $registrationService = new RegistrationService(new RegistrationDao());
-        $registrationService->updateRegistration($id, $data);
+        
+        $response = $registrationService->updateRegistration($id, $data);
+        Flight::json($response);
     });
 
     Flight::route('PUT /@id/@status', function($id, $status){
@@ -75,12 +68,16 @@ Flight::group('/registrations', function () {
             $memberService->addMember($memberData);
         }
 
-        $registrationService->setRegistrationStatus($id, $status);
+        
+        $response = $registrationService->setRegistrationStatus($id, $status);
+        Flight::json($response);
     });
 
     Flight::route('DELETE /@id', function($id){
         $registrationService = new RegistrationService(new RegistrationDao());
-        $registrationService->deleteRegistration($id);
+        
+        $response = $registrationService->deleteRegistration($id);
+        Flight::json($response);
     });
 });
 
