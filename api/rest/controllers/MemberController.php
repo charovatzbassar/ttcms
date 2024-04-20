@@ -4,7 +4,8 @@ require_once __DIR__.'/../utils/Utils.class.php';
 
     Flight::group('/members', function(){
         Flight::route('GET /', function(){
-            $memberService = new MemberService(new MemberDao());
+            $userID = Flight::request()->query['userID'];
+            $memberService = new MemberService(new MemberDao($userID));
 
             $date = date("Y-m-d");
             $day = date('d', strtotime($date));
@@ -37,14 +38,16 @@ require_once __DIR__.'/../utils/Utils.class.php';
         });
     
         Flight::route('GET /@id', function($id){
-            $memberService = new MemberService(new MemberDao());
+            $userID = Flight::request()->query['userID'];
+            $memberService = new MemberService(new MemberDao($userID));
             $member = $memberService->getMemberByID($id);
             Flight::json($member);
         });
     
         Flight::route('POST /', function(){
             $data = Flight::request()->data->getData();
-            $memberService = new MemberService(new MemberDao());
+            $userID = Flight::request()->query['userID'];
+            $memberService = new MemberService(new MemberDao($userID));
             $response = $memberService->addMember($data);
             Flight::json($response);
         });
@@ -52,21 +55,25 @@ require_once __DIR__.'/../utils/Utils.class.php';
         Flight::route('PUT /@id', function($id){
             $data = Flight::request()->data->getData();
 
-            $memberService = new MemberService(new MemberDao());
+            $userID = Flight::request()->query['userID'];
+            $memberService = new MemberService(new MemberDao($userID));
 
             $response = $memberService->updateMember($id, $data);
             Flight::json($response);
         });
     
         Flight::route('PUT /@id/paid', function($id){
-            $memberService = new MemberService(new MemberDao());
+            $userID = Flight::request()->query['userID'];
+            $memberService = new MemberService(new MemberDao($userID));
             $response = $memberService->markMembershipAsPaid($id);
             Flight::json($response);
         });
     
         Flight::route('DELETE /@id', function($id){
-            $memberService = new MemberService(new MemberDao());
-            $resultService = new ResultService(new ResultDao());
+            $userID = Flight::request()->query['userID'];
+            $memberService = new MemberService(new MemberDao($userID));
+
+            $resultService = new ResultService(new ResultDao($userID));
 
             $resultService->deleteResultsForMember($id);
 

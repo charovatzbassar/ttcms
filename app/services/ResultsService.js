@@ -1,7 +1,9 @@
 var ResultsService = {
   getResults: () => {
     return $.ajax({
-      url: `${API_BASE_URL}/results`,
+      url: `${API_BASE_URL}/results?userID=${
+        UserService.getLoggedInUser().appUserID
+      }`,
       type: "GET",
       dataType: "json",
       success: (data) => data,
@@ -10,7 +12,9 @@ var ResultsService = {
   },
   getResult: (id) => {
     return $.ajax({
-      url: `${API_BASE_URL}/results/${id}`,
+      url: `${API_BASE_URL}/results/${id}?userID=${
+        UserService.getLoggedInUser().appUserID
+      }`,
       type: "GET",
       dataType: "json",
       success: (data) => data,
@@ -19,7 +23,9 @@ var ResultsService = {
   },
   addResult: (resultData) => {
     return $.ajax({
-      url: `${API_BASE_URL}/results`,
+      url: `${API_BASE_URL}/results?userID=${
+        UserService.getLoggedInUser().appUserID
+      }`,
       type: "POST",
       dataType: "json",
       data: resultData,
@@ -29,7 +35,9 @@ var ResultsService = {
   },
   editResult: (id, editData) => {
     return $.ajax({
-      url: `${API_BASE_URL}/results/${id}?_method=PUT`,
+      url: `${API_BASE_URL}/results/${id}?userID=${
+        UserService.getLoggedInUser().appUserID
+      }&_method=PUT`,
       type: "POST",
       data: editData,
       dataType: "json",
@@ -39,7 +47,9 @@ var ResultsService = {
   },
   deleteResult: (id) => {
     return $.ajax({
-      url: `${API_BASE_URL}/results/${id}`,
+      url: `${API_BASE_URL}/results/${id}?userID=${
+        UserService.getLoggedInUser().appUserID
+      }`,
       type: "DELETE",
       dataType: "json",
       success: (data) => data,
@@ -48,7 +58,9 @@ var ResultsService = {
   },
   getResultsByClubMemberId: (id) => {
     return $.ajax({
-      url: `${API_BASE_URL}/results?clubMemberID=${id}`,
+      url: `${API_BASE_URL}/results?clubMemberID=${id}&userID=${
+        UserService.getLoggedInUser().appUserID
+      }}`,
       type: "GET",
       dataType: "json",
       success: (data) => data,
@@ -57,7 +69,9 @@ var ResultsService = {
   },
   getResultsByTournamentId: (id) => {
     return $.ajax({
-      url: `${API_BASE_URL}/results?tournamentID=${id}`,
+      url: `${API_BASE_URL}/results?tournamentID=${id}&userID=${
+        UserService.getLoggedInUser().appUserID
+      }}`,
       type: "GET",
       dataType: "json",
       success: (data) => data,

@@ -1,7 +1,7 @@
 var RegistrationsService = {
   getRegistrations: () => {
     return $.ajax({
-      url: `${API_BASE_URL}/registrations`,
+      url: `${API_BASE_URL}/registrations?userID=${UserService.getLoggedInUser().appUserID}`,
       type: "GET",
       dataType: "json",
       success: (data) => data,
@@ -10,7 +10,7 @@ var RegistrationsService = {
   },
   getRegistration: (id) => {
     return $.ajax({
-      url: `${API_BASE_URL}/registrations/${id}`,
+      url: `${API_BASE_URL}/registrations/${id}?userID=${UserService.getLoggedInUser().appUserID}`,
       type: "GET",
       dataType: "json",
       success: (data) => data,
@@ -19,7 +19,7 @@ var RegistrationsService = {
   },
   getRegistrationsByStatus: (status) => {
     return $.ajax({
-      url: `${API_BASE_URL}/registrations?status=${status}`,
+      url: `${API_BASE_URL}/registrations?status=${status}&userID=${UserService.getLoggedInUser().appUserID}`,
       type: "GET",
       dataType: "json",
       success: (data) => data,
@@ -38,7 +38,7 @@ var RegistrationsService = {
   },
   editRegistration: (id, editData) => {
     return $.ajax({
-      url: `${API_BASE_URL}/registrations/${id}?_method=PUT`,
+      url: `${API_BASE_URL}/registrations/${id}?userID=${UserService.getLoggedInUser().appUserID}&_method=PUT`,
       type: "POST",
       data: editData,
       dataType: "json",
@@ -48,7 +48,7 @@ var RegistrationsService = {
   },
   deleteRegistration: (id) => {
     return $.ajax({
-      url: `${API_BASE_URL}/registrations/${id}`,
+      url: `${API_BASE_URL}/registrations/${id}?userID=${UserService.getLoggedInUser().appUserID}`,
       type: "DELETE",
       dataType: "json",
       success: (data) => data,
@@ -57,7 +57,7 @@ var RegistrationsService = {
   },
   editRegistrationStatus: (id, status) => {
     return $.ajax({
-      url: `${API_BASE_URL}/registrations/${id}/${status}?_method=PUT`,
+      url: `${API_BASE_URL}/registrations/${id}/${status}?userID=${UserService.getLoggedInUser().appUserID}&_method=PUT`,
       type: "POST",
       data: { status },
       dataType: "json",

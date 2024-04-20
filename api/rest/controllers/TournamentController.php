@@ -2,7 +2,8 @@
 
 Flight::group('/tournaments', function () {
     Flight::route('GET /', function(){
-        $tournamentService = new TournamentService(new TournamentDao());
+        $userID = Flight::request()->query['userID'];
+        $tournamentService = new TournamentService(new TournamentDao($userID));
 
         $offset = Flight::request()->query['offset'];
         $limit = Flight::request()->query['limit'];
@@ -17,16 +18,18 @@ Flight::group('/tournaments', function () {
     });
 
     Flight::route('GET /@id', function($id){
-        $tournamentService = new TournamentService(new TournamentDao());
+        $userID = Flight::request()->query['userID'];
+        $tournamentService = new TournamentService(new TournamentDao($userID));
         $tournament = $tournamentService->getTournamentByID($id);
         Flight::json($tournament);
     });
 
     Flight::route('POST /', function(){
         $data = Flight::request()->data->getData();
-        $tournamentService = new TournamentService(new TournamentDao());
+        $userID = Flight::request()->query['userID'];
+        $tournamentService = new TournamentService(new TournamentDao($userID));
 
-        $tournamentCategoryService = new TournamentCategoryService(new TournamentCategoryDao());
+        $tournamentCategoryService = new TournamentCategoryService(new TournamentCategoryDao($userID));
 
         $tournamentCategories = $data['categories'];
         $tournament = [
@@ -34,7 +37,7 @@ Flight::group('/tournaments', function () {
             'tournamentDate' => $data['tournamentDate'],
             'tournamentLocation' => $data['tournamentLocation'],
             'tournamentStatus' => $data['tournamentStatus'],
-            'appUserID' => 1
+            'appUserID' => $userID
         ];
 
 
@@ -44,7 +47,7 @@ Flight::group('/tournaments', function () {
             $tournamentCategoryService->addTournamentCategory([
                 'tournamentID' => $response['id'],
                 'category' => $tournamentCategory,
-                'appUserID' => 1
+                'appUserID' => $userID
             ]);
         }
 
@@ -53,16 +56,16 @@ Flight::group('/tournaments', function () {
 
     Flight::route('PUT /@id', function($id){
         $data = Flight::request()->data->getData();
-        $tournamentService = new TournamentService(new TournamentDao());
-
-        $tournamentCategoryService = new TournamentCategoryService(new TournamentCategoryDao());
+        $userID = Flight::request()->query['userID'];
+        $tournamentService = new TournamentService(new TournamentDao($userID));
+        $tournamentCategoryService = new TournamentCategoryService(new TournamentCategoryDao($userID));
 
         $tournamentCategories = $data['categories'];
         $tournament = [
             'tournamentName' => $data['tournamentName'],
             'tournamentDate' => $data['tournamentDate'],
             'tournamentLocation' => $data['tournamentLocation'],
-            'appUserID' => 1
+            'appUserID' => $userID
         ];
 
         $response = $tournamentService->updateTournament($id, $tournament);
@@ -73,7 +76,7 @@ Flight::group('/tournaments', function () {
             $tournamentCategoryService->addTournamentCategory([
                 'tournamentID' => $response['tournamentID'],
                 'category' => $tournamentCategory,
-                'appUserID' => 1
+                'appUserID' => $userID
             ]);
         }
 
@@ -81,15 +84,17 @@ Flight::group('/tournaments', function () {
     });
 
     Flight::route('PUT /@id/complete', function($id){
-        $tournamentService = new TournamentService(new TournamentDao());
+        $userID = Flight::request()->query['userID'];
+        $tournamentService = new TournamentService(new TournamentDao($userID));
         $response = $tournamentService->markTournamentAsCompleted($id);
         Flight::json($response);
     });
 
     Flight::route('DELETE /@id', function($id){
-        $tournamentService = new TournamentService(new TournamentDao());
-        $resultService = new ResultService(new ResultDao());
-        $tournamentCategoryService = new TournamentCategoryService(new TournamentCategoryDao());
+        $userID = Flight::request()->query['userID'];
+        $tournamentService = new TournamentService(new TournamentDao($userID));
+        $resultService = new ResultService(new ResultDao($userID));
+        $tournamentCategoryService = new TournamentCategoryService(new TournamentCategoryDao($userID));
         $resultService->deleteResultsForTournament($id);
         $tournamentCategoryService->deleteTournamentCategoriesForTournament($id);
 

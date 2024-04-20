@@ -4,7 +4,8 @@ require_once __DIR__ . '/../utils/Utils.class.php';
 
 Flight::group('/registrations', function () {
     Flight::route('GET /', function(){
-        $registrationService = new RegistrationService(new RegistrationDao());
+        $userID = Flight::request()->query['userID'];
+        $registrationService = new RegistrationService(new RegistrationDao($userID));
 
         $offset = Flight::request()->query['offset'];
         $limit = Flight::request()->query['limit'];
@@ -23,7 +24,8 @@ Flight::group('/registrations', function () {
     });
 
     Flight::route('GET /@id', function($id){
-        $registrationService = new RegistrationService(new RegistrationDao());
+        $userID = Flight::request()->query['userID'];
+        $registrationService = new RegistrationService(new RegistrationDao($userID));
         $registration = $registrationService->getRegistrationByID($id);
         Flight::json($registration);
     });
@@ -39,17 +41,19 @@ Flight::group('/registrations', function () {
 
     Flight::route('PUT /@id', function($id){
         $data = Flight::request()->data->getData();
-        $registrationService = new RegistrationService(new RegistrationDao());
-        
+        $userID = Flight::request()->query['userID'];
+        $registrationService = new RegistrationService(new RegistrationDao($userID));
+
         $response = $registrationService->updateRegistration($id, $data);
         Flight::json($response);
     });
 
     Flight::route('PUT /@id/@status', function($id, $status){
-        $registrationService = new RegistrationService(new RegistrationDao());
+        $userID = Flight::request()->query['userID'];
+        $registrationService = new RegistrationService(new RegistrationDao($userID));
 
         if ($status == "ACCEPTED") {
-            $memberService = new MemberService(new MemberDao());
+            $memberService = new MemberService(new MemberDao($userID));
             $registration = $registrationService->getRegistrationByID($id);
             
             $memberData = array(
@@ -62,7 +66,7 @@ Flight::group('/registrations', function () {
                 "membershipStatus" => "UNPAID",
                 "category" => Utils::calculateCategory($registration['dateOfBirth']),
                 "score" => 0,
-                "appUserID" => 1,
+                "appUserID" => $userID,
             );
 
             $memberService->addMember($memberData);
@@ -74,8 +78,9 @@ Flight::group('/registrations', function () {
     });
 
     Flight::route('DELETE /@id', function($id){
-        $registrationService = new RegistrationService(new RegistrationDao());
-        
+        $userID = Flight::request()->query['userID'];
+        $registrationService = new RegistrationService(new RegistrationDao($userID));
+
         $response = $registrationService->deleteRegistration($id);
         Flight::json($response);
     });

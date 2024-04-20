@@ -6,6 +6,7 @@ class BaseDao {
     protected $connection;
 
     private $table;
+    private $userID;
   
     public function beginTransaction() {
        $this->connection->beginTransaction();
@@ -38,9 +39,10 @@ class BaseDao {
       return [$order_column, $order_direction];
     }
   
-    public function __construct($table)
+    public function __construct($table, $userID = NULL)
     {
       $this->table = $table;
+      $this->userID = $userID;
       try {
         $this->connection = new PDO("mysql:host=" . DB_HOST . ";dbname=" . DB_NAME . ";charset=utf8;port=" . DB_PORT, DB_USER, DB_PASS, [
           PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
@@ -93,7 +95,7 @@ class BaseDao {
         $query .= $name . "= :" . $name . ", ";
       }
       $query = substr($query, 0, -2);
-      $query .= " WHERE {$id_column} = :$id_column";
+      $query .= " WHERE {$id_column} = :$id_column and appUserID = $this->userID";
   
       $stmt = $this->connection->prepare($query);
       $entity[$id_column] = $id;
@@ -102,12 +104,12 @@ class BaseDao {
     }
 
     protected function delete($id, $id_column = "id") {
-      return $this->query("DELETE FROM " . $this->table . " WHERE $id_column = :$id_column", [$id_column => $id]);
+      return $this->query("DELETE FROM " . $this->table . " WHERE $id_column = :$id_column AND appUserID = :appUserID", [$id_column => $id, "appUserID" => $this->userID]);
     }
   
     protected function get_by_id($id, $id_column = "id")
     {
-      return $this->queryUnique("SELECT * FROM " . $this->table . " WHERE $id_column = :$id_column", [$id_column => $id]);
+      return $this->queryUnique("SELECT * FROM " . $this->table . " WHERE $id_column = :$id_column AND appUserID = :appUserID", [$id_column => $id, "appUserID" => $this->userID]);
     }
   
     protected function get($offset = 0, $limit = 25, $order = "-id")
@@ -115,14 +117,14 @@ class BaseDao {
       list($order_column, $order_direction) = self::parseOrder($order);
   
       return $this->query("SELECT *
-                           FROM " . $this->table . "
+                           FROM " . $this->table . " WHERE appUserID = :appUserID
                            ORDER BY {$order_column} {$order_direction}
-                           LIMIT {$limit} OFFSET {$offset}", []);
+                           LIMIT {$limit} OFFSET {$offset}", ["appUserID" => $this->userID]);
     }
 
     protected function get_all()
     {
-      return $this->query("SELECT * FROM " . $this->table, []);
+      return $this->query("SELECT * FROM " . $this->table." WHERE appUserID = :appUserID", ["appUserID" => $this->userID]);
     }
 }
 

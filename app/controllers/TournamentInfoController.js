@@ -42,40 +42,14 @@ var TournamentInfoController = () => {
         member,
         opponentFirstName,
         opponentLastName,
-        status
+        status,
+        resultID
       ) => {
         $("#updateResultModal").modal("show");
         $("[name='member']").val(member);
         $("[name='opponentFirstName']").val(opponentFirstName);
         $("[name='opponentLastName']").val(opponentLastName);
         $("[name='result']").val(status.toUpperCase());
-      };
-
-      window.handleRemoveResult = (resultID) => {
-        $("#removeResultModal").modal("show");
-      };
-
-      data.map((result) => {
-        results += `<tr>
-                <td>${result.firstName} ${result.lastName}</td>
-                <td>${result.opponentFirstName} ${result.opponentLastName}</td>
-                <td>${result.resultStatus}</td>
-                <td><button class="btn btn-warning w-50" id="${result.resultID}" onclick="handleEditResult('${result.clubMemberID}', '${result.opponentFirstName}', '${result.opponentLastName}', '${result.resultStatus}')">Edit</button><button class="btn btn-danger w-50" onclick="handleRemoveResult('${result.resultID}')">Remove</button></td>
-            </tr>`;
-
-        $("#removeResult").click(() => {
-          ResultsService.deleteResult(result.resultID)
-            .then(() => {
-              toastr.success("Result removed");
-            })
-            .catch(() => {
-              toastr.error("Error removing result");
-            });
-          $("#removeResultModal").modal("hide");
-          setTimeout(() => {
-            window.location.reload();
-          }, 500);
-        });
 
         $("#updateResultForm").submit(function (e) {
           e.preventDefault();
@@ -83,15 +57,15 @@ var TournamentInfoController = () => {
           const formData = $(this).serialize();
 
           const resultData = {
-            clubMemberID: formData.split("&")[0].split("=")[1],
+            clubMemberID: Number(formData.split("&")[0].split("=")[1]),
             opponentFirstName: formData.split("&")[1].split("=")[1],
             opponentLastName: formData.split("&")[2].split("=")[1],
             resultStatus: formData.split("&")[3].split("=")[1],
-            tournamentID: id,
-            appUserID: 1,
+            tournamentID: Number(id),
+            appUserID: UserService.getLoggedInUser().appUserID,
           };
 
-          ResultsService.editResult(result.resultID, resultData)
+          ResultsService.editResult(resultID, resultData)
             .then(() => {
               toastr.success("Result updated successfully");
             })
@@ -104,6 +78,32 @@ var TournamentInfoController = () => {
             window.location.reload();
           }, 500);
         });
+      };
+
+      window.handleRemoveResult = (resultID) => {
+        $("#removeResultModal").modal("show");
+        $("#removeResult").click(() => {
+          ResultsService.deleteResult(resultID)
+            .then(() => {
+              toastr.success("Result removed");
+            })
+            .catch(() => {
+              toastr.error("Error removing result");
+            });
+          $("#removeResultModal").modal("hide");
+          setTimeout(() => {
+            window.location.reload();
+          }, 500);
+        });
+      };
+
+      data.map((result) => {
+        results += `<tr>
+                <td>${result.firstName} ${result.lastName}</td>
+                <td>${result.opponentFirstName} ${result.opponentLastName}</td>
+                <td>${result.resultStatus}</td>
+                <td><button class="btn btn-warning w-50" id="${result.resultID}" onclick="handleEditResult('${result.clubMemberID}', '${result.opponentFirstName}', '${result.opponentLastName}', '${result.resultStatus}', '${result.resultID}')">Edit</button><button class="btn btn-danger w-50" onclick="handleRemoveResult('${result.resultID}')">Remove</button></td>
+            </tr>`;
       });
 
       $("#tournamentInfoTable > tbody").html(results);
@@ -123,6 +123,7 @@ var TournamentInfoController = () => {
 
       $("#addResultButton").click(() => {
         $("#addResultModal").modal("show");
+        $("#addResultForm")[0].reset();
       });
 
       MemberService.getMembers().then((memberData) => {

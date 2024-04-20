@@ -3,9 +3,11 @@
 require_once __DIR__.'/BaseDao.class.php';
 
 class TournamentCategoryDao extends BaseDao {
+    private $userID;
 
-    public function __construct() {
-        parent::__construct("tournamentCategory");
+    public function __construct($userID = NULL) {
+        parent::__construct("tournamentCategory", $userID);
+        $this->userID = $userID;
     }
 
     public function getAllTournamentCategories() {
@@ -33,7 +35,7 @@ class TournamentCategoryDao extends BaseDao {
     }
 
     public function deleteTournamentCategoriesForTournament($tournamentID) {
-        return $this->query("DELETE FROM tournamentCategory WHERE tournamentID = :tournamentID", ["tournamentID" => $tournamentID]);
+        return $this->query("DELETE FROM tournamentCategory WHERE tournamentID = :tournamentID and appUserID = :appUserID", ["tournamentID" => $tournamentID, "appUserID" => $this->userID]);
     }
 
 }

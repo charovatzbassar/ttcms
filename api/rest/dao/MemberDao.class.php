@@ -3,9 +3,11 @@
 require_once __DIR__.'/BaseDao.class.php';
 
 class MemberDao extends BaseDao {
+    private $userID;
 
-    public function __construct() {
-        parent::__construct("clubMember");
+    public function __construct($userID = NULL) {
+        parent::__construct("clubMember", $userID);
+        $this->userID = $userID;
     }
 
     public function getAllMembers() {
@@ -33,11 +35,11 @@ class MemberDao extends BaseDao {
     }
 
     public function markMembershipAsPaid($id) {
-        return $this->query("UPDATE clubMember SET membershipStatus = 'PAID' WHERE clubMemberID = :clubMemberID", ["clubMemberID" => $id]);
+        return $this->query("UPDATE clubMember SET membershipStatus = 'PAID' WHERE clubMemberID = :clubMemberID AND appUserID = :appUserID", ["appUserID" => $this->userID, "clubMemberID" => $id]);
     }
 
     public function setAllUnpaid() {
-        return $this->query("UPDATE clubMember SET membershipStatus = 'UNPAID'", []);
+        return $this->query("UPDATE clubMember SET membershipStatus = 'UNPAID' WHERE appUserID = :appUserID", ["appUserID" => $this->userID]);
     }
 }
 

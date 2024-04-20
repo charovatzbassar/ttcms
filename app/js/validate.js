@@ -23,6 +23,9 @@ var Validate = {
         birthplace: {
           required: true,
         },
+        club: {
+          required: true,
+        },
       },
 
       messages: {
@@ -44,6 +47,9 @@ var Validate = {
         },
         birthplace: {
           required: "Please enter your birthplace",
+        },
+        club: {
+          required: "Please select a club",
         },
       },
 
@@ -70,7 +76,7 @@ var Validate = {
                   .join(" "),
                 gender: formData.split("&")[5].split("=")[1],
                 registrationStatus: "PENDING",
-                appUserID: 1,
+                appUserID: formData.split("&")[6].split("=")[1],
               };
 
               RegistrationsService.addRegistration(registration)
@@ -130,12 +136,12 @@ var Validate = {
         const tournament = {
           tournamentName: formData[0].split("=")[1].split("%20").join(" "),
           tournamentDate: formData[2].split("=")[1],
-          tournamentLocation: formData[1].split("=")[1],
+          tournamentLocation: formData[1].split("=")[1].split("%20").join(" "),
           categories: formData
             .slice(3)
             .map((category) => category.split("=")[1]),
           tournamentStatus: "UPCOMING",
-          appUserID: 1,
+          appUserID: UserService.getLoggedInUser().appUserID,
         };
 
         TournamentsService.addTournament(tournament)
@@ -147,6 +153,9 @@ var Validate = {
           });
         Utils.unblock_ui("#addTournamentModal .modal-content");
         $("#addTournamentModal").modal("hide");
+        setTimeout(() => {
+          window.location.reload();
+        }, 500);
       },
     });
   },
@@ -189,7 +198,7 @@ var Validate = {
           opponentLastName: formData.split("&")[2].split("=")[1],
           resultStatus: formData.split("&")[3].split("=")[1],
           tournamentID,
-          appUserID: 1,
+          appUserID: UserService.getLoggedInUser().appUserID,
         };
 
         ResultsService.addResult(resultData)
@@ -201,6 +210,9 @@ var Validate = {
           });
         Utils.unblock_ui("#addResultModal .modal-content");
         $("#addResultModal").modal("hide");
+        setTimeout(() => {
+          window.location.reload();
+        }, 500);
       },
     });
   },

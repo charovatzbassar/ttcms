@@ -8,6 +8,9 @@ var RegistrationsController = async () => {
       .catch(() => {
         toastr.error("Error accepting registration");
       });
+    setTimeout(() => {
+      window.location.reload();
+    }, 500);
   };
 
   window.handleReject = (id) => {

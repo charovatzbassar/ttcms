@@ -3,9 +3,11 @@
 require_once __DIR__.'/BaseDao.class.php';
 
 class RegistrationDao extends BaseDao {
+    private $userID;
 
-    public function __construct() {
-        parent::__construct("registration");
+    public function __construct($userID = NULL) {
+        parent::__construct("registration", $userID);
+        $this->userID = $userID;
     }
 
     public function getAllRegistrations() {
@@ -13,7 +15,7 @@ class RegistrationDao extends BaseDao {
     }
 
     public function getRegistrationsByStatus($status) {
-        return $this->query("SELECT * FROM registration WHERE registrationStatus = :status", ["status" => $status]);
+        return $this->query("SELECT * FROM registration WHERE registrationStatus = :status and appUserID = :appUserID", ["status" => $status, "appUserID" => $this->userID]);
     }
 
     public function getRegistrations($offset, $limit, $order) {
@@ -37,7 +39,7 @@ class RegistrationDao extends BaseDao {
     }
 
     public function setRegistrationStatus($id, $status) {
-        return $this->query("UPDATE registration SET registrationStatus = :registrationStatus WHERE registrationID = :registrationID", ["registrationID" => $id, "registrationStatus" => $status]);
+        return $this->query("UPDATE registration SET registrationStatus = :registrationStatus WHERE registrationID = :registrationID and appUserID = :appUserID", ["registrationID" => $id, "registrationStatus" => $status, "appUserID" => $this->userID]);
     }
 }
 

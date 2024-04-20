@@ -2,7 +2,8 @@
 
 Flight::group('/results', function () {
     Flight::route('GET /', function(){
-        $resultService = new ResultService(new ResultDao());
+        $userID = Flight::request()->query['userID'];
+        $resultService = new ResultService(new ResultDao($userID));
 
         $offset = Flight::request()->query['offset'];
         $limit = Flight::request()->query['limit'];
@@ -24,17 +25,19 @@ Flight::group('/results', function () {
     });
 
     Flight::route('GET /@id', function($id){
-        $resultService = new ResultService(new ResultDao());
+        $userID = Flight::request()->query['userID'];
+        $resultService = new ResultService(new ResultDao($userID));
         $result = $resultService->getResultByID($id);
         Flight::json($result);
     });
 
     Flight::route('POST /', function(){
         $data = Flight::request()->data->getData();
-        $resultService = new ResultService(new ResultDao());
+        $userID = Flight::request()->query['userID'];
+        $resultService = new ResultService(new ResultDao($userID));
 
         if ($data['resultStatus'] == "VICTORY") {
-            $memberService = new MemberService(new MemberDao());
+            $memberService = new MemberService(new MemberDao($userID));
 
             $member = $memberService->getMemberByID($data['clubMemberID']);
 
@@ -49,13 +52,16 @@ Flight::group('/results', function () {
 
     Flight::route('PUT /@id', function($id){
         $data = Flight::request()->data->getData();
-        $resultService = new ResultService(new ResultDao());
+        $userID = Flight::request()->query['userID'];
+        $resultService = new ResultService(new ResultDao($userID));
+
         $response = $resultService->updateResult($id, $data);
         Flight::json($response);
     });
 
     Flight::route('DELETE /@id', function($id){
-        $resultService = new ResultService(new ResultDao());
+        $userID = Flight::request()->query['userID'];
+        $resultService = new ResultService(new ResultDao($userID));
         $response = $resultService->deleteResult($id);
         Flight::json($response);
     });

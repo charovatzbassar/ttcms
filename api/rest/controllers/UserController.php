@@ -1,6 +1,13 @@
 <?php
 
 Flight::group('/auth', function () {
+
+    Flight::route("GET /users", function(){
+        $userService = new UserService(new UserDao());
+        $users = $userService->getAllUsers();
+        Flight::json($users);
+    });
+
     Flight::route('POST /login', function(){
         $data = Flight::request()->data->getData();
         $userService = new UserService(new UserDao());

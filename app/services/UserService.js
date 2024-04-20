@@ -28,8 +28,18 @@ var UserService = {
   logout: () => {
     localStorage.removeItem("user");
     window.location.hash = "login";
+    window.location.reload();
   },
   getLoggedInUser: () => {
     return JSON.parse(localStorage.getItem("user"));
+  },
+  getAllUsers: () => {
+    return $.ajax({
+      url: `${API_BASE_URL}/auth/users`,
+      type: "GET",
+      dataType: "json",
+      success: (data) => data,
+      error: (xhr, status, error) => [],
+    });
   },
 };

@@ -1,7 +1,9 @@
 var TournamentsService = {
   getTournaments: () => {
     return $.ajax({
-      url: `${API_BASE_URL}/tournaments`,
+      url: `${API_BASE_URL}/tournaments?userID=${
+        UserService.getLoggedInUser().appUserID
+      }`,
       type: "GET",
       dataType: "json",
       success: (data) => data,
@@ -10,7 +12,9 @@ var TournamentsService = {
   },
   getTournament: (id) => {
     return $.ajax({
-      url: `${API_BASE_URL}/tournaments/${id}`,
+      url: `${API_BASE_URL}/tournaments/${id}?userID=${
+        UserService.getLoggedInUser().appUserID
+      }}`,
       type: "GET",
       dataType: "json",
       success: (data) => data,
@@ -19,7 +23,9 @@ var TournamentsService = {
   },
   addTournament: (tournamentData) => {
     return $.ajax({
-      url: `${API_BASE_URL}/tournaments`,
+      url: `${API_BASE_URL}/tournaments?userID=${
+        UserService.getLoggedInUser().appUserID
+      }`,
       type: "POST",
       data: tournamentData,
       dataType: "json",
@@ -29,7 +35,9 @@ var TournamentsService = {
   },
   editTournament: (id, editData) => {
     return $.ajax({
-      url: `${API_BASE_URL}/tournaments/${id}?_method=PUT`,
+      url: `${API_BASE_URL}/tournaments/${id}?userID=${
+        UserService.getLoggedInUser().appUserID
+      }&_method=PUT`,
       type: "POST",
       data: editData,
       dataType: "json",
@@ -39,7 +47,9 @@ var TournamentsService = {
   },
   deleteTournament: (id) => {
     return $.ajax({
-      url: `${API_BASE_URL}/tournaments/${id}`,
+      url: `${API_BASE_URL}/tournaments/${id}?userID=${
+        UserService.getLoggedInUser().appUserID
+      }`,
       type: "DELETE",
       dataType: "json",
       success: (data) => data,
@@ -48,7 +58,9 @@ var TournamentsService = {
   },
   markAsCompleted: (id) => {
     return $.ajax({
-      url: `${API_BASE_URL}/tournaments/${id}/complete?_method=PUT`,
+      url: `${API_BASE_URL}/tournaments/${id}/complete?userID=${
+        UserService.getLoggedInUser().appUserID
+      }&_method=PUT`,
       type: "POST",
       dataType: "json",
       success: (data) => data,

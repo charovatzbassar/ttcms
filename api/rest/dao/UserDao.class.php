@@ -9,7 +9,7 @@ class UserDao extends BaseDao {
     }
 
     public function getAllUsers() {
-        return $this->get_all();
+        return $this->query("SELECT * FROM appUser", []);
     }
 
     public function getUsers($offset, $limit, $order) {
