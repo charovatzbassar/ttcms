@@ -7,12 +7,12 @@ Flight::group('/auth', function () {
         $user = $userService->getUserByEmail($data['email']);
 
         if ($user == null) {
-            Flight::json(["message" => "User does not exist."]);
+            Flight::json(["message" => "User does not exist."], 404);
             return;
         }
 
-        if ($user['password'] != $data['passwordHash']) {
-            Flight::json(["message" => "Invalid password."]);
+        if ($data['password'] != $user['passwordHash']) {
+            Flight::json(["message" => "Invalid password."], 401);
             return;
         }
 
@@ -25,20 +25,25 @@ Flight::group('/auth', function () {
         $user = $userService->getUserByEmail($data['email']);
 
         if ($user != null) {
-            Flight::json(["message" => "User already exists."]);
+            Flight::json(["message" => "User already exists."], 409);
+            return;
+        }
+
+        if ($data['password'] != $data['repeatedPassword']) {
+            Flight::json(["message" => "Passwords do not match."], 400);
             return;
         }
 
         $user = [
             "email" => $data['email'],
-            "passwordHash" => $data['passwordHash'],
+            "passwordHash" => $data['password'],
             "firstName" => $data['firstName'],
             "lastName" => $data['lastName'],
             "clubName" => $data['clubName'],
         ];
 
-        $userService->addUser($user);
-        Flight::json(["message" => "User has been registered."]);
+        $response = $userService->addUser($user);
+        Flight::json($response);
     });
 
 });

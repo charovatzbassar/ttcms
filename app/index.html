@@ -44,7 +44,11 @@
             class="dropdown-menu dropdown-menu-end"
             aria-labelledby="navbarDropdown"
           >
-            <li><a class="dropdown-item" href="#login">Logout</a></li>
+            <li>
+              <a class="dropdown-item" href="#login" id="logoutButton"
+                >Logout</a
+              >
+            </li>
           </ul>
         </li>
       </ul>
@@ -85,10 +89,7 @@
               </a>
             </div>
           </div>
-          <div class="sb-sidenav-footer">
-            <div class="small">Logged in as:</div>
-            Bassar Charovatz
-          </div>
+
         </nav>
       </div>
       <div id="layoutSidenav_content">
@@ -143,5 +144,10 @@
     <script src="./controllers/TournamentsController.js"></script>
     <script src="./js/router.js"></script>
     <script src="https://www.google.com/recaptcha/api.js?render=6LfDPKspAAAAABrj0BsU6yudlW0Z_pFR3HhR0V_W"></script>
+    <script>
+      $("#logoutButton").click(function () {
+        UserService.logout();
+      });
+    </script>
   </body>
 </html>

@@ -72,6 +72,9 @@ var TournamentInfoController = () => {
               toastr.error("Error removing result");
             });
           $("#removeResultModal").modal("hide");
+          setTimeout(() => {
+            window.location.reload();
+          }, 500);
         });
 
         $("#updateResultForm").submit(function (e) {

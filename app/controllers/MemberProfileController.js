@@ -36,10 +36,10 @@ var MemberProfileController = () => {
     $("#markAsPaid").click(() => {
       MemberService.markMembershipAsPaid(id)
         .then(() => {
-          toastr.error("Error marking membership as paid");
+          toastr.success("Membership marked as paid");
         })
         .catch(() => {
-          toastr.success("Membership marked as paid");
+          toastr.error("Error marking membership as paid");
         });
     });
 

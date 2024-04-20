@@ -63,7 +63,11 @@ var Validate = {
                 lastName: formData.split("&")[1].split("=")[1],
                 email: formData.split("&")[2].split("=")[1].replace("%40", "@"),
                 dateOfBirth: formData.split("&")[3].split("=")[1],
-                birthplace: formData.split("&")[4].split("=")[1].split("%20").join(" "),
+                birthplace: formData
+                  .split("&")[4]
+                  .split("=")[1]
+                  .split("%20")
+                  .join(" "),
                 gender: formData.split("&")[5].split("=")[1],
                 registrationStatus: "PENDING",
                 appUserID: 1,
@@ -264,6 +268,60 @@ var Validate = {
       },
     });
   },
+  validateUpdateMemberForm: (id) => {
+    $($("#updatePlayerForm")).validate({
+      errorElement: "span",
+      errorClass: "help-block help-block-error",
+      rules: {
+        firstName: {
+          required: true,
+        },
+        lastName: {
+          required: true,
+        },
+        dateOfBirth: {
+          required: true,
+        },
+        gender: {
+          required: true,
+        },
+      },
+
+      messages: {
+        firstName: {
+          required: "Please enter a first name",
+        },
+        lastName: {
+          required: "Please enter a last name",
+        },
+        dateOfBirth: {
+          required: "Please enter a date of birth",
+        },
+        gender: {
+          required: "Please select gender",
+        },
+      },
+
+      submitHandler: function (f, e) {
+        e.preventDefault();
+        Utils.block_ui("#updatePlayerModal .modal-content");
+        const formData = $(f).serialize();
+        MemberService.editMember(id, formData)
+          .then(() => {
+            Utils.block_ui("#playerProfileTable");
+            toastr.success("Member updated");
+          })
+          .catch(() => {
+            toastr.error("Error updating member");
+          });
+        Utils.unblock_ui("#updatePlayerModal .modal-content");
+        $("#updatePlayerModal").modal("hide");
+        setTimeout(() => {
+          window.location.reload();
+        }, 500);
+      },
+    });
+  },
   validateRegisterForm: () => {
     $($("#registerForm")).validate({
       errorElement: "span",
@@ -325,64 +383,32 @@ var Validate = {
               Utils.block_ui("#registerForm .card-body");
               const formData = $(f).serialize();
 
-              UserService.register(formData);
+              const registerData = {
+                firstName: formData
+                  .split("&")[0]
+                  .split("=")[1]
+                  .split("%20")
+                  .join(" "),
+                lastName: formData
+                  .split("&")[1]
+                  .split("=")[1]
+                  .split("%20")
+                  .join(" "),
+                email: formData.split("&")[3].split("=")[1].replace("%40", "@"),
+                clubName: formData
+                  .split("&")[2]
+                  .split("=")[1]
+                  .split("%20")
+                  .join(" "),
+                password: formData.split("&")[4].split("=")[1],
+                repeatedPassword: formData.split("&")[5].split("=")[1],
+              };
+
+              UserService.register(registerData);
 
               Utils.unblock_ui("#registerForm .card-body");
             });
         });
-      },
-    });
-  },
-  validateUpdateMemberForm: (id) => {
-    $($("#updatePlayerForm")).validate({
-      errorElement: "span",
-      errorClass: "help-block help-block-error",
-      rules: {
-        firstName: {
-          required: true,
-        },
-        lastName: {
-          required: true,
-        },
-        dateOfBirth: {
-          required: true,
-        },
-        gender: {
-          required: true,
-        },
-      },
-
-      messages: {
-        firstName: {
-          required: "Please enter a first name",
-        },
-        lastName: {
-          required: "Please enter a last name",
-        },
-        dateOfBirth: {
-          required: "Please enter a date of birth",
-        },
-        gender: {
-          required: "Please select gender",
-        },
-      },
-
-      submitHandler: function (f, e) {
-        e.preventDefault();
-        Utils.block_ui("#updatePlayerModal .modal-content");
-        const formData = $(f).serialize();
-        MemberService.editMember(id, formData)
-          .then(() => {
-            toastr.success("Member updated");
-          })
-          .catch(() => {
-            toastr.error("Error updating member");
-          });
-        Utils.unblock_ui("#updatePlayerModal .modal-content");
-        $("#updatePlayerModal").modal("hide");
-        setTimeout(() => {
-          window.location.reload();
-        }, 500);
       },
     });
   },

@@ -2,19 +2,18 @@ var RegistrationsController = async () => {
   window.handleAccept = (id) => {
     RegistrationsService.editRegistrationStatus(id, "ACCEPTED")
       .then(() => {
+        window.location.hash = "registrations";
         toastr.success("Registration accepted");
       })
       .catch(() => {
         toastr.error("Error accepting registration");
       });
-    setTimeout(() => {
-      window.location.reload();
-    }, 500);
   };
 
   window.handleReject = (id) => {
     RegistrationsService.editRegistrationStatus(id, "REJECTED")
       .then(() => {
+        window.location.hash = "registrations";
         toastr.success("Registration rejected");
       })
       .catch(() => {
