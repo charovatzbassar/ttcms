@@ -9,7 +9,9 @@ var UserService = {
         localStorage.setItem("user", JSON.stringify(data));
         window.location.hash = "dashboard";
       },
-      error: (xhr, status, error) => [],
+      error: (xhr, status, error) => {
+        toastr.error(xhr.responseJSON.message);
+      },
     });
   },
   register: (registerData) => {
@@ -22,7 +24,9 @@ var UserService = {
         localStorage.setItem("user", JSON.stringify(data));
         window.location.hash = "dashboard";
       },
-      error: (xhr, status, error) => [],
+      error: (xhr, status, error) => {
+        toastr.error(xhr.responseJSON.message);
+      },
     });
   },
   logout: () => {
