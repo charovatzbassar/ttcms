@@ -1,17 +1,17 @@
 <?php
 
+Flight::set("userService", new UserService(new UserDao()));
+
 Flight::group('/auth', function () {
 
     Flight::route("GET /users", function(){
-        $userService = new UserService(new UserDao());
-        $users = $userService->getAllUsers();
+        $users = Flight::get("userService")->getAllUsers();
         Flight::json($users);
     });
 
     Flight::route('POST /login', function(){
         $data = Flight::request()->data->getData();
-        $userService = new UserService(new UserDao());
-        $user = $userService->getUserByEmail($data['email']);
+        $user = Flight::get("userService")->getUserByEmail($data['email']);
 
         if ($user == null) {
             Flight::json(["message" => "User does not exist."], 404);
@@ -28,8 +28,7 @@ Flight::group('/auth', function () {
 
     Flight::route('POST /register', function(){
         $data = Flight::request()->data->getData();
-        $userService = new UserService(new UserDao());
-        $user = $userService->getUserByEmail($data['email']);
+        $user = Flight::get("userService")->getUserByEmail($data['email']);
 
         if ($user != null) {
             Flight::json(["message" => "User already exists."], 409);
@@ -49,7 +48,7 @@ Flight::group('/auth', function () {
             "clubName" => $data['clubName'],
         ];
 
-        $response = $userService->addUser($user);
+        $response = Flight::get("userService")->addUser($user);
         Flight::json($response);
     });
 
