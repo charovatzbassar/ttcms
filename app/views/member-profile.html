@@ -1,6 +1,6 @@
 <div>
   <div class="card m-5">
-    <div class="card-header">Player Data</div>
+    <div class="card-header">Member Data</div>
 
     <div class="card-body">
       <h2 id="playerName" class="card-title"></h2>
@@ -18,15 +18,17 @@
   </div>
 
   <div class="card m-5">
-    <div class="card-header">Player Actions</div>
+    <div class="card-header">Member Actions</div>
     <div class="card-body">
       <button class="btn btn-warning" id="markAsPaid">
         Mark membership as paid
       </button>
       <button class="btn btn-info" id="updatePlayerButton">
-        Update player data
+        Update member data
       </button>
-      <button class="btn btn-danger" id="removePlayerButton">Remove from club</button>
+      <button class="btn btn-danger" id="removePlayerButton">
+        Remove from club
+      </button>
     </div>
   </div>
 
@@ -61,7 +63,7 @@
     <div class="modal-dialog" role="document">
       <div class="modal-content">
         <div class="modal-header">
-          <h2 class="modal-title">Update player data</h2>
+          <h2 class="modal-title">Update member data</h2>
         </div>
         <div class="modal-body">
           <form class="container-fluid" id="updatePlayerForm">
@@ -117,10 +119,10 @@
     <div class="modal-dialog" role="document">
       <div class="modal-content">
         <div class="modal-header">
-          <h2 class="modal-title" id="exampleModalLabel">Remove player</h2>
+          <h2 class="modal-title" id="exampleModalLabel">Remove member</h2>
         </div>
         <div class="modal-body">
-          <p>Are you sure you want to remove this player?</p>
+          <p>Are you sure you want to remove this member?</p>
           <div class="my-3">
             <button
               type="button"
@@ -130,7 +132,7 @@
             >
               Close
             </button>
-            <button class="btn btn-danger">Remove player</button>
+            <button class="btn btn-danger" id="removePlayer">Remove member</button>
           </div>
         </div>
       </div>

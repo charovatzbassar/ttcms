@@ -44,7 +44,11 @@
             class="dropdown-menu dropdown-menu-end"
             aria-labelledby="navbarDropdown"
           >
-            <li><a class="dropdown-item" href="#login">Logout</a></li>
+            <li>
+              <a class="dropdown-item" href="#login" id="logoutButton"
+                >Logout</a
+              >
+            </li>
           </ul>
         </li>
       </ul>
@@ -67,11 +71,11 @@
                 Tournaments
               </a>
 
-              <a class="nav-link" href="#player-stats">
+              <a class="nav-link" href="#member-stats">
                 <div class="sb-nav-link-icon">
                   <i class="fas fa-chart-area"></i>
                 </div>
-                Player Stats
+                Member Stats
               </a>
               <a class="nav-link" href="#members">
                 <div class="sb-nav-link-icon">
@@ -85,10 +89,7 @@
               </a>
             </div>
           </div>
-          <div class="sb-sidenav-footer">
-            <div class="small">Logged in as:</div>
-            Jane Doe
-          </div>
+
         </nav>
       </div>
       <div id="layoutSidenav_content">
@@ -98,10 +99,10 @@
           <section id="members" data-load="members.html"></section>
           <section id="apply" data-load="apply.html"></section>
           <section
-            id="player-profile"
-            data-load="player-profile.html"
+            id="member-profile"
+            data-load="member-profile.html"
           ></section>
-          <section id="player-stats" data-load="player-stats.html"></section>
+          <section id="member-stats" data-load="member-stats.html"></section>
           <section id="registrations" data-load="registrations.html"></section>
           <section id="tournaments" data-load="tournaments.html"></section>
           <section
@@ -112,6 +113,7 @@
         </main>
       </div>
     </div>
+    <script src="./utils/constants.js"></script>
     <script src="./assets/js/jquery.min.js"></script>
     <script src="./assets/js/bootstrap.bundle.min.js"></script>
     <script src="./assets/js/dataTables.js"></script>
@@ -122,9 +124,30 @@
     <script src="./assets/js/navigation.js"></script>
     <script src="./assets/js/fonts.js"></script>
     <script src="./assets/js/block-ui.js"></script>
-    <script src="./utils/utils.js"></script>
     <script src="./assets/js/toastr.min.js"></script>
-    <script src="./assets/js/routes.js"></script>
+    <script src="./utils/utils.js"></script>
+    <script src="./services/MemberService.js"></script>
+    <script src="./services/RegistrationsService.js"></script>
+    <script src="./services/ResultsService.js"></script>
+    <script src="./services/TournamentsService.js"></script>
+    <script src="./services/UserService.js"></script>
+    <script src="./js/validate.js"></script>
+    <script src="./controllers/ApplyController.js"></script>
+    <script src="./controllers/DashboardController.js"></script>
+    <script src="./controllers/LoginController.js"></script>
+    <script src="./controllers/MembersController.js"></script>
+    <script src="./controllers/MemberProfileController.js"></script>
+    <script src="./controllers/MemberStatsController.js"></script>
+    <script src="./controllers/RegisterController.js"></script>
+    <script src="./controllers/RegistrationsController.js"></script>
+    <script src="./controllers/TournamentInfoController.js"></script>
+    <script src="./controllers/TournamentsController.js"></script>
+    <script src="./js/router.js"></script>
     <script src="https://www.google.com/recaptcha/api.js?render=6LfDPKspAAAAABrj0BsU6yudlW0Z_pFR3HhR0V_W"></script>
+    <script>
+      $("#logoutButton").click(function () {
+        UserService.logout();
+      });
+    </script>
   </body>
 </html>

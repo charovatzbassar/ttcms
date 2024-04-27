@@ -1,5 +1,5 @@
 <div>
-  <header class="bg-dark py-5">
+  <header>
     <div class="container px-4 px-lg-5 my-5">
       <div class="text-center text-white">
         <h1 class="display-5 fw-bolder">Become a member today!</h1>
@@ -8,7 +8,7 @@
   </header>
 
   <section class="py-5">
-    <form class="container" id="applyForm">
+    <form class="container" id="applyForm" method="post">
       <div class="mb-3">
         <input
           type="text"
@@ -23,6 +23,14 @@
           class="form-control"
           placeholder="Last Name"
           name="lastName"
+        />
+      </div>
+      <div class="mb-3">
+        <input
+          type="email"
+          class="form-control"
+          placeholder="Email"
+          name="email"
         />
       </div>
       <div class="mb-3">
@@ -47,6 +55,9 @@
         <option value="MALE">Male</option>
         <option value="FEMALE">Female</option>
       </select>
+      <label for="club">Club</label>
+
+      <select class="form-select" name="club" id="clubName"></select>
       <button class="btn btn-success my-3" type="submit">Submit</button>
     </form>
   </section>
