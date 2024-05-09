@@ -11,7 +11,8 @@ require_once __DIR__.'/../utils/Utils.class.php';
      *      @OA\Response(
      *           response=200,
      *           description="Get all members"
-     *      )
+     *      ),
+     *      @OA\Parameter(@OA\Schema(type="number"), in="query", name="userID", example="1", description="User ID")
      * )
      */
         Flight::route('GET /', function(){
@@ -56,7 +57,9 @@ require_once __DIR__.'/../utils/Utils.class.php';
      *      @OA\Response(
      *           response=200,
      *           description="Get a member by ID"
-     *      )
+     *      ),
+     *      @OA\Parameter(@OA\Schema(type="number"), in="path", name="id", example="1", description="Member ID"),
+     *      @OA\Parameter(@OA\Schema(type="number"), in="query", name="userID", example="1", description="User ID")
      * )
      */
         Flight::route('GET /@id', function($id){
@@ -74,7 +77,22 @@ require_once __DIR__.'/../utils/Utils.class.php';
      *      @OA\Response(
      *           response=200,
      *           description="Create a member"
-     *      )
+     *      ),
+     *      @OA\RequestBody(
+     *          description="Member data payload",
+     *          @OA\JsonContent(
+     *              required={"firstName","lastName","dateOfBirth", "birthplace", "gender", "joinDate", "appUserID"},
+     *              @OA\Property(property="firstName", type="string", example="Some first name", description="Member first name"),
+     *              @OA\Property(property="lastName", type="string", example="Some last name", description="Member last name"),
+     *              @OA\Property(property="dateOfBirth", type="string", example="2024-01-01", description="Member date of birth"),
+     *              @OA\Property(property="joinDate", type="string", example="2024-01-01", description="Member join date"),
+     *              @OA\Property(property="score", type="number", example="0", description="Member score"),
+     *              @OA\Property(property="birthplace", type="string", example="Belgrade", description="Member birthplace"),
+     *              @OA\Property(property="gender", type="string", example="MALE", description="Member gender"),
+     *              @OA\Property(property="appUserID", type="number", example="1", description="User ID"),
+     *          )
+     *      ),
+     *      @OA\Parameter(@OA\Schema(type="number"), in="query", name="userID", example="1", description="User ID")
      * )
      */
         Flight::route('POST /', function(){
@@ -93,7 +111,23 @@ require_once __DIR__.'/../utils/Utils.class.php';
      *      @OA\Response(
      *           response=200,
      *           description="Edit a member"
-     *      )
+     *      ),
+     *      @OA\RequestBody(
+     *          description="Member data payload",
+     *          @OA\JsonContent(
+     *              required={"firstName","lastName","dateOfBirth", "birthplace", "gender", "joinDate", "appUserID"},
+     *              @OA\Property(property="firstName", type="string", example="Some first name", description="Member first name"),
+     *              @OA\Property(property="lastName", type="string", example="Some last name", description="Member last name"),
+     *              @OA\Property(property="dateOfBirth", type="string", example="2024-01-01", description="Member date of birth"),
+     *              @OA\Property(property="joinDate", type="string", example="2024-01-01", description="Member join date"),
+     *              @OA\Property(property="score", type="number", example="0", description="Member score"),
+     *              @OA\Property(property="birthplace", type="string", example="Belgrade", description="Member birthplace"),
+     *              @OA\Property(property="gender", type="string", example="MALE", description="Member gender"),
+     *              @OA\Property(property="appUserID", type="number", example="1", description="User ID"),
+     *          )
+     *      ),
+     *      @OA\Parameter(@OA\Schema(type="number"), in="path", name="id", example="1", description="Member ID"),
+     *      @OA\Parameter(@OA\Schema(type="number"), in="query", name="userID", example="1", description="User ID")
      * )
      */
         Flight::route('PUT /@id', function($id){
@@ -114,7 +148,9 @@ require_once __DIR__.'/../utils/Utils.class.php';
      *      @OA\Response(
      *           response=200,
      *           description="Set member's membership as paid"
-     *      )
+     *      ),
+     *      @OA\Parameter(@OA\Schema(type="number"), in="path", name="id", example="1", description="Member ID"),
+     *     @OA\Parameter(@OA\Schema(type="number"), in="query", name="userID", example="1", description="User ID")
      * )
      */
         Flight::route('PUT /@id/paid', function($id){
@@ -132,7 +168,9 @@ require_once __DIR__.'/../utils/Utils.class.php';
      *      @OA\Response(
      *           response=200,
      *           description="Delete a member"
-     *      )
+     *      ),
+     *      @OA\Parameter(@OA\Schema(type="number"), in="path", name="id", example="1", description="Member ID"),
+     *     @OA\Parameter(@OA\Schema(type="number"), in="query", name="userID", example="1", description="User ID")
      * )
      */
         Flight::route('DELETE /@id', function($id){
