@@ -3,6 +3,17 @@
 require_once __DIR__.'/../utils/Utils.class.php';
 
     Flight::group('/members', function(){
+    /**
+     * @OA\Get(
+     *      path="/members",
+     *      tags={"Members"},
+     *      summary="Get all members",
+     *      @OA\Response(
+     *           response=200,
+     *           description="Get all members"
+     *      )
+     * )
+     */
         Flight::route('GET /', function(){
             $userID = Flight::request()->query['userID'];
             $memberService = new MemberService(new MemberDao($userID));
@@ -37,6 +48,17 @@ require_once __DIR__.'/../utils/Utils.class.php';
             Flight::json($members);
         });
     
+    /**
+     * @OA\Get(
+     *      path="/members/{id}",
+     *      tags={"Members"},
+     *      summary="Get a member by ID",
+     *      @OA\Response(
+     *           response=200,
+     *           description="Get a member by ID"
+     *      )
+     * )
+     */
         Flight::route('GET /@id', function($id){
             $userID = Flight::request()->query['userID'];
             $memberService = new MemberService(new MemberDao($userID));
@@ -44,6 +66,17 @@ require_once __DIR__.'/../utils/Utils.class.php';
             Flight::json($member);
         });
     
+    /**
+     * @OA\Post(
+     *      path="/members",
+     *      tags={"Members"},
+     *      summary="Create a member",
+     *      @OA\Response(
+     *           response=200,
+     *           description="Create a member"
+     *      )
+     * )
+     */
         Flight::route('POST /', function(){
             $data = Flight::request()->data->getData();
             $userID = Flight::request()->query['userID'];
@@ -52,6 +85,17 @@ require_once __DIR__.'/../utils/Utils.class.php';
             Flight::json($response);
         });
     
+    /**
+     * @OA\Put(
+     *      path="/members/{id}",
+     *      tags={"Members"},
+     *      summary="Edit a member",
+     *      @OA\Response(
+     *           response=200,
+     *           description="Edit a member"
+     *      )
+     * )
+     */
         Flight::route('PUT /@id', function($id){
             $data = Flight::request()->data->getData();
 
@@ -62,6 +106,17 @@ require_once __DIR__.'/../utils/Utils.class.php';
             Flight::json($response);
         });
     
+    /**
+     * @OA\Put(
+     *      path="/members/{id}/paid",
+     *      tags={"Members"},
+     *      summary="Set member's membership as paid",
+     *      @OA\Response(
+     *           response=200,
+     *           description="Set member's membership as paid"
+     *      )
+     * )
+     */
         Flight::route('PUT /@id/paid', function($id){
             $userID = Flight::request()->query['userID'];
             $memberService = new MemberService(new MemberDao($userID));
@@ -69,6 +124,17 @@ require_once __DIR__.'/../utils/Utils.class.php';
             Flight::json($response);
         });
     
+    /**
+     * @OA\Delete(
+     *      path="/members/{id}",
+     *      tags={"Members"},
+     *      summary="Delete a member",
+     *      @OA\Response(
+     *           response=200,
+     *           description="Delete a member"
+     *      )
+     * )
+     */
         Flight::route('DELETE /@id', function($id){
             $userID = Flight::request()->query['userID'];
             $memberService = new MemberService(new MemberDao($userID));

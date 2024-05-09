@@ -4,11 +4,33 @@ Flight::set("userService", new UserService(new UserDao()));
 
 Flight::group('/auth', function () {
 
+    /**
+     * @OA\Get(
+     *      path="/auth/users",
+     *      tags={"Auth"},
+     *      summary="Get all users",
+     *      @OA\Response(
+     *           response=200,
+     *           description="Get all users"
+     *      )
+     * )
+     */    
     Flight::route("GET /users", function(){
         $users = Flight::get("userService")->getAllUsers();
         Flight::json($users);
     });
 
+    /**
+     * @OA\Get(
+     *      path="/auth/login",
+     *      tags={"Auth"},
+     *      summary="Log in user",
+     *      @OA\Response(
+     *           response=200,
+     *           description="Log in user"
+     *      )
+     * )
+     */
     Flight::route('POST /login', function(){
         $data = Flight::request()->data->getData();
         $user = Flight::get("userService")->getUserByEmail($data['email']);
@@ -26,6 +48,17 @@ Flight::group('/auth', function () {
         Flight::json($user);
     });
 
+    /**
+     * @OA\Post(
+     *      path="/auth/register",
+     *      tags={"Auth"},
+     *      summary="Register user",
+     *      @OA\Response(
+     *           response=200,
+     *           description="Register user"
+     *      )
+     * )
+     */
     Flight::route('POST /register', function(){
         $data = Flight::request()->data->getData();
         $user = Flight::get("userService")->getUserByEmail($data['email']);

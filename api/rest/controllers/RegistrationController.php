@@ -3,6 +3,17 @@
 require_once __DIR__ . '/../utils/Utils.class.php';
 
 Flight::group('/registrations', function () {
+    /**
+     * @OA\Get(
+     *      path="/registrations",
+     *      tags={"Registrations"},
+     *      summary="Get all registrations",
+     *      @OA\Response(
+     *           response=200,
+     *           description="Get all registrations"
+     *      )
+     * )
+     */
     Flight::route('GET /', function(){
         $userID = Flight::request()->query['userID'];
         $registrationService = new RegistrationService(new RegistrationDao($userID));
@@ -23,6 +34,17 @@ Flight::group('/registrations', function () {
         Flight::json($registrations);
     });
 
+    /**
+     * @OA\Get(
+     *      path="/registrations/{id}",
+     *      tags={"Registrations"},
+     *      summary="Get a registration by ID",
+     *      @OA\Response(
+     *           response=200,
+     *           description="Get a registration by ID"
+     *      )
+     * )
+     */
     Flight::route('GET /@id', function($id){
         $userID = Flight::request()->query['userID'];
         $registrationService = new RegistrationService(new RegistrationDao($userID));
@@ -30,6 +52,17 @@ Flight::group('/registrations', function () {
         Flight::json($registration);
     });
 
+    /**
+     * @OA\Post(
+     *      path="/registrations",
+     *      tags={"Registrations"},
+     *      summary="Create a registration",
+     *      @OA\Response(
+     *           response=200,
+     *           description="Create a registration"
+     *      )
+     * )
+     */
     Flight::route('POST /', function(){
         $data = Flight::request()->data->getData();
         $registrationService = new RegistrationService(new RegistrationDao());
@@ -39,6 +72,17 @@ Flight::group('/registrations', function () {
         Flight::json($response);
     });
 
+    /**
+     * @OA\Put(
+     *      path="/registrations/{id}",
+     *      tags={"Registrations"},
+     *      summary="Edit a registration",
+     *      @OA\Response(
+     *           response=200,
+     *           description="Edit a registration"
+     *      )
+     * )
+     */
     Flight::route('PUT /@id', function($id){
         $data = Flight::request()->data->getData();
         $userID = Flight::request()->query['userID'];
@@ -48,6 +92,17 @@ Flight::group('/registrations', function () {
         Flight::json($response);
     });
 
+    /**
+     * @OA\Put(
+     *      path="/registrations/{id}/{status}",
+     *      tags={"Registrations"},
+     *      summary="Edit a registration's status",
+     *      @OA\Response(
+     *           response=200,
+     *           description="Edit a registration's status"
+     *      )
+     * )
+     */
     Flight::route('PUT /@id/@status', function($id, $status){
         $userID = Flight::request()->query['userID'];
         $registrationService = new RegistrationService(new RegistrationDao($userID));
@@ -77,6 +132,17 @@ Flight::group('/registrations', function () {
         Flight::json($response);
     });
 
+    /**
+     * @OA\Delete(
+     *      path="/registrations/{id}",
+     *      tags={"Registrations"},
+     *      summary="Delete a registration",
+     *      @OA\Response(
+     *           response=200,
+     *           description="Delete a registration"
+     *      )
+     * )
+     */
     Flight::route('DELETE /@id', function($id){
         $userID = Flight::request()->query['userID'];
         $registrationService = new RegistrationService(new RegistrationDao($userID));
