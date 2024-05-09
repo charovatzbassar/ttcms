@@ -9,7 +9,10 @@ Flight::group('/results', function () {
      *      @OA\Response(
      *           response=200,
      *           description="Get all results"
-     *      )
+     *      ),
+     *     @OA\Parameter(@OA\Schema(type="number"), in="query", name="userID", example="1", description="User ID"),
+     *   @OA\Parameter(@OA\Schema(type="number"), in="query", name="tournamentID", example="1", description="Tournament ID"),
+     *   @OA\Parameter(@OA\Schema(type="number"), in="query", name="clubMemberID", example="1", description="Member ID"),
      * )
      */
     Flight::route('GET /', function(){
@@ -43,7 +46,9 @@ Flight::group('/results', function () {
      *      @OA\Response(
      *           response=200,
      *           description="Get a result by ID"
-     *      )
+     *      ),
+     *    @OA\Parameter(@OA\Schema(type="number"), in="query", name="userID", example="1", description="User ID"),
+     *   @OA\Parameter(@OA\Schema(type="number"), in="path", name="id", example="1", description="Result ID")
      * )
      */
     Flight::route('GET /@id', function($id){
@@ -61,7 +66,20 @@ Flight::group('/results', function () {
      *      @OA\Response(
      *           response=200,
      *           description="Create a result"
-     *      )
+     *      ),
+     *      @OA\RequestBody(
+     *          description="Result data payload",
+     *          @OA\JsonContent(
+     *              required={"opponentFirstName","opponentLastName","resultStatus", "clubMemberID", "tournamentID", "appUserID"},
+     *              @OA\Property(property="opponentFirstName", type="string", example="Some first name", description="Opponent first name"),
+     *              @OA\Property(property="opponentLastName", type="string", example="Some last name", description="Opponent last name"),
+     *              @OA\Property(property="resultStatus", type="string", example="VICTORY", description="Result status"),
+     *              @OA\Property(property="clubMemberID", type="number", example="1", description="Member ID"),
+     *              @OA\Property(property="tournamentID", type="number", example="1", description="Tournament ID"),
+     *              @OA\Property(property="appUserID", type="number", example="1", description="User ID"),
+     *          )
+     *      ),
+     *     @OA\Parameter(@OA\Schema(type="number"), in="query", name="userID", example="1", description="User ID"),
      * )
      */
     Flight::route('POST /', function(){
@@ -91,7 +109,21 @@ Flight::group('/results', function () {
      *      @OA\Response(
      *           response=200,
      *           description="Edit a result"
-     *      )
+     *      ),
+     *      @OA\RequestBody(
+     *          description="Result data payload",
+     *          @OA\JsonContent(
+     *              required={"opponentFirstName","opponentLastName","resultStatus", "clubMemberID", "tournamentID", "appUserID"},
+     *              @OA\Property(property="opponentFirstName", type="string", example="Some first name", description="Opponent first name"),
+     *              @OA\Property(property="opponentLastName", type="string", example="Some last name", description="Opponent last name"),
+     *              @OA\Property(property="resultStatus", type="string", example="VICTORY", description="Result status"),
+     *              @OA\Property(property="clubMemberID", type="number", example="1", description="Member ID"),
+     *              @OA\Property(property="tournamentID", type="number", example="1", description="Tournament ID"),
+     *              @OA\Property(property="appUserID", type="number", example="1", description="User ID"),
+     *          )
+     *      ),
+     *    @OA\Parameter(@OA\Schema(type="number"), in="query", name="userID", example="1", description="User ID"),
+     *  @OA\Parameter(@OA\Schema(type="number"), in="path", name="id", example="1", description="Result ID"),
      * )
      */
     Flight::route('PUT /@id', function($id){
@@ -111,7 +143,9 @@ Flight::group('/results', function () {
      *      @OA\Response(
      *           response=200,
      *           description="Delete a result"
-     *      )
+     *      ),
+     *   @OA\Parameter(@OA\Schema(type="number"), in="query", name="userID", example="1", description="User ID"),
+     * @OA\Parameter(@OA\Schema(type="number"), in="path", name="id", example="1", description="Result ID"),
      * )
      */
     Flight::route('DELETE /@id', function($id){

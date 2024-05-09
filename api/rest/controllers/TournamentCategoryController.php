@@ -9,7 +9,8 @@
          *      @OA\Response(
          *           response=200,
          *           description="Get all tournament categories"
-         *      )
+         *      ),
+         *     @OA\Parameter(@OA\Schema(type="number"), in="query", name="userID", example="1", description="User ID"),
          * )
          */
         Flight::route('GET /', function(){
@@ -37,7 +38,9 @@
          *      @OA\Response(
          *           response=200,
          *           description="Get a tournament category by ID"
-         *      )
+         *      ),
+         *    @OA\Parameter(@OA\Schema(type="number"), in="query", name="userID", example="1", description="User ID"),
+         *   @OA\Parameter(@OA\Schema(type="number"), in="path", name="id", example="1", description="Tournament Category ID")
          * )
          */
         Flight::route('GET /@id', function($id){
@@ -55,7 +58,17 @@
          *      @OA\Response(
          *           response=200,
          *           description="Create a tournament category"
-         *      )
+         *      ),
+         *      @OA\RequestBody(
+        *          description="Tournament Category data payload",
+        *          @OA\JsonContent(
+        *              required={"tournamentID","category", "appUserID"},
+        *             @OA\Property(property="tournamentID", type="number", example="1", description="Tournament ID"),
+        *             @OA\Property(property="category", type="string", example="JUNIOR", description="Tournament category"),
+        *              @OA\Property(property="appUserID", type="number", example="1", description="User ID"),
+        *          )
+        *      ),
+         *   @OA\Parameter(@OA\Schema(type="number"), in="query", name="userID", example="1", description="User ID"),
          * )
          */
         Flight::route('POST /', function(){
@@ -73,7 +86,17 @@
          *      @OA\Response(
          *           response=200,
          *           description="Edit a tournament category"
-         *      )
+         *      ),
+        *      @OA\RequestBody(
+        *          description="Tournament Category data payload",
+        *          @OA\JsonContent(
+        *              required={"tournamentID","category", "appUserID"},
+        *             @OA\Property(property="tournamentID", type="number", example="1", description="Tournament ID"),
+        *             @OA\Property(property="category", type="string", example="JUNIOR", description="Tournament category"),
+        *              @OA\Property(property="appUserID", type="number", example="1", description="User ID"),
+        *          )
+        *      ),
+         *    @OA\Parameter(@OA\Schema(type="number"), in="query", name="userID", example="1", description="User ID"),
          * )
          */
         Flight::route('PUT /@id', function($id){
@@ -92,7 +115,8 @@
          *      @OA\Response(
          *           response=200,
          *           description="Delete a tournament category"
-         *      )
+         *      ),
+         *   @OA\Parameter(@OA\Schema(type="number"), in="query", name="userID", example="1", description="User ID"),
          * )
          */
         Flight::route('DELETE /@id', function($id){

@@ -9,7 +9,8 @@ Flight::group('/tournaments', function () {
      *      @OA\Response(
      *           response=200,
      *           description="Get all tournaments"
-     *      )
+     *      ),
+     *     @OA\Parameter(@OA\Schema(type="number"), in="query", name="userID", example="1", description="User ID"),
      * )
      */
     Flight::route('GET /', function(){
@@ -36,7 +37,9 @@ Flight::group('/tournaments', function () {
      *      @OA\Response(
      *           response=200,
      *           description="Get a tournament by ID"
-     *      )
+     *      ),
+     *    @OA\Parameter(@OA\Schema(type="number"), in="query", name="userID", example="1", description="User ID"),
+     *   @OA\Parameter(@OA\Schema(type="number"), in="path", name="id", example="1", description="Tournament ID"),
      * )
      */
     Flight::route('GET /@id', function($id){
@@ -54,7 +57,19 @@ Flight::group('/tournaments', function () {
      *      @OA\Response(
      *           response=200,
      *           description="Create a tournament"
-     *      )
+     *      ),
+     *      @OA\RequestBody(
+     *          description="Tournament data payload",
+     *          @OA\JsonContent(
+     *              required={"tournamentName","tournamentDate","tournamentLocation", "tournamentStatus", "appUserID"},
+     *              @OA\Property(property="tournamentName", type="string", example="Some tournament name", description="Tournament name"),
+     *              @OA\Property(property="tournamentDate", type="string", example="2024-01-01", description="Tournament date"),
+     *              @OA\Property(property="tournamentLocation", type="string", example="Belgrade", description="Tournament location"),
+     *              @OA\Property(property="tournamentStatus", type="string", example="UPCOMING", description="Tournament status"),
+     *              @OA\Property(property="appUserID", type="number", example="1", description="User ID"),
+     *          )
+     *      ),
+     *    @OA\Parameter(@OA\Schema(type="number"), in="query", name="userID", example="1", description="User ID"),
      * )
      */
     Flight::route('POST /', function(){
@@ -95,7 +110,20 @@ Flight::group('/tournaments', function () {
      *      @OA\Response(
      *           response=200,
      *           description="Edit a tournament"
-     *      )
+     *      ),
+     *      @OA\RequestBody(
+     *          description="Tournament data payload",
+     *          @OA\JsonContent(
+     *              required={"tournamentName","tournamentDate","tournamentLocation", "tournamentStatus", "appUserID"},
+     *              @OA\Property(property="tournamentName", type="string", example="Some tournament name", description="Tournament name"),
+     *              @OA\Property(property="tournamentDate", type="string", example="2024-01-01", description="Tournament date"),
+     *              @OA\Property(property="tournamentLocation", type="string", example="Belgrade", description="Tournament location"),
+     *              @OA\Property(property="tournamentStatus", type="string", example="UPCOMING", description="Tournament status"),
+     *              @OA\Property(property="appUserID", type="number", example="1", description="User ID"),
+     *          )
+     *      ),
+     *   @OA\Parameter(@OA\Schema(type="number"), in="query", name="userID", example="1", description="User ID"),
+     *  @OA\Parameter(@OA\Schema(type="number"), in="path", name="id", example="1", description="Tournament ID"),
      * )
      */
     Flight::route('PUT /@id', function($id){
@@ -135,7 +163,9 @@ Flight::group('/tournaments', function () {
      *      @OA\Response(
      *           response=200,
      *           description="Mark a tournament as completed"
-     *      )
+     *      ),
+     *  @OA\Parameter(@OA\Schema(type="number"), in="query", name="userID", example="1", description="User ID"),
+     * @OA\Parameter(@OA\Schema(type="number"), in="path", name="id", example="1", description="Tournament ID"),
      * )
      */
     Flight::route('PUT /@id/complete', function($id){

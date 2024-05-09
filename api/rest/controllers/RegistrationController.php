@@ -11,7 +11,8 @@ Flight::group('/registrations', function () {
      *      @OA\Response(
      *           response=200,
      *           description="Get all registrations"
-     *      )
+     *      ),
+     *      @OA\Parameter(@OA\Schema(type="number"), in="query", name="userID", example="1", description="User ID")
      * )
      */
     Flight::route('GET /', function(){
@@ -42,7 +43,9 @@ Flight::group('/registrations', function () {
      *      @OA\Response(
      *           response=200,
      *           description="Get a registration by ID"
-     *      )
+     *      ),
+     *     @OA\Parameter(@OA\Schema(type="number"), in="query", name="userID", example="1", description="User ID"),
+     *    @OA\Parameter(@OA\Schema(type="number"), in="path", name="id", example="1", description="Registration ID"),
      * )
      */
     Flight::route('GET /@id', function($id){
@@ -60,7 +63,22 @@ Flight::group('/registrations', function () {
      *      @OA\Response(
      *           response=200,
      *           description="Create a registration"
-     *      )
+     *      ),
+     *      @OA\RequestBody(
+     *          description="Registration data payload",
+     *          @OA\JsonContent(
+     *              required={"firstName","lastName","dateOfBirth", "birthplace", "gender", "email", "registrationStatus", "appUserID"},
+     *              @OA\Property(property="firstName", type="string", example="Some first name", description="Registration first name"),
+     *              @OA\Property(property="lastName", type="string", example="Some last name", description="Registration last name"),
+     *              @OA\Property(property="dateOfBirth", type="string", example="2024-01-01", description="Registration date of birth"),
+     *              @OA\Property(property="email", type="string", example="example@mail.com", description="Registration email"),
+     *              @OA\Property(property="birthplace", type="string", example="Belgrade", description="Registration birthplace"),
+     *              @OA\Property(property="gender", type="string", example="MALE", description="Registration gender"),
+     *              @OA\Property(property="registrationStatus", type="string", example="Pending", description="Registration status"),
+     *              @OA\Property(property="appUserID", type="number", example="1", description="User ID"),
+     *          )
+     *      ),
+     *     @OA\Parameter(@OA\Schema(type="number"), in="query", name="userID", example="1", description="User ID"),
      * )
      */
     Flight::route('POST /', function(){
@@ -80,7 +98,23 @@ Flight::group('/registrations', function () {
      *      @OA\Response(
      *           response=200,
      *           description="Edit a registration"
-     *      )
+     *      ),
+     *      @OA\RequestBody(
+     *          description="Registration data payload",
+     *          @OA\JsonContent(
+     *              required={"firstName","lastName","dateOfBirth", "birthplace", "gender", "email", "registrationStatus", "appUserID"},
+     *              @OA\Property(property="firstName", type="string", example="Some first name", description="Registration first name"),
+     *              @OA\Property(property="lastName", type="string", example="Some last name", description="Registration last name"),
+     *              @OA\Property(property="dateOfBirth", type="string", example="2024-01-01", description="Registration date of birth"),
+     *              @OA\Property(property="email", type="string", example="example@mail.com", description="Registration email"),
+     *              @OA\Property(property="birthplace", type="string", example="Belgrade", description="Registration birthplace"),
+     *              @OA\Property(property="gender", type="string", example="MALE", description="Registration gender"),
+     *              @OA\Property(property="registrationStatus", type="string", example="Pending", description="Registration status"),
+     *              @OA\Property(property="appUserID", type="number", example="1", description="User ID"),
+     *          )
+     *      ),
+     *    @OA\Parameter(@OA\Schema(type="number"), in="query", name="userID", example="1", description="User ID"),
+     *   @OA\Parameter(@OA\Schema(type="number"), in="path", name="id", example="1", description="Registration ID"),
      * )
      */
     Flight::route('PUT /@id', function($id){
@@ -100,7 +134,10 @@ Flight::group('/registrations', function () {
      *      @OA\Response(
      *           response=200,
      *           description="Edit a registration's status"
-     *      )
+     *      ),
+     *   @OA\Parameter(@OA\Schema(type="number"), in="query", name="userID", example="1", description="User ID"),
+     *   @OA\Parameter(@OA\Schema(type="number"), in="path", name="id", example="1", description="Registration ID"),
+     *   @OA\Parameter(@OA\Schema(type="string"), in="path", name="status", example="ACCEPTED", description="Registration Status"),
      * )
      */
     Flight::route('PUT /@id/@status', function($id, $status){
@@ -140,7 +177,9 @@ Flight::group('/registrations', function () {
      *      @OA\Response(
      *           response=200,
      *           description="Delete a registration"
-     *      )
+     *      ),
+     *   @OA\Parameter(@OA\Schema(type="number"), in="query", name="userID", example="1", description="User ID"),
+     *  @OA\Parameter(@OA\Schema(type="number"), in="path", name="id", example="1", description="Registration ID"),
      * )
      */
     Flight::route('DELETE /@id', function($id){

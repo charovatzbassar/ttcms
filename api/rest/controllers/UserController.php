@@ -28,7 +28,15 @@ Flight::group('/auth', function () {
      *      @OA\Response(
      *           response=200,
      *           description="Log in user"
-     *      )
+     *      ),
+     *      @OA\RequestBody(
+     *          description="Login payload",
+     *          @OA\JsonContent(
+     *              required={"email","passwordHash"},
+     *              @OA\Property(property="email", type="string", example="example@mail.com", description="Email"),
+     *              @OA\Property(property="passwordHash", type="string", example="wordpass12", description="Password Hash"),
+     *          )
+     *      ),
      * )
      */
     Flight::route('POST /login', function(){
@@ -56,7 +64,18 @@ Flight::group('/auth', function () {
      *      @OA\Response(
      *           response=200,
      *           description="Register user"
-     *      )
+     *      ),
+     *      @OA\RequestBody(
+     *          description="Login payload",
+     *          @OA\JsonContent(
+     *              required={"email","passwordHash", "firstName", "lastName", "clubName"},
+     *              @OA\Property(property="email", type="string", example="example@mail.com", description="Email"),
+     *              @OA\Property(property="passwordHash", type="string", example="wordpass12", description="Password Hash"),
+     *              @OA\Property(property="firstName", type="string", example="Some first name", description="First name"),
+     *             @OA\Property(property="lastName", type="string", example="Some last name", description="Last name"),
+     *             @OA\Property(property="clubName", type="string", example="Some club name", description="Club name"),
+     *          )
+     *      ),
      * )
      */
     Flight::route('POST /register', function(){
