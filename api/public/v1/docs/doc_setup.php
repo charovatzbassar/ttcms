@@ -14,11 +14,11 @@
  *   @OA\Server(
  *       url=BASE_URL,
  *   )
- * )
+ * ),
  * @OA\SecurityScheme(
- *     securityScheme="ApiKeyAuth",
+ *     securityScheme="JWTAuth",
  *     type="apiKey",
  *     in="header",
- *     name="Authentication"
+ *     name="Authorization"
  * )
  */

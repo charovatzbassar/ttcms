@@ -9,11 +9,12 @@ Flight::group('/tournaments', function () {
      *      path="/tournaments",
      *      tags={"Tournaments"},
      *      summary="Get all tournaments",
+     *     security={{"JWTAuth": {}}},
      *      @OA\Response(
      *           response=200,
      *           description="Get all tournaments"
      *      ),
-     *     @OA\Parameter(@OA\Schema(type="number"), in="query", name="userID", example="1", description="User ID"),
+     *     
      * )
      */
     Flight::route('GET /', function(){
@@ -40,11 +41,12 @@ Flight::group('/tournaments', function () {
      *      path="/tournaments/{id}",
      *      tags={"Tournaments"},
      *      summary="Get a tournament by ID",
+     *    security={{"JWTAuth": {}}},
      *      @OA\Response(
      *           response=200,
      *           description="Get a tournament by ID"
      *      ),
-     *    @OA\Parameter(@OA\Schema(type="number"), in="query", name="userID", example="1", description="User ID"),
+     *    
      *   @OA\Parameter(@OA\Schema(type="number"), in="path", name="id", example="1", description="Tournament ID"),
      * )
      */
@@ -63,6 +65,7 @@ Flight::group('/tournaments', function () {
      *      path="/tournaments",
      *      tags={"Tournaments"},
      *      summary="Create a tournament",
+     *   security={{"JWTAuth": {}}},
      *      @OA\Response(
      *           response=200,
      *           description="Create a tournament"
@@ -78,7 +81,7 @@ Flight::group('/tournaments', function () {
      *              @OA\Property(property="appUserID", type="number", example="1", description="User ID"),
      *          )
      *      ),
-     *    @OA\Parameter(@OA\Schema(type="number"), in="query", name="userID", example="1", description="User ID"),
+     *    
      * )
      */
     Flight::route('POST /', function(){
@@ -119,6 +122,7 @@ Flight::group('/tournaments', function () {
      *      path="/tournaments/{id}",
      *      tags={"Tournaments"},
      *      summary="Edit a tournament",
+     *   security={{"JWTAuth": {}}},
      *      @OA\Response(
      *           response=200,
      *           description="Edit a tournament"
@@ -134,7 +138,7 @@ Flight::group('/tournaments', function () {
      *              @OA\Property(property="appUserID", type="number", example="1", description="User ID"),
      *          )
      *      ),
-     *   @OA\Parameter(@OA\Schema(type="number"), in="query", name="userID", example="1", description="User ID"),
+     *   
      *  @OA\Parameter(@OA\Schema(type="number"), in="path", name="id", example="1", description="Tournament ID"),
      * )
      */
@@ -175,11 +179,12 @@ Flight::group('/tournaments', function () {
      *      path="/tournaments/{id}/complete",
      *      tags={"Tournaments"},
      *      summary="Mark a tournament as completed",
+     *  security={{"JWTAuth": {}}},
      *      @OA\Response(
      *           response=200,
      *           description="Mark a tournament as completed"
      *      ),
-     *  @OA\Parameter(@OA\Schema(type="number"), in="query", name="userID", example="1", description="User ID"),
+     *  
      * @OA\Parameter(@OA\Schema(type="number"), in="path", name="id", example="1", description="Tournament ID"),
      * )
      */
@@ -198,6 +203,7 @@ Flight::group('/tournaments', function () {
      *      path="/tournaments/{id}",
      *      tags={"Tournaments"},
      *      summary="Delete a tournament",
+     *  security={{"JWTAuth": {}}},
      *      @OA\Response(
      *           response=200,
      *           description="Delete a tournament"

@@ -10,12 +10,12 @@ Flight::group('/registrations', function () {
      * @OA\Get(
      *      path="/registrations",
      *      tags={"Registrations"},
+     *      security={{"JWTAuth": {}}},
      *      summary="Get all registrations",
      *      @OA\Response(
      *           response=200,
      *           description="Get all registrations"
      *      ),
-     *      @OA\Parameter(@OA\Schema(type="number"), in="query", name="userID", example="1", description="User ID")
      * )
      */
     Flight::route('GET /', function(){
@@ -45,11 +45,12 @@ Flight::group('/registrations', function () {
      *      path="/registrations/{id}",
      *      tags={"Registrations"},
      *      summary="Get a registration by ID",
+     *     security={{"JWTAuth": {}}},
      *      @OA\Response(
      *           response=200,
      *           description="Get a registration by ID"
      *      ),
-     *     @OA\Parameter(@OA\Schema(type="number"), in="query", name="userID", example="1", description="User ID"),
+     *     
      *    @OA\Parameter(@OA\Schema(type="number"), in="path", name="id", example="1", description="Registration ID"),
      * )
      */
@@ -85,7 +86,7 @@ Flight::group('/registrations', function () {
      *              @OA\Property(property="appUserID", type="number", example="1", description="User ID"),
      *          )
      *      ),
-     *     @OA\Parameter(@OA\Schema(type="number"), in="query", name="userID", example="1", description="User ID"),
+     *     
      * )
      */
     Flight::route('POST /', function(){
@@ -102,6 +103,7 @@ Flight::group('/registrations', function () {
      *      path="/registrations/{id}",
      *      tags={"Registrations"},
      *      summary="Edit a registration",
+     *      security={{"JWTAuth": {}}},
      *      @OA\Response(
      *           response=200,
      *           description="Edit a registration"
@@ -120,7 +122,7 @@ Flight::group('/registrations', function () {
      *              @OA\Property(property="appUserID", type="number", example="1", description="User ID"),
      *          )
      *      ),
-     *    @OA\Parameter(@OA\Schema(type="number"), in="query", name="userID", example="1", description="User ID"),
+     *    
      *   @OA\Parameter(@OA\Schema(type="number"), in="path", name="id", example="1", description="Registration ID"),
      * )
      */
@@ -140,11 +142,12 @@ Flight::group('/registrations', function () {
      *      path="/registrations/{id}/{status}",
      *      tags={"Registrations"},
      *      summary="Edit a registration's status",
+     *     security={{"JWTAuth": {}}},
      *      @OA\Response(
      *           response=200,
      *           description="Edit a registration's status"
      *      ),
-     *   @OA\Parameter(@OA\Schema(type="number"), in="query", name="userID", example="1", description="User ID"),
+     *   
      *   @OA\Parameter(@OA\Schema(type="number"), in="path", name="id", example="1", description="Registration ID"),
      *   @OA\Parameter(@OA\Schema(type="string"), in="path", name="status", example="ACCEPTED", description="Registration Status"),
      * )
@@ -186,11 +189,12 @@ Flight::group('/registrations', function () {
      *      path="/registrations/{id}",
      *      tags={"Registrations"},
      *      summary="Delete a registration",
+     *    security={{"JWTAuth": {}}},
      *      @OA\Response(
      *           response=200,
      *           description="Delete a registration"
      *      ),
-     *   @OA\Parameter(@OA\Schema(type="number"), in="query", name="userID", example="1", description="User ID"),
+     *   
      *  @OA\Parameter(@OA\Schema(type="number"), in="path", name="id", example="1", description="Registration ID"),
      * )
      */

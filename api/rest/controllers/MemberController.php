@@ -11,11 +11,12 @@ require_once __DIR__.'/../utils/Utils.class.php';
      *      path="/members",
      *      tags={"Members"},
      *      summary="Get all members",
+     *      security={{"JWTAuth": {}}},
      *      @OA\Response(
      *           response=200,
      *           description="Get all members"
      *      ),
-     *      @OA\Parameter(@OA\Schema(type="number"), in="query", name="userID", example="1", description="User ID")
+     * 
      * )
      */
         Flight::route('GET /', function(){
@@ -60,12 +61,13 @@ require_once __DIR__.'/../utils/Utils.class.php';
      *      path="/members/{id}",
      *      tags={"Members"},
      *      summary="Get a member by ID",
+     *     security={{"JWTAuth": {}}},
      *      @OA\Response(
      *           response=200,
      *           description="Get a member by ID"
      *      ),
      *      @OA\Parameter(@OA\Schema(type="number"), in="path", name="id", example="1", description="Member ID"),
-     *      @OA\Parameter(@OA\Schema(type="number"), in="query", name="userID", example="1", description="User ID")
+     *      
      * )
      */
         Flight::route('GET /@id', function($id){
@@ -83,6 +85,7 @@ require_once __DIR__.'/../utils/Utils.class.php';
      *      path="/members",
      *      tags={"Members"},
      *      summary="Create a member",
+     *     security={{"JWTAuth": {}}},
      *      @OA\Response(
      *           response=200,
      *           description="Create a member"
@@ -101,7 +104,7 @@ require_once __DIR__.'/../utils/Utils.class.php';
      *              @OA\Property(property="appUserID", type="number", example="1", description="User ID"),
      *          )
      *      ),
-     *      @OA\Parameter(@OA\Schema(type="number"), in="query", name="userID", example="1", description="User ID")
+     *      
      * )
      */
         Flight::route('POST /', function(){
@@ -122,6 +125,7 @@ require_once __DIR__.'/../utils/Utils.class.php';
      *      path="/members/{id}",
      *      tags={"Members"},
      *      summary="Edit a member",
+     *      security={{"JWTAuth": {}}},
      *      @OA\Response(
      *           response=200,
      *           description="Edit a member"
@@ -141,7 +145,7 @@ require_once __DIR__.'/../utils/Utils.class.php';
      *          )
      *      ),
      *      @OA\Parameter(@OA\Schema(type="number"), in="path", name="id", example="1", description="Member ID"),
-     *      @OA\Parameter(@OA\Schema(type="number"), in="query", name="userID", example="1", description="User ID")
+     *      
      * )
      */
         Flight::route('PUT /@id', function($id){
@@ -161,12 +165,13 @@ require_once __DIR__.'/../utils/Utils.class.php';
      *      path="/members/{id}/paid",
      *      tags={"Members"},
      *      summary="Set member's membership as paid",
+     *     security={{"JWTAuth": {}}},
      *      @OA\Response(
      *           response=200,
      *           description="Set member's membership as paid"
      *      ),
      *      @OA\Parameter(@OA\Schema(type="number"), in="path", name="id", example="1", description="Member ID"),
-     *     @OA\Parameter(@OA\Schema(type="number"), in="query", name="userID", example="1", description="User ID")
+     *     
      * )
      */
         Flight::route('PUT /@id/paid', function($id){
@@ -184,12 +189,13 @@ require_once __DIR__.'/../utils/Utils.class.php';
      *      path="/members/{id}",
      *      tags={"Members"},
      *      summary="Delete a member",
+     *    security={{"JWTAuth": {}}},
      *      @OA\Response(
      *           response=200,
      *           description="Delete a member"
      *      ),
      *      @OA\Parameter(@OA\Schema(type="number"), in="path", name="id", example="1", description="Member ID"),
-     *     @OA\Parameter(@OA\Schema(type="number"), in="query", name="userID", example="1", description="User ID")
+     *     
      * )
      */
         Flight::route('DELETE /@id', function($id){

@@ -9,11 +9,12 @@ use Firebase\JWT\Key;
          *      path="/tournament-categories",
          *      tags={"Tournament Categories"},
          *      summary="Get all tournament categories",
+         *     security={{"JWTAuth": {}}},
          *      @OA\Response(
          *           response=200,
          *           description="Get all tournament categories"
          *      ),
-         *     @OA\Parameter(@OA\Schema(type="number"), in="query", name="userID", example="1", description="User ID"),
+         *     
          * )
          */
         Flight::route('GET /', function(){
@@ -41,11 +42,12 @@ use Firebase\JWT\Key;
          *      path="/tournament-categories/{id}",
          *      tags={"Tournament Categories"},
          *      summary="Get a tournament category by ID",
+         *     security={{"JWTAuth": {}}},
          *      @OA\Response(
          *           response=200,
          *           description="Get a tournament category by ID"
          *      ),
-         *    @OA\Parameter(@OA\Schema(type="number"), in="query", name="userID", example="1", description="User ID"),
+         *    
          *   @OA\Parameter(@OA\Schema(type="number"), in="path", name="id", example="1", description="Tournament Category ID")
          * )
          */
@@ -64,6 +66,7 @@ use Firebase\JWT\Key;
          *      path="/tournament-categories",
          *      tags={"Tournament Categories"},
          *      summary="Create a tournament category",
+         *    security={{"JWTAuth": {}}},
          *      @OA\Response(
          *           response=200,
          *           description="Create a tournament category"
@@ -77,7 +80,7 @@ use Firebase\JWT\Key;
         *              @OA\Property(property="appUserID", type="number", example="1", description="User ID"),
         *          )
         *      ),
-         *   @OA\Parameter(@OA\Schema(type="number"), in="query", name="userID", example="1", description="User ID"),
+         *   
          * )
          */
         Flight::route('POST /', function(){
@@ -95,6 +98,7 @@ use Firebase\JWT\Key;
          *      path="/tournament-categories/{id}",
          *      tags={"Tournament Categories"},
          *      summary="Edit a tournament category",
+         *    security={{"JWTAuth": {}}},
          *      @OA\Response(
          *           response=200,
          *           description="Edit a tournament category"
@@ -108,7 +112,7 @@ use Firebase\JWT\Key;
         *              @OA\Property(property="appUserID", type="number", example="1", description="User ID"),
         *          )
         *      ),
-         *    @OA\Parameter(@OA\Schema(type="number"), in="query", name="userID", example="1", description="User ID"),
+         *    
          * )
          */
         Flight::route('PUT /@id', function($id){
@@ -127,11 +131,12 @@ use Firebase\JWT\Key;
          *      path="/tournament-categories/{id}",
          *      tags={"Tournament Categories"},
          *      summary="Delete a tournament category",
+         *   security={{"JWTAuth": {}}},
          *      @OA\Response(
          *           response=200,
          *           description="Delete a tournament category"
          *      ),
-         *   @OA\Parameter(@OA\Schema(type="number"), in="query", name="userID", example="1", description="User ID"),
+         *   
          * )
          */
         Flight::route('DELETE /@id', function($id){

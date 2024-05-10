@@ -9,11 +9,12 @@ Flight::group('/results', function () {
      *      path="/results",
      *      tags={"Results"},
      *      summary="Get all results",
+     *     security={{"JWTAuth": {}}},
      *      @OA\Response(
      *           response=200,
      *           description="Get all results"
      *      ),
-     *     @OA\Parameter(@OA\Schema(type="number"), in="query", name="userID", example="1", description="User ID"),
+     *     
      *   @OA\Parameter(@OA\Schema(type="number"), in="query", name="tournamentID", example="1", description="Tournament ID"),
      *   @OA\Parameter(@OA\Schema(type="number"), in="query", name="clubMemberID", example="1", description="Member ID"),
      * )
@@ -48,11 +49,12 @@ Flight::group('/results', function () {
      *      path="/results/{id}",
      *      tags={"Results"},
      *      summary="Get a result by ID",
+     *    security={{"JWTAuth": {}}},
      *      @OA\Response(
      *           response=200,
      *           description="Get a result by ID"
      *      ),
-     *    @OA\Parameter(@OA\Schema(type="number"), in="query", name="userID", example="1", description="User ID"),
+     *    
      *   @OA\Parameter(@OA\Schema(type="number"), in="path", name="id", example="1", description="Result ID")
      * )
      */
@@ -71,6 +73,7 @@ Flight::group('/results', function () {
      *      path="/results",
      *      tags={"Results"},
      *      summary="Create a result",
+     *    security={{"JWTAuth": {}}},
      *      @OA\Response(
      *           response=200,
      *           description="Create a result"
@@ -87,7 +90,7 @@ Flight::group('/results', function () {
      *              @OA\Property(property="appUserID", type="number", example="1", description="User ID"),
      *          )
      *      ),
-     *     @OA\Parameter(@OA\Schema(type="number"), in="query", name="userID", example="1", description="User ID"),
+     *     
      * )
      */
     Flight::route('POST /', function(){
@@ -117,6 +120,7 @@ Flight::group('/results', function () {
      *      path="/results/{id}",
      *      tags={"Results"},
      *      summary="Edit a result",
+     *   security={{"JWTAuth": {}}},
      *      @OA\Response(
      *           response=200,
      *           description="Edit a result"
@@ -133,7 +137,7 @@ Flight::group('/results', function () {
      *              @OA\Property(property="appUserID", type="number", example="1", description="User ID"),
      *          )
      *      ),
-     *    @OA\Parameter(@OA\Schema(type="number"), in="query", name="userID", example="1", description="User ID"),
+     *    
      *  @OA\Parameter(@OA\Schema(type="number"), in="path", name="id", example="1", description="Result ID"),
      * )
      */
@@ -153,11 +157,12 @@ Flight::group('/results', function () {
      *      path="/results/{id}",
      *      tags={"Results"},
      *      summary="Delete a result",
+     *   security={{"JWTAuth": {}}},
      *      @OA\Response(
      *           response=200,
      *           description="Delete a result"
      *      ),
-     *   @OA\Parameter(@OA\Schema(type="number"), in="query", name="userID", example="1", description="User ID"),
+     *   
      * @OA\Parameter(@OA\Schema(type="number"), in="path", name="id", example="1", description="Result ID"),
      * )
      */
