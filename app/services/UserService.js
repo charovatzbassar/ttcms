@@ -37,6 +37,11 @@ var UserService = {
   getLoggedInUser: () => {
     return localStorage.getItem("token");
   },
+  checkAuth: (page) => {
+    if (!UserService.getLoggedInUser()) {
+      window.location.hash = "login";
+    } else page();
+  },
   getAllUsers: () => {
     return $.ajax({
       url: `${API_BASE_URL}/auth/users`,
