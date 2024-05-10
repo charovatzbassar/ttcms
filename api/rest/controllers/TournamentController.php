@@ -17,19 +17,8 @@ Flight::group('/tournaments', function () {
      * )
      */
     Flight::route('GET /', function(){
-        $headers = getallheaders();
 
-        if (!$headers['Authorization']){
-            Flight::json(["message" => "Token is missing."], 401);
-        } else {
-            try {
-                $decoded = JWT::decode($headers['Authorization'], new Key(JWT_SECRET, "HS256"));
-            } catch (Exception $e) {
-                Flight::json(["message" => "Invalid token."], 401);
-            }
-        }
-
-        $userID = $decoded->appUserID;
+        $userID = Flight::get('user')->appUserID;
         $tournamentService = new TournamentService(new TournamentDao($userID));
 
         $offset = Flight::request()->query['offset'];
@@ -42,6 +31,8 @@ Flight::group('/tournaments', function () {
         }
 
         Flight::json($tournaments);
+    })->addMiddleware(function(){
+        AuthMiddleware();
     });
 
     /**
@@ -58,22 +49,13 @@ Flight::group('/tournaments', function () {
      * )
      */
     Flight::route('GET /@id', function($id){
-        $headers = getallheaders();
 
-        if (!$headers['Authorization']){
-            Flight::json(["message" => "Token is missing."], 401);
-        } else {
-            try {
-                $decoded = JWT::decode($headers['Authorization'], new Key(JWT_SECRET, "HS256"));
-            } catch (Exception $e) {
-                Flight::json(["message" => "Invalid token."], 401);
-            }
-        }
-
-        $userID = $decoded->appUserID;
+        $userID = Flight::get('user')->appUserID;
         $tournamentService = new TournamentService(new TournamentDao($userID));
         $tournament = $tournamentService->getTournamentByID($id);
         Flight::json($tournament);
+    })->addMiddleware(function(){
+        AuthMiddleware();
     });
 
     /**
@@ -100,19 +82,8 @@ Flight::group('/tournaments', function () {
      * )
      */
     Flight::route('POST /', function(){
-        $headers = getallheaders();
 
-        if (!$headers['Authorization']){
-            Flight::json(["message" => "Token is missing."], 401);
-        } else {
-            try {
-                $decoded = JWT::decode($headers['Authorization'], new Key(JWT_SECRET, "HS256"));
-            } catch (Exception $e) {
-                Flight::json(["message" => "Invalid token."], 401);
-            }
-        }
-
-        $userID = $decoded->appUserID;
+        $userID = Flight::get('user')->appUserID;
         $data = Flight::request()->data->getData();
         $tournamentService = new TournamentService(new TournamentDao($userID));
 
@@ -139,6 +110,8 @@ Flight::group('/tournaments', function () {
         }
 
         Flight::json($response);
+    })->addMiddleware(function(){
+        AuthMiddleware();
     });
 
     /**
@@ -166,19 +139,8 @@ Flight::group('/tournaments', function () {
      * )
      */
     Flight::route('PUT /@id', function($id){
-        $headers = getallheaders();
 
-        if (!$headers['Authorization']){
-            Flight::json(["message" => "Token is missing."], 401);
-        } else {
-            try {
-                $decoded = JWT::decode($headers['Authorization'], new Key(JWT_SECRET, "HS256"));
-            } catch (Exception $e) {
-                Flight::json(["message" => "Invalid token."], 401);
-            }
-        }
-
-        $userID = $decoded->appUserID;
+        $userID = Flight::get('user')->appUserID;
         $data = Flight::request()->data->getData();
         $tournamentService = new TournamentService(new TournamentDao($userID));
         $tournamentCategoryService = new TournamentCategoryService(new TournamentCategoryDao($userID));
@@ -204,6 +166,8 @@ Flight::group('/tournaments', function () {
         }
 
         Flight::json($response);
+    })->addMiddleware(function(){
+        AuthMiddleware();
     });
 
     /**
@@ -220,22 +184,13 @@ Flight::group('/tournaments', function () {
      * )
      */
     Flight::route('PUT /@id/complete', function($id){
-        $headers = getallheaders();
 
-        if (!$headers['Authorization']){
-            Flight::json(["message" => "Token is missing."], 401);
-        } else {
-            try {
-                $decoded = JWT::decode($headers['Authorization'], new Key(JWT_SECRET, "HS256"));
-            } catch (Exception $e) {
-                Flight::json(["message" => "Invalid token."], 401);
-            }
-        }
-
-        $userID = $decoded->appUserID;
+        $userID = Flight::get('user')->appUserID;
         $tournamentService = new TournamentService(new TournamentDao($userID));
         $response = $tournamentService->markTournamentAsCompleted($id);
         Flight::json($response);
+    })->addMiddleware(function(){
+        AuthMiddleware();
     });
 
     /**
@@ -250,19 +205,8 @@ Flight::group('/tournaments', function () {
      * )
      */
     Flight::route('DELETE /@id', function($id){
-        $headers = getallheaders();
 
-        if (!$headers['Authorization']){
-            Flight::json(["message" => "Token is missing."], 401);
-        } else {
-            try {
-                $decoded = JWT::decode($headers['Authorization'], new Key(JWT_SECRET, "HS256"));
-            } catch (Exception $e) {
-                Flight::json(["message" => "Invalid token."], 401);
-            }
-        }
-
-        $userID = $decoded->appUserID;
+        $userID = Flight::get('user')->appUserID;
         $tournamentService = new TournamentService(new TournamentDao($userID));
         $resultService = new ResultService(new ResultDao($userID));
         $tournamentCategoryService = new TournamentCategoryService(new TournamentCategoryDao($userID));
@@ -271,6 +215,8 @@ Flight::group('/tournaments', function () {
 
         $response = $tournamentService->deleteTournament($id);
         Flight::json($response);
+    })->addMiddleware(function(){
+        AuthMiddleware();
     });
 });
 

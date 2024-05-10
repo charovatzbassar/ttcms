@@ -19,19 +19,7 @@ Flight::group('/registrations', function () {
      * )
      */
     Flight::route('GET /', function(){
-        $headers = getallheaders();
-
-        if (!$headers['Authorization']){
-            Flight::json(["message" => "Token is missing."], 401);
-        } else {
-            try {
-                $decoded = JWT::decode($headers['Authorization'], new Key(JWT_SECRET, "HS256"));
-            } catch (Exception $e) {
-                Flight::json(["message" => "Invalid token."], 401);
-            }
-        }
-
-        $userID = $decoded->appUserID;
+        $userID = Flight::get('user')->appUserID;
         $registrationService = new RegistrationService(new RegistrationDao($userID));
 
         $offset = Flight::request()->query['offset'];
@@ -48,6 +36,8 @@ Flight::group('/registrations', function () {
         }
 
         Flight::json($registrations);
+    })->addMiddleware(function(){
+        AuthMiddleware();
     });
 
     /**
@@ -64,22 +54,12 @@ Flight::group('/registrations', function () {
      * )
      */
     Flight::route('GET /@id', function($id){
-        $headers = getallheaders();
-
-        if (!$headers['Authorization']){
-            Flight::json(["message" => "Token is missing."], 401);
-        } else {
-            try {
-                $decoded = JWT::decode($headers['Authorization'], new Key(JWT_SECRET, "HS256"));
-            } catch (Exception $e) {
-                Flight::json(["message" => "Invalid token."], 401);
-            }
-        }
-
-        $userID = $decoded->appUserID;
+        $userID = Flight::get('user')->appUserID;
         $registrationService = new RegistrationService(new RegistrationDao($userID));
         $registration = $registrationService->getRegistrationByID($id);
         Flight::json($registration);
+    })->addMiddleware(function(){
+        AuthMiddleware();
     });
 
     /**
@@ -145,24 +125,14 @@ Flight::group('/registrations', function () {
      * )
      */
     Flight::route('PUT /@id', function($id){
-        $headers = getallheaders();
-
-        if (!$headers['Authorization']){
-            Flight::json(["message" => "Token is missing."], 401);
-        } else {
-            try {
-                $decoded = JWT::decode($headers['Authorization'], new Key(JWT_SECRET, "HS256"));
-            } catch (Exception $e) {
-                Flight::json(["message" => "Invalid token."], 401);
-            }
-        }
-
-        $userID = $decoded->appUserID;        
+        $userID = Flight::get('user')->appUserID;        
         $data = Flight::request()->data->getData();
         $registrationService = new RegistrationService(new RegistrationDao($userID));
 
         $response = $registrationService->updateRegistration($id, $data);
         Flight::json($response);
+    })->addMiddleware(function(){
+        AuthMiddleware();
     });
 
     /**
@@ -180,19 +150,8 @@ Flight::group('/registrations', function () {
      * )
      */
     Flight::route('PUT /@id/@status', function($id, $status){
-        $headers = getallheaders();
 
-        if (!$headers['Authorization']){
-            Flight::json(["message" => "Token is missing."], 401);
-        } else {
-            try {
-                $decoded = JWT::decode($headers['Authorization'], new Key(JWT_SECRET, "HS256"));
-            } catch (Exception $e) {
-                Flight::json(["message" => "Invalid token."], 401);
-            }
-        }
-
-        $userID = $decoded->appUserID;
+        $userID = Flight::get('user')->appUserID;
         $registrationService = new RegistrationService(new RegistrationDao($userID));
 
         if ($status == "ACCEPTED") {
@@ -218,6 +177,8 @@ Flight::group('/registrations', function () {
         
         $response = $registrationService->setRegistrationStatus($id, $status);
         Flight::json($response);
+    })->addMiddleware(function(){
+        AuthMiddleware();
     });
 
     /**
@@ -234,23 +195,14 @@ Flight::group('/registrations', function () {
      * )
      */
     Flight::route('DELETE /@id', function($id){
-        $headers = getallheaders();
 
-        if (!$headers['Authorization']){
-            Flight::json(["message" => "Token is missing."], 401);
-        } else {
-            try {
-                $decoded = JWT::decode($headers['Authorization'], new Key(JWT_SECRET, "HS256"));
-            } catch (Exception $e) {
-                Flight::json(["message" => "Invalid token."], 401);
-            }
-        }
-
-        $userID = $decoded->appUserID;
+        $userID = Flight::get('user')->appUserID;
         $registrationService = new RegistrationService(new RegistrationDao($userID));
 
         $response = $registrationService->deleteRegistration($id);
         Flight::json($response);
+    })->addMiddleware(function(){
+        AuthMiddleware();
     });
 });
 

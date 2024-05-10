@@ -34,13 +34,10 @@ var UserService = {
     window.location.hash = "login";
     window.location.reload();
   },
-  getLoggedInUser: () => {
-    return localStorage.getItem("token");
-  },
-  checkAuth: (page) => {
-    if (!UserService.getLoggedInUser()) {
+  checkAuth: (controller) => {
+    if (!localStorage.getItem("token")) {
       window.location.hash = "login";
-    } else page();
+    } else controller();
   },
   getAllUsers: () => {
     return $.ajax({

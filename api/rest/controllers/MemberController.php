@@ -20,19 +20,7 @@ require_once __DIR__.'/../utils/Utils.class.php';
      */
         Flight::route('GET /', function(){
 
-            $headers = getallheaders();
-
-            if (!$headers['Authorization']){
-                Flight::json(["message" => "Token is missing."], 401);
-            } else {
-                try {
-                    $decoded = JWT::decode($headers['Authorization'], new Key(JWT_SECRET, "HS256"));
-                } catch (Exception $e) {
-                    Flight::json(["message" => "Invalid token."], 401);
-                }
-            }
-
-            $userID = $decoded->appUserID;
+            $userID = Flight::get('user')->appUserID;
             $memberService = new MemberService(new MemberDao($userID));
 
             $date = date("Y-m-d");
@@ -63,6 +51,8 @@ require_once __DIR__.'/../utils/Utils.class.php';
 
             
             Flight::json($members);
+        })->addMiddleware(function(){
+            AuthMiddleware();
         });
     
     /**
@@ -79,21 +69,13 @@ require_once __DIR__.'/../utils/Utils.class.php';
      * )
      */
         Flight::route('GET /@id', function($id){
-            $headers = getallheaders();
-
-            if (!$headers['Authorization']){
-                Flight::json(["message" => "Token is missing."], 401);
-            } else {
-                try {
-                    $decoded = JWT::decode($headers['Authorization'], new Key(JWT_SECRET, "HS256"));
-                } catch (Exception $e) {
-                    Flight::json(["message" => "Invalid token."], 401);
-                }
-            }
-
-            $userID = $decoded->appUserID;            $memberService = new MemberService(new MemberDao($userID));
+            $userID = Flight::get('user')->appUserID;            
+            
+            $memberService = new MemberService(new MemberDao($userID));
             $member = $memberService->getMemberByID($id);
             Flight::json($member);
+        })->addMiddleware(function(){
+            AuthMiddleware();
         });
     
     /**
@@ -123,23 +105,16 @@ require_once __DIR__.'/../utils/Utils.class.php';
      * )
      */
         Flight::route('POST /', function(){
-            $headers = getallheaders();
-
-            if (!$headers['Authorization']){
-                Flight::json(["message" => "Token is missing."], 401);
-            } else {
-                try {
-                    $decoded = JWT::decode($headers['Authorization'], new Key(JWT_SECRET, "HS256"));
-                } catch (Exception $e) {
-                    Flight::json(["message" => "Invalid token."], 401);
-                }
-            }
-
-            $userID = $decoded->appUserID;
+            $userID = Flight::get('user')->appUserID;
             $data = Flight::request()->data->getData();
+
             $memberService = new MemberService(new MemberDao($userID));
+
             $response = $memberService->addMember($data);
             Flight::json($response);
+
+        })->addMiddleware(function(){
+            AuthMiddleware();
         });
     
     /**
@@ -170,24 +145,15 @@ require_once __DIR__.'/../utils/Utils.class.php';
      * )
      */
         Flight::route('PUT /@id', function($id){
-            $headers = getallheaders();
 
-            if (!$headers['Authorization']){
-                Flight::json(["message" => "Token is missing."], 401);
-            } else {
-                try {
-                    $decoded = JWT::decode($headers['Authorization'], new Key(JWT_SECRET, "HS256"));
-                } catch (Exception $e) {
-                    Flight::json(["message" => "Invalid token."], 401);
-                }
-            }
-
-            $userID = $decoded->appUserID;
+            $userID = Flight::get('user')->appUserID;
             $data = Flight::request()->data->getData();
             $memberService = new MemberService(new MemberDao($userID));
 
             $response = $memberService->updateMember($id, $data);
             Flight::json($response);
+        })->addMiddleware(function(){
+            AuthMiddleware();
         });
     
     /**
@@ -204,22 +170,13 @@ require_once __DIR__.'/../utils/Utils.class.php';
      * )
      */
         Flight::route('PUT /@id/paid', function($id){
-            $headers = getallheaders();
 
-            if (!$headers['Authorization']){
-                Flight::json(["message" => "Token is missing."], 401);
-            } else {
-                try {
-                    $decoded = JWT::decode($headers['Authorization'], new Key(JWT_SECRET, "HS256"));
-                } catch (Exception $e) {
-                    Flight::json(["message" => "Invalid token."], 401);
-                }
-            }
-
-            $userID = $decoded->appUserID;
+            $userID = Flight::get('user')->appUserID;
             $memberService = new MemberService(new MemberDao($userID));
             $response = $memberService->markMembershipAsPaid($id);
             Flight::json($response);
+        })->addMiddleware(function(){
+            AuthMiddleware();
         });
     
     /**
@@ -236,19 +193,7 @@ require_once __DIR__.'/../utils/Utils.class.php';
      * )
      */
         Flight::route('DELETE /@id', function($id){
-            $headers = getallheaders();
-
-            if (!$headers['Authorization']){
-                Flight::json(["message" => "Token is missing."], 401);
-            } else {
-                try {
-                    $decoded = JWT::decode($headers['Authorization'], new Key(JWT_SECRET, "HS256"));
-                } catch (Exception $e) {
-                    Flight::json(["message" => "Invalid token."], 401);
-                }
-            }
-
-            $userID = $decoded->appUserID;
+            $userID = Flight::get('user')->appUserID;
             
             $memberService = new MemberService(new MemberDao($userID));
 
@@ -258,6 +203,8 @@ require_once __DIR__.'/../utils/Utils.class.php';
 
             $response = $memberService->deleteMember($id);
             Flight::json($response);
+        })->addMiddleware(function(){
+            AuthMiddleware();
         });
     });   
 
