@@ -80,8 +80,19 @@ require_once __DIR__.'/../utils/Utils.class.php';
      * )
      */
         Flight::route('GET /@id', function($id){
-            $userID = Flight::request()->query['userID'];
-            $memberService = new MemberService(new MemberDao($userID));
+            $headers = getallheaders();
+
+            if (!$headers['Authorization']){
+                Flight::json(["message" => "Token is missing."], 401);
+            } else {
+                try {
+                    $decoded = JWT::decode($headers['Authorization'], new Key(JWT_SECRET, "HS256"));
+                } catch (Exception $e) {
+                    Flight::json(["message" => "Invalid token."], 401);
+                }
+            }
+
+            $userID = $decoded->appUserID;            $memberService = new MemberService(new MemberDao($userID));
             $member = $memberService->getMemberByID($id);
             Flight::json($member);
         });
@@ -113,8 +124,20 @@ require_once __DIR__.'/../utils/Utils.class.php';
      * )
      */
         Flight::route('POST /', function(){
+            $headers = getallheaders();
+
+            if (!$headers['Authorization']){
+                Flight::json(["message" => "Token is missing."], 401);
+            } else {
+                try {
+                    $decoded = JWT::decode($headers['Authorization'], new Key(JWT_SECRET, "HS256"));
+                } catch (Exception $e) {
+                    Flight::json(["message" => "Invalid token."], 401);
+                }
+            }
+
+            $userID = $decoded->appUserID;
             $data = Flight::request()->data->getData();
-            $userID = Flight::request()->query['userID'];
             $memberService = new MemberService(new MemberDao($userID));
             $response = $memberService->addMember($data);
             Flight::json($response);
@@ -148,9 +171,20 @@ require_once __DIR__.'/../utils/Utils.class.php';
      * )
      */
         Flight::route('PUT /@id', function($id){
-            $data = Flight::request()->data->getData();
+            $headers = getallheaders();
 
-            $userID = Flight::request()->query['userID'];
+            if (!$headers['Authorization']){
+                Flight::json(["message" => "Token is missing."], 401);
+            } else {
+                try {
+                    $decoded = JWT::decode($headers['Authorization'], new Key(JWT_SECRET, "HS256"));
+                } catch (Exception $e) {
+                    Flight::json(["message" => "Invalid token."], 401);
+                }
+            }
+
+            $userID = $decoded->appUserID;
+            $data = Flight::request()->data->getData();
             $memberService = new MemberService(new MemberDao($userID));
 
             $response = $memberService->updateMember($id, $data);
@@ -171,7 +205,19 @@ require_once __DIR__.'/../utils/Utils.class.php';
      * )
      */
         Flight::route('PUT /@id/paid', function($id){
-            $userID = Flight::request()->query['userID'];
+            $headers = getallheaders();
+
+            if (!$headers['Authorization']){
+                Flight::json(["message" => "Token is missing."], 401);
+            } else {
+                try {
+                    $decoded = JWT::decode($headers['Authorization'], new Key(JWT_SECRET, "HS256"));
+                } catch (Exception $e) {
+                    Flight::json(["message" => "Invalid token."], 401);
+                }
+            }
+
+            $userID = $decoded->appUserID;
             $memberService = new MemberService(new MemberDao($userID));
             $response = $memberService->markMembershipAsPaid($id);
             Flight::json($response);
@@ -191,7 +237,20 @@ require_once __DIR__.'/../utils/Utils.class.php';
      * )
      */
         Flight::route('DELETE /@id', function($id){
-            $userID = Flight::request()->query['userID'];
+            $headers = getallheaders();
+
+            if (!$headers['Authorization']){
+                Flight::json(["message" => "Token is missing."], 401);
+            } else {
+                try {
+                    $decoded = JWT::decode($headers['Authorization'], new Key(JWT_SECRET, "HS256"));
+                } catch (Exception $e) {
+                    Flight::json(["message" => "Invalid token."], 401);
+                }
+            }
+
+            $userID = $decoded->appUserID;
+            
             $memberService = new MemberService(new MemberDao($userID));
 
             $resultService = new ResultService(new ResultDao($userID));

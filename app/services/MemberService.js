@@ -12,10 +12,10 @@ var MemberService = {
   },
   getMember: (id) => {
     return $.ajax({
-      url: `${API_BASE_URL}/members/${id}?userID=${
-        UserService.getLoggedInUser().appUserID
-      }`,
+      url: `${API_BASE_URL}/members/${id}`,
       type: "GET",
+      beforeSend: (xhr) =>
+        xhr.setRequestHeader("Authorization", localStorage.getItem("token")),
       dataType: "json",
       success: (data) => data,
       error: (xhr, status, error) => [],
@@ -23,10 +23,10 @@ var MemberService = {
   },
   addMember: (memberData) => {
     return $.ajax({
-      url: `${API_BASE_URL}/members?userID=${
-        UserService.getLoggedInUser().appUserID
-      }`,
+      url: `${API_BASE_URL}/members`,
       type: "POST",
+      beforeSend: (xhr) =>
+        xhr.setRequestHeader("Authorization", localStorage.getItem("token")),
       data: memberData,
       dataType: "json",
       success: (data) => data,
@@ -35,10 +35,10 @@ var MemberService = {
   },
   editMember: (id, editData) => {
     return $.ajax({
-      url: `${API_BASE_URL}/members/${id}?userID=${
-        UserService.getLoggedInUser().appUserID
-      }&_method=PUT`,
+      url: `${API_BASE_URL}/members/${id}?_method=PUT`,
       type: "POST",
+      beforeSend: (xhr) =>
+        xhr.setRequestHeader("Authorization", localStorage.getItem("token")),
       data: editData,
       dataType: "json",
       success: (data) => data,
@@ -47,10 +47,10 @@ var MemberService = {
   },
   markMembershipAsPaid: (id) => {
     return $.ajax({
-      url: `${API_BASE_URL}/members/${id}/paid?userID=${
-        UserService.getLoggedInUser().appUserID
-      }&_method=PUT`,
+      url: `${API_BASE_URL}/members/${id}/paid?_method=PUT`,
       type: "POST",
+      beforeSend: (xhr) =>
+        xhr.setRequestHeader("Authorization", localStorage.getItem("token")),
       dataType: "json",
       success: (data) => data,
       error: (xhr, status, error) => [],
@@ -58,10 +58,10 @@ var MemberService = {
   },
   deleteMember: (id) => {
     return $.ajax({
-      url: `${API_BASE_URL}/members/${id}?userID=${
-        UserService.getLoggedInUser().appUserID
-      }`,
+      url: `${API_BASE_URL}/members/${id}`,
       type: "DELETE",
+      beforeSend: (xhr) =>
+        xhr.setRequestHeader("Authorization", localStorage.getItem("token")),
       dataType: "json",
       success: (data) => data,
       error: (xhr, status, error) => [],

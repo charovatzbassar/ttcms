@@ -35,7 +35,7 @@ var UserService = {
     window.location.reload();
   },
   getLoggedInUser: () => {
-    return JSON.parse(localStorage.getItem("token"));
+    return localStorage.getItem("token");
   },
   getAllUsers: () => {
     return $.ajax({
