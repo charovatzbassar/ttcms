@@ -2,7 +2,6 @@
 
 use Firebase\JWT\JWT;
 use Firebase\JWT\Key;
-use PSpell\Config;
 
 require_once __DIR__.'/../utils/Utils.class.php';
 

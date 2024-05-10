@@ -1,8 +1,10 @@
 var RegistrationsService = {
   getRegistrations: () => {
     return $.ajax({
-      url: `${API_BASE_URL}/registrations?userID=${UserService.getLoggedInUser().appUserID}`,
+      url: `${API_BASE_URL}/registrations`,
       type: "GET",
+      beforeSend: (xhr) =>
+        xhr.setRequestHeader("Authorization", localStorage.getItem("token")),
       dataType: "json",
       success: (data) => data,
       error: (xhr, status, error) => [],
@@ -10,8 +12,10 @@ var RegistrationsService = {
   },
   getRegistration: (id) => {
     return $.ajax({
-      url: `${API_BASE_URL}/registrations/${id}?userID=${UserService.getLoggedInUser().appUserID}`,
+      url: `${API_BASE_URL}/registrations/${id}`,
       type: "GET",
+      beforeSend: (xhr) =>
+        xhr.setRequestHeader("Authorization", localStorage.getItem("token")),
       dataType: "json",
       success: (data) => data,
       error: (xhr, status, error) => [],
@@ -19,8 +23,10 @@ var RegistrationsService = {
   },
   getRegistrationsByStatus: (status) => {
     return $.ajax({
-      url: `${API_BASE_URL}/registrations?status=${status}&userID=${UserService.getLoggedInUser().appUserID}`,
+      url: `${API_BASE_URL}/registrations?status=${status}`,
       type: "GET",
+      beforeSend: (xhr) =>
+        xhr.setRequestHeader("Authorization", localStorage.getItem("token")),
       dataType: "json",
       success: (data) => data,
       error: (xhr, status, error) => [],
@@ -38,8 +44,10 @@ var RegistrationsService = {
   },
   editRegistration: (id, editData) => {
     return $.ajax({
-      url: `${API_BASE_URL}/registrations/${id}?userID=${UserService.getLoggedInUser().appUserID}&_method=PUT`,
+      url: `${API_BASE_URL}/registrations/${id}?_method=PUT`,
       type: "POST",
+      beforeSend: (xhr) =>
+        xhr.setRequestHeader("Authorization", localStorage.getItem("token")),
       data: editData,
       dataType: "json",
       success: (data) => data,
@@ -48,8 +56,10 @@ var RegistrationsService = {
   },
   deleteRegistration: (id) => {
     return $.ajax({
-      url: `${API_BASE_URL}/registrations/${id}?userID=${UserService.getLoggedInUser().appUserID}`,
+      url: `${API_BASE_URL}/registrations/${id}`,
       type: "DELETE",
+      beforeSend: (xhr) =>
+        xhr.setRequestHeader("Authorization", localStorage.getItem("token")),
       dataType: "json",
       success: (data) => data,
       error: (xhr, status, error) => [],
@@ -57,8 +67,10 @@ var RegistrationsService = {
   },
   editRegistrationStatus: (id, status) => {
     return $.ajax({
-      url: `${API_BASE_URL}/registrations/${id}/${status}?userID=${UserService.getLoggedInUser().appUserID}&_method=PUT`,
+      url: `${API_BASE_URL}/registrations/${id}/${status}?_method=PUT`,
       type: "POST",
+      beforeSend: (xhr) =>
+        xhr.setRequestHeader("Authorization", localStorage.getItem("token")),
       data: { status },
       dataType: "json",
       success: (data) => data,

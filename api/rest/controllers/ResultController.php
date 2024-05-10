@@ -1,5 +1,8 @@
 <?php
 
+use Firebase\JWT\JWT;
+use Firebase\JWT\Key;
+
 Flight::group('/results', function () {
     /**
      * @OA\Get(
@@ -16,7 +19,19 @@ Flight::group('/results', function () {
      * )
      */
     Flight::route('GET /', function(){
-        $userID = Flight::request()->query['userID'];
+        $headers = getallheaders();
+
+        if (!$headers['Authorization']){
+            Flight::json(["message" => "Token is missing."], 401);
+        } else {
+            try {
+                $decoded = JWT::decode($headers['Authorization'], new Key(JWT_SECRET, "HS256"));
+            } catch (Exception $e) {
+                Flight::json(["message" => "Invalid token."], 401);
+            }
+        }
+
+        $userID = $decoded->appUserID;
         $resultService = new ResultService(new ResultDao($userID));
 
         $offset = Flight::request()->query['offset'];
@@ -52,7 +67,19 @@ Flight::group('/results', function () {
      * )
      */
     Flight::route('GET /@id', function($id){
-        $userID = Flight::request()->query['userID'];
+        $headers = getallheaders();
+
+        if (!$headers['Authorization']){
+            Flight::json(["message" => "Token is missing."], 401);
+        } else {
+            try {
+                $decoded = JWT::decode($headers['Authorization'], new Key(JWT_SECRET, "HS256"));
+            } catch (Exception $e) {
+                Flight::json(["message" => "Invalid token."], 401);
+            }
+        }
+
+        $userID = $decoded->appUserID;
         $resultService = new ResultService(new ResultDao($userID));
         $result = $resultService->getResultByID($id);
         Flight::json($result);
@@ -83,8 +110,20 @@ Flight::group('/results', function () {
      * )
      */
     Flight::route('POST /', function(){
+        $headers = getallheaders();
+
+        if (!$headers['Authorization']){
+            Flight::json(["message" => "Token is missing."], 401);
+        } else {
+            try {
+                $decoded = JWT::decode($headers['Authorization'], new Key(JWT_SECRET, "HS256"));
+            } catch (Exception $e) {
+                Flight::json(["message" => "Invalid token."], 401);
+            }
+        }
+
+        $userID = $decoded->appUserID;
         $data = Flight::request()->data->getData();
-        $userID = Flight::request()->query['userID'];
         $resultService = new ResultService(new ResultDao($userID));
 
         if ($data['resultStatus'] == "VICTORY") {
@@ -127,8 +166,20 @@ Flight::group('/results', function () {
      * )
      */
     Flight::route('PUT /@id', function($id){
+        $headers = getallheaders();
+
+        if (!$headers['Authorization']){
+            Flight::json(["message" => "Token is missing."], 401);
+        } else {
+            try {
+                $decoded = JWT::decode($headers['Authorization'], new Key(JWT_SECRET, "HS256"));
+            } catch (Exception $e) {
+                Flight::json(["message" => "Invalid token."], 401);
+            }
+        }
+
+        $userID = $decoded->appUserID;
         $data = Flight::request()->data->getData();
-        $userID = Flight::request()->query['userID'];
         $resultService = new ResultService(new ResultDao($userID));
 
         $response = $resultService->updateResult($id, $data);
@@ -149,7 +200,19 @@ Flight::group('/results', function () {
      * )
      */
     Flight::route('DELETE /@id', function($id){
-        $userID = Flight::request()->query['userID'];
+        $headers = getallheaders();
+
+        if (!$headers['Authorization']){
+            Flight::json(["message" => "Token is missing."], 401);
+        } else {
+            try {
+                $decoded = JWT::decode($headers['Authorization'], new Key(JWT_SECRET, "HS256"));
+            } catch (Exception $e) {
+                Flight::json(["message" => "Invalid token."], 401);
+            }
+        }
+
+        $userID = $decoded->appUserID;
         $resultService = new ResultService(new ResultDao($userID));
         $response = $resultService->deleteResult($id);
         Flight::json($response);

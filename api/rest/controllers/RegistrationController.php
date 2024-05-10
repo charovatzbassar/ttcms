@@ -1,5 +1,8 @@
 <?php
 
+use Firebase\JWT\JWT;
+use Firebase\JWT\Key;
+
 require_once __DIR__ . '/../utils/Utils.class.php';
 
 Flight::group('/registrations', function () {
@@ -16,7 +19,19 @@ Flight::group('/registrations', function () {
      * )
      */
     Flight::route('GET /', function(){
-        $userID = Flight::request()->query['userID'];
+        $headers = getallheaders();
+
+        if (!$headers['Authorization']){
+            Flight::json(["message" => "Token is missing."], 401);
+        } else {
+            try {
+                $decoded = JWT::decode($headers['Authorization'], new Key(JWT_SECRET, "HS256"));
+            } catch (Exception $e) {
+                Flight::json(["message" => "Invalid token."], 401);
+            }
+        }
+
+        $userID = $decoded->appUserID;
         $registrationService = new RegistrationService(new RegistrationDao($userID));
 
         $offset = Flight::request()->query['offset'];
@@ -49,7 +64,19 @@ Flight::group('/registrations', function () {
      * )
      */
     Flight::route('GET /@id', function($id){
-        $userID = Flight::request()->query['userID'];
+        $headers = getallheaders();
+
+        if (!$headers['Authorization']){
+            Flight::json(["message" => "Token is missing."], 401);
+        } else {
+            try {
+                $decoded = JWT::decode($headers['Authorization'], new Key(JWT_SECRET, "HS256"));
+            } catch (Exception $e) {
+                Flight::json(["message" => "Invalid token."], 401);
+            }
+        }
+
+        $userID = $decoded->appUserID;
         $registrationService = new RegistrationService(new RegistrationDao($userID));
         $registration = $registrationService->getRegistrationByID($id);
         Flight::json($registration);
@@ -118,8 +145,20 @@ Flight::group('/registrations', function () {
      * )
      */
     Flight::route('PUT /@id', function($id){
+        $headers = getallheaders();
+
+        if (!$headers['Authorization']){
+            Flight::json(["message" => "Token is missing."], 401);
+        } else {
+            try {
+                $decoded = JWT::decode($headers['Authorization'], new Key(JWT_SECRET, "HS256"));
+            } catch (Exception $e) {
+                Flight::json(["message" => "Invalid token."], 401);
+            }
+        }
+
+        $userID = $decoded->appUserID;        
         $data = Flight::request()->data->getData();
-        $userID = Flight::request()->query['userID'];
         $registrationService = new RegistrationService(new RegistrationDao($userID));
 
         $response = $registrationService->updateRegistration($id, $data);
@@ -141,7 +180,19 @@ Flight::group('/registrations', function () {
      * )
      */
     Flight::route('PUT /@id/@status', function($id, $status){
-        $userID = Flight::request()->query['userID'];
+        $headers = getallheaders();
+
+        if (!$headers['Authorization']){
+            Flight::json(["message" => "Token is missing."], 401);
+        } else {
+            try {
+                $decoded = JWT::decode($headers['Authorization'], new Key(JWT_SECRET, "HS256"));
+            } catch (Exception $e) {
+                Flight::json(["message" => "Invalid token."], 401);
+            }
+        }
+
+        $userID = $decoded->appUserID;
         $registrationService = new RegistrationService(new RegistrationDao($userID));
 
         if ($status == "ACCEPTED") {
@@ -183,7 +234,19 @@ Flight::group('/registrations', function () {
      * )
      */
     Flight::route('DELETE /@id', function($id){
-        $userID = Flight::request()->query['userID'];
+        $headers = getallheaders();
+
+        if (!$headers['Authorization']){
+            Flight::json(["message" => "Token is missing."], 401);
+        } else {
+            try {
+                $decoded = JWT::decode($headers['Authorization'], new Key(JWT_SECRET, "HS256"));
+            } catch (Exception $e) {
+                Flight::json(["message" => "Invalid token."], 401);
+            }
+        }
+
+        $userID = $decoded->appUserID;
         $registrationService = new RegistrationService(new RegistrationDao($userID));
 
         $response = $registrationService->deleteRegistration($id);
