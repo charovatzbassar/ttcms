@@ -1,5 +1,8 @@
 <?php
 
+use Firebase\JWT\JWT;
+use Firebase\JWT\Key;
+
 Flight::set("userService", new UserService(new UserDao()));
 
 Flight::group('/auth', function () {
@@ -48,12 +51,16 @@ Flight::group('/auth', function () {
             return;
         }
 
-        if ($data['password'] != $user['passwordHash']) {
+        if (md5($data['password']) != $user['passwordHash']) {
             Flight::json(["message" => "Invalid password."], 401);
             return;
         }
 
-        Flight::json($user);
+        unset($user['passwordHash']);
+
+        $token = JWT::encode($user, JWT_SECRET, 'HS256');
+
+        Flight::json($token);
     });
 
     /**
@@ -94,14 +101,19 @@ Flight::group('/auth', function () {
 
         $user = [
             "email" => $data['email'],
-            "passwordHash" => $data['password'],
+            "passwordHash" => md5($data['password']),
             "firstName" => $data['firstName'],
             "lastName" => $data['lastName'],
             "clubName" => $data['clubName'],
         ];
 
         $response = Flight::get("userService")->addUser($user);
-        Flight::json($response);
+
+        unset($user['passwordHash']);
+
+        $token = JWT::encode($user, JWT_SECRET, 'HS256');
+
+        Flight::json($token);
     });
 
 });

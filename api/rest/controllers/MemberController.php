@@ -1,5 +1,9 @@
 <?php
 
+use Firebase\JWT\JWT;
+use Firebase\JWT\Key;
+use PSpell\Config;
+
 require_once __DIR__.'/../utils/Utils.class.php';
 
     Flight::group('/members', function(){
@@ -16,7 +20,20 @@ require_once __DIR__.'/../utils/Utils.class.php';
      * )
      */
         Flight::route('GET /', function(){
-            $userID = Flight::request()->query['userID'];
+
+            $headers = getallheaders();
+
+            if (!$headers['Authorization']){
+                Flight::json(["message" => "Token is missing."], 401);
+            } else {
+                try {
+                    $decoded = JWT::decode($headers['Authorization'], new Key(JWT_SECRET, "HS256"));
+                } catch (Exception $e) {
+                    Flight::json(["message" => "Invalid token."], 401);
+                }
+            }
+
+            $userID = $decoded->appUserID;
             $memberService = new MemberService(new MemberDao($userID));
 
             $date = date("Y-m-d");

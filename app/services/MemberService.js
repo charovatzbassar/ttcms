@@ -1,10 +1,10 @@
 var MemberService = {
   getMembers: () => {
     return $.ajax({
-      url: `${API_BASE_URL}/members?userID=${
-        UserService.getLoggedInUser().appUserID
-      }`,
+      url: `${API_BASE_URL}/members`,
       type: "GET",
+      beforeSend: (xhr) =>
+        xhr.setRequestHeader("Authorization", localStorage.getItem("token")),
       dataType: "json",
       success: (data) => data,
       error: (xhr, status, error) => [],

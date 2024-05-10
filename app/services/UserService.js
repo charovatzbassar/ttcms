@@ -6,7 +6,7 @@ var UserService = {
       data: loginData,
       dataType: "json",
       success: (data) => {
-        localStorage.setItem("user", JSON.stringify(data));
+        localStorage.setItem("token", data);
         window.location.hash = "dashboard";
       },
       error: (xhr, status, error) => {
@@ -21,7 +21,7 @@ var UserService = {
       data: registerData,
       dataType: "json",
       success: (data) => {
-        localStorage.setItem("user", JSON.stringify(data));
+        localStorage.setItem("token", data);
         window.location.hash = "dashboard";
       },
       error: (xhr, status, error) => {
@@ -30,12 +30,12 @@ var UserService = {
     });
   },
   logout: () => {
-    localStorage.removeItem("user");
+    localStorage.removeItem("token");
     window.location.hash = "login";
     window.location.reload();
   },
   getLoggedInUser: () => {
-    return JSON.parse(localStorage.getItem("user"));
+    return JSON.parse(localStorage.getItem("token"));
   },
   getAllUsers: () => {
     return $.ajax({
