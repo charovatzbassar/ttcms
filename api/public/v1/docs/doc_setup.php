@@ -2,8 +2,8 @@
 
 /**
  * @OA\Info(
- *   title="API",
- *   description="TTCMS API",
+ *   title="TTCMS API",
+ *   description="Endpoints for the TTCMS API",
  *   version="1.0",
  *   @OA\Contact(
  *     email="basar.carovac@stu.ibu.edu.ba",

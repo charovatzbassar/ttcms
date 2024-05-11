@@ -1,7 +1,6 @@
 <?php
 
 use Firebase\JWT\JWT;
-use Firebase\JWT\Key;
 
 Flight::set("userService", new UserService(new UserDao()));
 
@@ -115,7 +114,6 @@ Flight::group('/auth', function () {
 
         Flight::json($token);
     });
-
 });
 
 ?>

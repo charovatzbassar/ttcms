@@ -1,7 +1,5 @@
 <?php
 
-use Firebase\JWT\JWT;
-use Firebase\JWT\Key;
 
 Flight::group('/tournaments', function () {
     /**

@@ -4,19 +4,18 @@ use Firebase\JWT\JWT;
 use Firebase\JWT\Key;
 
 function AuthMiddleware() {
-        
-        $headers = getallheaders();
+    $headers = getallheaders();
 
-        if (!$headers['Authorization']){
-            Flight::json(["message" => "Token is missing."], 401);
-        } else {
-            try {
-                $decoded = JWT::decode($headers['Authorization'], new Key(JWT_SECRET, "HS256"));
+    if (!$headers['Authorization']){
+        Flight::halt(401, json_encode(["message" => "Token is missing."]));
+    } else {
+        try {
+            $decoded = JWT::decode($headers['Authorization'], new Key(JWT_SECRET, "HS256"));
 
-                Flight::set('user', $decoded);
-            } catch (Exception $e) {
-                Flight::json(["message" => "Invalid token."], 401);
-            }
+            Flight::set('user', $decoded);
+        } catch (Exception $e) {
+            Flight::halt(401, json_encode(["message" => "Token invalid."]));
         }
+    }
 }
 

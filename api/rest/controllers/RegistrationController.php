@@ -1,7 +1,5 @@
 <?php
 
-use Firebase\JWT\JWT;
-use Firebase\JWT\Key;
 
 require_once __DIR__ . '/../utils/Utils.class.php';
 

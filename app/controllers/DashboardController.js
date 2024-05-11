@@ -8,9 +8,9 @@ var DashboardController = async () => {
 
   data.map((member) => {
     members += `<tr>
-                  <td>${member.firstName} ${member.lastName}</td>
-                  <td>${member.membershipStatus}</td>
-              </tr>`;
+                    <td>${member.firstName} ${member.lastName}</td>
+                    <td>${member.membershipStatus}</td>
+                </tr>`;
   });
 
   $("#dashboardTable > tbody").html(members);
