@@ -1,6 +1,7 @@
 var MembersController = async () => {
   $("#mainNav").show();
   $("#layoutSidenav_nav").show();
+
   const data = await MemberService.getMembers();
   let members = "";
 
