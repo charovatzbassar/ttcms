@@ -107,7 +107,7 @@ Flight::group('/results', function () {
             ));
         }
 
-        $response = $resultService->addResult($data);
+        $response = $resultService->addResult(array_merge($data, ['appUserID' => $userID]));
         Flight::json($response);
     })->addMiddleware(function(){
         AuthMiddleware();

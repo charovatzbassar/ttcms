@@ -141,7 +141,6 @@ var Validate = {
             .slice(3)
             .map((category) => category.split("=")[1]),
           tournamentStatus: "UPCOMING",
-          appUserID: UserService.getLoggedInUser().appUserID,
         };
 
         TournamentsService.addTournament(tournament)
@@ -198,7 +197,6 @@ var Validate = {
           opponentLastName: formData.split("&")[2].split("=")[1],
           resultStatus: formData.split("&")[3].split("=")[1],
           tournamentID,
-          appUserID: UserService.getLoggedInUser().appUserID,
         };
 
         ResultsService.addResult(resultData)

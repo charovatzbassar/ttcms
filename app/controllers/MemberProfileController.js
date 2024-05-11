@@ -27,7 +27,7 @@ var MemberProfileController = () => {
 
     const badges = Utils.calculateBadges(member.score);
 
-    $("#playerBadges").html("Badges: " + badges);
+    $("#playerBadges").html(badges === "" ? "No badges" : "Badges: " + badges);
 
     $("#updatePlayerButton").click(() => {
       $("#updatePlayerModal").modal("show");
