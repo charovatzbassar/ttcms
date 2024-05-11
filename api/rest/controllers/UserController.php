@@ -108,6 +108,8 @@ Flight::group('/auth', function () {
 
         $response = Flight::get("userService")->addUser($user);
 
+        $user = Flight::get("userService")->getUserByEmail($data['email']);
+
         unset($user['passwordHash']);
 
         $token = JWT::encode($user, JWT_SECRET, 'HS256');
