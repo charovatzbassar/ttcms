@@ -62,7 +62,6 @@ var TournamentInfoController = () => {
             opponentLastName: formData.split("&")[2].split("=")[1],
             resultStatus: formData.split("&")[3].split("=")[1],
             tournamentID: Number(id),
-            appUserID: UserService.getLoggedInUser().appUserID,
           };
 
           ResultsService.editResult(resultID, resultData)

@@ -144,7 +144,7 @@ Flight::group('/results', function () {
         $data = Flight::request()->data->getData();
         $resultService = new ResultService(new ResultDao($userID));
 
-        $response = $resultService->updateResult($id, $data);
+        $response = $resultService->updateResult($id, array_merge($data, ['appUserID' => $userID]));
         Flight::json($response);
     })->addMiddleware(function(){
         AuthMiddleware();
