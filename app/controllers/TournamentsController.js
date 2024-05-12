@@ -13,11 +13,5 @@ var TournamentsController = async () => {
   });
 
 
-  Utils.getDatatable("tournamentsTable", `${API_BASE_URL}/tournaments`, [
-    { data: "tournamentName" },
-    { data: "tournamentDate" },
-    { data: "categories" },
-    { data: "tournamentLocation" },
-    { data: "tournamentStatus" },
-  ]);
+  TournamentsService.getTournamentsTable();
 };

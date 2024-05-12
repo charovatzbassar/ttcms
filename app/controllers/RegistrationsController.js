@@ -4,13 +4,11 @@ var RegistrationsController = async () => {
       .then(() => {
         window.location.hash = "registrations";
         toastr.success("Registration accepted");
+        RegistrationsService.getRegistrationsTable();
       })
       .catch(() => {
         toastr.error("Error accepting registration");
       });
-    setTimeout(() => {
-      window.location.reload();
-    }, 500);
   };
 
   window.handleReject = (id) => {
@@ -18,24 +16,15 @@ var RegistrationsController = async () => {
       .then(() => {
         window.location.hash = "registrations";
         toastr.success("Registration rejected");
+        RegistrationsService.getRegistrationsTable();
       })
       .catch(() => {
         toastr.error("Error rejecting registration");
       });
-    setTimeout(() => {
-      window.location.reload();
-    }, 500);
   };
 
   $("#mainNav").show();
   $("#layoutSidenav_nav").show();
 
-  Utils.getDatatable("registrationsTable", `${API_BASE_URL}/registrations`, [
-    { data: "name" },
-    { data: "email" },
-    { data: "dateOfBirth" },
-    { data: "gender" },
-    { data: "birthplace" },
-    { data: "actions" },
-  ]);
+  RegistrationsService.getRegistrationsTable();
 };

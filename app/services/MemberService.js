@@ -1,4 +1,28 @@
 var MemberService = {
+  getDashboardTable: () => {
+    Utils.getDatatable(
+      "dashboardTable",
+      `${API_BASE_URL}/members?page=dashboard`,
+      [{ data: "name" }, { data: "membershipStatus" }]
+    );
+  },
+  getMembersTable: () => {
+    Utils.getDatatable("membersTable", `${API_BASE_URL}/members?page=members`, [
+      { data: "name" },
+      { data: "dateOfBirth" },
+      { data: "gender" },
+      { data: "birthplace" },
+      { data: "category" },
+      { data: "membershipStatus" },
+    ]);
+  },
+  getMemberStatsTable: () => {
+    Utils.getDatatable(
+      "memberStatsTable",
+      `${API_BASE_URL}/members?page=stats`,
+      [{ data: "name" }, { data: "category" }, { data: "score" }]
+    );
+  },
   getMembers: () => {
     return $.ajax({
       url: `${API_BASE_URL}/members`,

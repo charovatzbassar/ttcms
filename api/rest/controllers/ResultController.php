@@ -21,8 +21,6 @@ Flight::group('/results', function () {
         $userID = Flight::get('user')->appUserID;
         $resultService = new ResultService(new ResultDao($userID));
 
-        $offset = Flight::request()->query['offset'];
-        $limit = Flight::request()->query['limit'];
 
         $tournamentID = Flight::request()->query['tournamentID'];
         $clubMemberID = Flight::request()->query['clubMemberID'];
@@ -31,11 +29,9 @@ Flight::group('/results', function () {
             $results = $resultService->getResultsByTournamentID($tournamentID);
         } else if ($clubMemberID != NULL) {
             $results = $resultService->getResultsByClubMemberID($clubMemberID);
-        } else if ($offset == NULL && $limit == NULL) {
-            $results = $resultService->getAllResults();
         } else {
-            $results = $resultService->getResults($offset, $limit, '-resultID');
-        }
+            $results = $resultService->getAllResults();
+        } 
 
         Flight::json($results);
     })->addMiddleware(function(){

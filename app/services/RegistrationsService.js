@@ -1,4 +1,14 @@
 var RegistrationsService = {
+  getRegistrationsTable: () => {
+    Utils.getDatatable("registrationsTable", `${API_BASE_URL}/registrations`, [
+      { data: "name" },
+      { data: "email" },
+      { data: "dateOfBirth" },
+      { data: "gender" },
+      { data: "birthplace" },
+      { data: "actions" },
+    ]);
+  },
   getRegistrations: () => {
     return $.ajax({
       url: `${API_BASE_URL}/registrations`,

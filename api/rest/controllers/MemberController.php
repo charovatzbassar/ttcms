@@ -67,6 +67,12 @@ require_once __DIR__.'/../utils/Utils.class.php';
                 $params['order_direction']
             );
 
+            if ($body['page'] == 'members') {
+                foreach ($members as $key => $member) {
+                    $members[$key]['name'] = '<a href="?id='.$member['clubMemberID'].'#member-profile" class="text-black">'.$member['name'].'</a>';
+                }
+            }
+
             
             Flight::json([
                 "draw" => $params['draw'],

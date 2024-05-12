@@ -152,9 +152,7 @@ var Validate = {
           });
         Utils.unblock_ui("#addTournamentModal .modal-content");
         $("#addTournamentModal").modal("hide");
-        setTimeout(() => {
-          window.location.reload();
-        }, 500);
+        TournamentsService.getTournamentsTable();
       },
     });
   },

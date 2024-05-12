@@ -29,7 +29,7 @@ class MemberDao extends BaseDao {
                 ORDER BY {$order_column} {$order_direction} LIMIT {$offset}, {$limit}";
                 break;
             case 'members':
-                $query = "SELECT CONCAT(firstName, ' ', lastName) as name, dateOfBirth, gender, birthplace, category, membershipStatus
+                $query = "SELECT CONCAT(firstName, ' ', lastName) as name, dateOfBirth, gender, birthplace, category, membershipStatus, clubMemberID
                 from clubMember where appUserID = :appUserID AND (LOWER(CONCAT(firstName, ' ', lastName)) LIKE CONCAT('%', :search, '%') 
                 OR LOWER(membershipStatus) LIKE CONCAT('%', :search, '%') OR LOWER(category) LIKE CONCAT('%', :search, '%') 
                 OR LOWER(birthplace) LIKE CONCAT('%', :search, '%') OR LOWER(gender) LIKE CONCAT('%', :search, '%') OR dateOfBirth LIKE CONCAT('%', :search, '%'))  
