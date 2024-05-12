@@ -22,6 +22,8 @@ require_once __DIR__.'/../utils/Utils.class.php';
             $userID = Flight::get('user')->appUserID;
             $memberService = new MemberService(new MemberDao($userID));
 
+            $allMembers = $memberService->getAllMembers();
+
             $date = date("Y-m-d");
             $day = date('d', strtotime($date));
             $month = date('m', strtotime($date));
@@ -39,17 +41,41 @@ require_once __DIR__.'/../utils/Utils.class.php';
                 }
             }
 
-            $offset = Flight::request()->query['offset'];
-            $limit = Flight::request()->query['limit'];
+            $body = Flight::request()->query;
 
-            if ($offset == NULL && $limit == NULL) {
-                $members = $memberService->getAllMembers();
-            } else {
-                $members = $memberService->getMembers($offset, $limit, '-clubMemberID');
+            if (count($body) == 0) {
+                Flight::json($allMembers);
+                return;
             }
 
+            $params = [
+                'page' => isset($body['page']) ? $body['page'] : "",
+                'start' => isset($body['start']) ? (int)$body['start'] : 0,
+                'search' => isset($body['search']['value']) ? $body['search']['value'] : "",
+                'draw' => isset($body['draw']) ? (int)$body['draw'] : 0,
+                'limit' => isset($body['length']) ? (int)$body['length'] : 10,
+                'order_column' => isset($body['order'][0]['name']) ? $body['order'][0]['name'] : "clubMemberID",
+                'order_direction' => isset($body['order'][0]['dir']) ? $body['order'][0]['dir'] : "asc"
+            ];
+
+            $members = $memberService->getMembers(
+                $params['page'],
+                $params['start'],
+                $params['limit'],
+                $params['search'],
+                $params['order_column'],
+                $params['order_direction']
+            );
+
             
-            Flight::json($members);
+            Flight::json([
+                "draw" => $params['draw'],
+                "recordsTotal" => count($allMembers),
+                "recordsFiltered" => count($allMembers),
+                'end' => count($members),
+                "data" => $members
+            
+            ], 200);
         })->addMiddleware(function(){
             AuthMiddleware();
         });

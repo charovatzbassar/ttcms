@@ -14,8 +14,20 @@ class MemberDao extends BaseDao {
         return $this->get_all();
     }
 
-    public function getMembers($offset, $limit, $order) {
-        return $this->get($offset, $limit, $order);
+    public function getMembers($page, $offset, $limit, $search, $order_column, $order_direction) {
+        $query = "";
+
+        switch ($page) {
+            case 'dashboard':
+                $query = "SELECT CONCAT(firstName, ' ', lastName) as name, membershipStatus
+                from clubMember where appUserID = :appUserID AND (LOWER(firstName) LIKE CONCAT('%', :search, '%') OR LOWER(membershipStatus) LIKE CONCAT('%', :search, '%')) 
+                ORDER BY {$order_column} {$order_direction} LIMIT {$offset}, {$limit}";
+                break;
+        }
+        
+        return $this->query($query, ["appUserID" => $this->userID, "search" => strtolower($search)]);
+
+
     }
 
     public function getMemberByID($id) {

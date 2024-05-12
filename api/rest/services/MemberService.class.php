@@ -12,8 +12,8 @@ class MemberService {
         return $this->memberDao->getAllMembers();
     }
 
-    public function getMembers($offset, $limit, $order) {
-        return $this->memberDao->getMembers($offset, $limit, $order);
+    public function getMembers($page, $offset, $limit, $search, $order_column, $order_direction) {
+        return $this->memberDao->getMembers($page, $offset, $limit, $search, $order_column, $order_direction);
     }
 
     public function getMemberByID($id) {
