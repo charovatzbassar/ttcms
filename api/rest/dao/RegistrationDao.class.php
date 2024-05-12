@@ -18,8 +18,11 @@ class RegistrationDao extends BaseDao {
         return $this->query("SELECT * FROM registration WHERE registrationStatus = :status and appUserID = :appUserID", ["status" => $status, "appUserID" => $this->userID]);
     }
 
-    public function getRegistrations($offset, $limit, $order) {
-        return $this->get($offset, $limit, $order);
+    public function getRegistrations($page, $offset, $limit, $search, $order_column, $order_direction) {
+        return $this->query("SELECT CONCAT(firstName, ' ', lastName) as name, email, gender, birthplace, dateOfBirth
+        from registration where appUserID = :appUserID AND registrationStatus = 'PENDING' AND (LOWER(CONCAT(firstName, ' ', lastName)) LIKE CONCAT('%', :search, '%') 
+        OR dateOfBirth LIKE CONCAT('%', :search, '%') OR LOWER(birthplace) LIKE CONCAT('%', :search, '%') OR LOWER(gender) LIKE CONCAT('%', :search, '%') OR email LIKE CONCAT('%', :search, '%'))  
+        ORDER BY {$order_column} {$order_direction} LIMIT {$offset}, {$limit}", ["appUserID" => $this->userID, "search" => strtolower($search)]);
     }
 
     public function getRegistrationByID($id) {

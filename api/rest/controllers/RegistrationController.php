@@ -20,20 +20,51 @@ Flight::group('/registrations', function () {
         $userID = Flight::get('user')->appUserID;
         $registrationService = new RegistrationService(new RegistrationDao($userID));
 
-        $offset = Flight::request()->query['offset'];
-        $limit = Flight::request()->query['limit'];
+        $allRegistrations = $registrationService->getAllRegistrations();
 
-        $status = Flight::request()->query['status'];
+        $body = Flight::request()->query;
 
-        if ($status != NULL) {
-            $registrations = $registrationService->getRegistrationsByStatus($status);
-        } else if ($offset == NULL && $limit == NULL) {
-            $registrations = $registrationService->getAllRegistrations();
-        } else {
-            $registrations = $registrationService->getRegistrations($offset, $limit, '-registrationID');
+        if (count($body) == 0) {
+            Flight::json($allRegistrations);
+            return;
         }
 
-        Flight::json($registrations);
+        $params = [
+            'page' => isset($body['page']) ? $body['page'] : "",
+            'start' => isset($body['start']) ? (int)$body['start'] : 0,
+            'search' => isset($body['search']['value']) ? $body['search']['value'] : "",
+            'draw' => isset($body['draw']) ? (int)$body['draw'] : 0,
+            'limit' => isset($body['length']) ? (int)$body['length'] : 10,
+            'order_column' => isset($body['order'][0]['name']) ? $body['order'][0]['name'] : "registrationID",
+            'order_direction' => isset($body['order'][0]['dir']) ? $body['order'][0]['dir'] : "asc"
+        ];
+
+        $registrations = $registrationService->getRegistrations(
+            $params['page'],
+            $params['start'],
+            $params['limit'],
+            $params['search'],
+            $params['order_column'],
+            $params['order_direction']
+        );
+
+        foreach ($registrations as $id => $registration) {
+            $registrations[$id]['actions'] = '<div class="d-flex justify-content-around">
+            <button class="btn btn-success w-50" onclick="handleAccept('.$id.')">Accept</button
+            ><button class="btn btn-danger w-50" onclick="handleReject('.$id.')">Reject</button>
+          </div>';
+        }
+
+        
+        Flight::json([
+            "draw" => $params['draw'],
+            "recordsTotal" => count($allRegistrations),
+            "recordsFiltered" => count($allRegistrations),
+            'end' => count($registrations),
+            "data" => $registrations
+        
+        ], 200);
+
     })->addMiddleware(function(){
         AuthMiddleware();
     });

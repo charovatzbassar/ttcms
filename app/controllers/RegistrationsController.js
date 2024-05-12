@@ -30,38 +30,12 @@ var RegistrationsController = async () => {
   $("#mainNav").show();
   $("#layoutSidenav_nav").show();
 
-  const data = await RegistrationsService.getRegistrationsByStatus("PENDING");
-
-  let registrations = "";
-
-  data.map((registration) => {
-    registrations += `<tr>
-              <td>${registration.firstName} ${registration.lastName}</td>
-              <td>${registration.email}</td>
-              <td>${registration.dateOfBirth}</td>
-              <td>${registration.gender}</td>
-              <td>${registration.birthplace}</td>
-              <td><div class="d-flex justify-content-around">
-              <button class="btn btn-success w-50" onclick="handleAccept('${registration.registrationID}')">Accept</button
-              ><button class="btn btn-danger w-50" onclick="handleReject('${registration.registrationID}')">Reject</button>
-            </div></td>
-          </tr>`;
-  });
-
-  $("#registrationsTable > tbody").html(registrations);
-
-  if ($.fn.dataTable.isDataTable("#registrationsTable")) {
-    $("#registrationsTable").DataTable().destroy();
-  }
-
-  $("#registrationsTable").DataTable({
-    columns: [
-      { data: "name" },
-      { data: "email" },
-      { data: "date-of-birth" },
-      { data: "gender" },
-      { data: "birthplace" },
-      { data: "actions" },
-    ],
-  });
+  Utils.getDatatable("registrationsTable", `${API_BASE_URL}/registrations`, [
+    { data: "name" },
+    { data: "email" },
+    { data: "dateOfBirth" },
+    { data: "gender" },
+    { data: "birthplace" },
+    { data: "actions" },
+  ]);
 };

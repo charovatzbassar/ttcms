@@ -31,7 +31,7 @@ var Utils = {
     }
     return badges;
   },
-  get_datatable: function (
+  getDatatable: function (
     table_id,
     url,
     columns,
@@ -49,7 +49,7 @@ var Utils = {
         .DataTable()
         .destroy();
     }
-    var table = $("#" + table_id).DataTable({
+    $("#" + table_id).DataTable({
       order: [
         sort_column == null ? 2 : sort_column,
         sort_order == null ? "desc" : sort_order,

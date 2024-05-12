@@ -12,8 +12,8 @@ class RegistrationService {
         return $this->registrationDao->getAllRegistrations();
     }
 
-    public function getRegistrations($offset, $limit, $order) {
-        return $this->registrationDao->getRegistrations($offset, $limit, $order);
+    public function getRegistrations($page, $offset, $limit, $search, $order_column, $order_direction) {
+        return $this->registrationDao->getRegistrations($page, $offset, $limit, $search, $order_column, $order_direction);
     }
 
     public function getRegistrationsByStatus($status) {
