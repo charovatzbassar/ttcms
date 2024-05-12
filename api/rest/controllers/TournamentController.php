@@ -20,16 +20,47 @@ Flight::group('/tournaments', function () {
         $userID = Flight::get('user')->appUserID;
         $tournamentService = new TournamentService(new TournamentDao($userID));
 
-        $offset = Flight::request()->query['offset'];
-        $limit = Flight::request()->query['limit'];
+        $allTournaments = $tournamentService->getAllTournaments();
 
-        if ($offset == NULL && $limit == NULL) {
-            $tournaments = $tournamentService->getAllTournaments();
-        } else {
-            $tournaments = $tournamentService->getTournaments($offset, $limit, '-tournamentID');
+        $body = Flight::request()->query;
+
+        if (count($body) == 0) {
+            Flight::json($allTournaments);
+            return;
         }
 
-        Flight::json($tournaments);
+        $params = [
+            'page' => isset($body['page']) ? $body['page'] : "",
+            'start' => isset($body['start']) ? (int)$body['start'] : 0,
+            'search' => isset($body['search']['value']) ? $body['search']['value'] : "",
+            'draw' => isset($body['draw']) ? (int)$body['draw'] : 0,
+            'limit' => isset($body['length']) ? (int)$body['length'] : 10,
+            'order_column' => isset($body['order'][0]['name']) ? $body['order'][0]['name'] : "tournamentID",
+            'order_direction' => isset($body['order'][0]['dir']) ? $body['order'][0]['dir'] : "asc"
+        ];
+
+        $tournaments = $tournamentService->getTournaments(
+            $params['page'],
+            $params['start'],
+            $params['limit'],
+            $params['search'],
+            $params['order_column'],
+            $params['order_direction']
+        );
+
+        foreach ($tournaments as $id => $tournament) {
+            $tournaments[$id]['tournamentName'] = '<a href="?id='.$tournament['tournamentID'].'#tournament-info" class="text-black">'.$tournament['tournamentName'].'</a>';
+        }
+
+        
+        Flight::json([
+            "draw" => $params['draw'],
+            "recordsTotal" => count($allTournaments),
+            "recordsFiltered" => count($allTournaments),
+            'end' => count($tournaments),
+            "data" => $tournaments
+        
+        ], 200);
     })->addMiddleware(function(){
         AuthMiddleware();
     });

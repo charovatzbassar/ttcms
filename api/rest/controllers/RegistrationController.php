@@ -50,8 +50,8 @@ Flight::group('/registrations', function () {
 
         foreach ($registrations as $id => $registration) {
             $registrations[$id]['actions'] = '<div class="d-flex justify-content-around">
-            <button class="btn btn-success w-50" onclick="handleAccept('.$id.')">Accept</button
-            ><button class="btn btn-danger w-50" onclick="handleReject('.$id.')">Reject</button>
+            <button class="btn btn-success w-50" onclick="handleAccept('.$registration['registrationID'].')">Accept</button
+            ><button class="btn btn-danger w-50" onclick="handleReject('.$registration['registrationID'].')">Reject</button>
           </div>';
         }
 
