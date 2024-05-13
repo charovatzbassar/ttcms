@@ -200,13 +200,13 @@ var Validate = {
         ResultsService.addResult(resultData)
           .then(() => {
             toastr.success("Result added");
+            ResultsService.getTournamentInfoTable(tournamentID);
           })
           .catch(() => {
             toastr.error("Error adding result");
           });
         Utils.unblock_ui("#addResultModal .modal-content");
         $("#addResultModal").modal("hide");
-        ResultsService.getTournamentInfoTable(tournamentID);
       },
     });
   },
