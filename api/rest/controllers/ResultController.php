@@ -21,19 +21,78 @@ Flight::group('/results', function () {
         $userID = Flight::get('user')->appUserID;
         $resultService = new ResultService(new ResultDao($userID));
 
+        $allResults = $resultService->getAllResults();
 
-        $tournamentID = Flight::request()->query['tournamentID'];
-        $clubMemberID = Flight::request()->query['clubMemberID'];
+        $body = Flight::request()->query;
+
+        if (count($body) == 0) {
+            Flight::json($allResults);
+            return;
+        }
+
+
+        $tournamentID = $body['tournamentID'];
+        $clubMemberID = $body['clubMemberID'];
+
+        if ($tournamentID != NULL && count($body) == 1) {
+            $results = $resultService->getAllResultsByTournamentID($tournamentID);
+            Flight::json($results);
+            return;
+        } else if ($clubMemberID != NULL && count($body) == 1) {
+            $results = $resultService->getAllResultsByClubMemberID($clubMemberID);
+            Flight::json($results);
+            return;
+        } 
+        
+
+        $params = [
+            'start' => isset($body['start']) ? (int)$body['start'] : 0,
+            'search' => isset($body['search']['value']) ? $body['search']['value'] : "",
+            'draw' => isset($body['draw']) ? (int)$body['draw'] : 0,
+            'limit' => isset($body['length']) ? (int)$body['length'] : 10,
+            'order_column' => isset($body['order'][0]['name']) ? $body['order'][0]['name'] : "resultID",
+            'order_direction' => isset($body['order'][0]['dir']) ? $body['order'][0]['dir'] : "asc"
+        ];
+
 
         if ($tournamentID != NULL) {
-            $results = $resultService->getResultsByTournamentID($tournamentID);
-        } else if ($clubMemberID != NULL) {
-            $results = $resultService->getResultsByClubMemberID($clubMemberID);
-        } else {
-            $results = $resultService->getAllResults();
-        } 
+            $results = $resultService->getResultsByTournamentID(
+                $tournamentID, 
+                $params['start'],
+                $params['limit'],
+                $params['search'],
+                $params['order_column'],
+                $params['order_direction']
+            );
+            foreach ($results as $key => $result) {
+                $splitName = explode(' ', $result['opponentName']);
+                $results[$key]['actions'] = '<button class="btn btn-warning w-50" id="'.$result['resultID'].'" onclick="handleEditResult('.$result['clubMemberID'].', \''.$splitName[0].'\', \''.$splitName[1].'\', \''.$result['resultStatus'].'\', '.$result['resultID'].')">Edit</button><button class="btn btn-danger w-50" onclick="handleRemoveResult('.$result['resultID'].')">Remove</button>';
+            }
 
-        Flight::json($results);
+        } else if ($clubMemberID != NULL) {
+            $results = $resultService->getResultsByClubMemberID(
+                $clubMemberID, 
+                $params['start'],
+                $params['limit'],
+                $params['search'],
+                $params['order_column'],
+                $params['order_direction']
+            );
+        }
+
+        
+        Flight::json([
+            "draw" => $params['draw'],
+            "recordsTotal" => count($allResults),
+            "recordsFiltered" => count($allResults),
+            'end' => count($results),
+            "data" => $results
+        
+        ], 200);
+
+
+
+
     })->addMiddleware(function(){
         AuthMiddleware();
     });

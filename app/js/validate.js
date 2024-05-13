@@ -206,9 +206,7 @@ var Validate = {
           });
         Utils.unblock_ui("#addResultModal .modal-content");
         $("#addResultModal").modal("hide");
-        setTimeout(() => {
-          window.location.reload();
-        }, 500);
+        ResultsService.getTournamentInfoTable(tournamentID);
       },
     });
   },

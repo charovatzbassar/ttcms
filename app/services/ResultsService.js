@@ -78,4 +78,23 @@ var ResultsService = {
       error: (xhr, status, error) => [],
     });
   },
+  getTournamentInfoTable: (id) => {
+    Utils.getDatatable(
+      "tournamentInfoTable",
+      `${API_BASE_URL}/results?tournamentID=${id}`,
+      [
+        { data: "memberName" },
+        { data: "opponentName" },
+        { data: "resultStatus" },
+        { data: "actions" },
+      ]
+    );
+  },
+  getMemberProfileTable: (id) => {
+    Utils.getDatatable(
+      "memberProfileTable",
+      `${API_BASE_URL}/results?clubMemberID=${id}`,
+      [{ data: "opponentName" }, { data: "resultStatus" }]
+    );
+  },
 };
