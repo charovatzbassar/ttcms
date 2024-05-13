@@ -261,6 +261,7 @@ var Validate = {
 
         TournamentsService.editTournament(id, tournament)
           .then(() => {
+            window.location.hash = "tournaments";
             toastr.success("Tournament updated");
           })
           .catch(() => {
@@ -268,9 +269,6 @@ var Validate = {
           });
         Utils.unblock_ui("#updateTournamentModal .modal-content");
         $("#updateTournamentModal").modal("hide");
-        setTimeout(() => {
-          window.location.reload();
-        }, 500);
       },
     });
   },
@@ -315,6 +313,7 @@ var Validate = {
         MemberService.editMember(id, formData)
           .then(() => {
             Utils.block_ui("#playerProfileTable");
+            window.location.hash = "members";
             toastr.success("Member updated");
           })
           .catch(() => {
@@ -322,9 +321,6 @@ var Validate = {
           });
         Utils.unblock_ui("#updatePlayerModal .modal-content");
         $("#updatePlayerModal").modal("hide");
-        setTimeout(() => {
-          window.location.reload();
-        }, 500);
       },
     });
   },
