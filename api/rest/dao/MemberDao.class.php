@@ -25,7 +25,7 @@ class MemberDao extends BaseDao {
                 break;
             case 'stats':
                 $query = "SELECT CONCAT(firstName, ' ', lastName) as name, category, score
-                from clubMember where appUserID = :appUserID AND (LOWER(CONCAT(firstName, ' ', lastName)) LIKE CONCAT('%', :search, '%') OR LOWER(category) LIKE CONCAT('%', :search, '%')) OR score = :search 
+                from clubMember where appUserID = :appUserID AND (LOWER(CONCAT(firstName, ' ', lastName)) LIKE CONCAT('%', :search, '%') OR LOWER(category) LIKE CONCAT('%', :search, '%') OR score = :search)
                 ORDER BY {$order_column} {$order_direction} LIMIT {$offset}, {$limit}";
                 break;
             case 'members':

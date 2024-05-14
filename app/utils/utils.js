@@ -66,6 +66,12 @@ var Utils = {
         headers: {
           Authorization: localStorage.getItem("token"),
         },
+        error: function (xhr, status, error) {
+          if (xhr.status === 401) {
+            localStorage.removeItem("token");
+            window.location.hash = "login";
+          }
+        },
       },
       lengthMenu: [
         [5, 10, 15, 50, 100, 200, 500, 5000],
