@@ -17,14 +17,31 @@ class TournamentDao extends BaseDao {
         group by t.tournamentID having t.appUserID = :appUserID;", ["appUserID" => $this->userID]);
     }
 
-    public function getTournaments($offset, $limit, $order) {
-        list($order_column, $order_direction) = parent::parseOrder($order);
-
-        return $this->query("SELECT t.tournamentID, t.tournamentName, t.tournamentDate, t.tournamentLocation, t.tournamentStatus, t.appUserID, GROUP_CONCAT(tc.category SEPARATOR ', ') AS categories 
-        from tournament t 
-        join tournamentCategory tc on t.tournamentID = tc.tournamentID
-        group by t.tournamentID having t.appUserID = :appUserID ORDER BY {$order_column} {$order_direction}
-                           LIMIT {$limit} OFFSET {$offset};", ["appUserID" => $this->userID]);
+    public function getTournaments($page, $offset, $limit, $search, $order_column, $order_direction) {
+        return $this->query("SELECT 
+        t.tournamentID,
+        t.tournamentName, 
+        t.tournamentDate, 
+        t.tournamentLocation, 
+        t.tournamentStatus, 
+        GROUP_CONCAT(tc.category SEPARATOR ', ') AS categories 
+    FROM 
+        tournament t 
+        JOIN tournamentCategory tc ON t.tournamentID = tc.tournamentID
+    WHERE 
+        t.appUserID = :appUserID
+    GROUP BY 
+        t.tournamentID
+    HAVING 
+        LOWER(t.tournamentName) LIKE CONCAT('%', :search, '%')
+        OR t.tournamentDate LIKE CONCAT('%', :search, '%')
+        OR LOWER(t.tournamentLocation) LIKE CONCAT('%', :search, '%')
+        OR LOWER(t.tournamentStatus) LIKE CONCAT('%', :search, '%')
+        OR LOWER(GROUP_CONCAT(tc.category SEPARATOR ', ')) LIKE CONCAT('%', :search, '%')
+    ORDER BY 
+        {$order_column} {$order_direction}
+    LIMIT 
+        {$offset}, {$limit};", ["appUserID" => $this->userID, "search" => strtolower($search)]);
     }
 
     public function getTournamentByID($id) {

@@ -141,7 +141,6 @@ var Validate = {
             .slice(3)
             .map((category) => category.split("=")[1]),
           tournamentStatus: "UPCOMING",
-          appUserID: UserService.getLoggedInUser().appUserID,
         };
 
         TournamentsService.addTournament(tournament)
@@ -153,9 +152,7 @@ var Validate = {
           });
         Utils.unblock_ui("#addTournamentModal .modal-content");
         $("#addTournamentModal").modal("hide");
-        setTimeout(() => {
-          window.location.reload();
-        }, 500);
+        TournamentsService.getTournamentsTable();
       },
     });
   },
@@ -198,21 +195,18 @@ var Validate = {
           opponentLastName: formData.split("&")[2].split("=")[1],
           resultStatus: formData.split("&")[3].split("=")[1],
           tournamentID,
-          appUserID: UserService.getLoggedInUser().appUserID,
         };
 
         ResultsService.addResult(resultData)
           .then(() => {
             toastr.success("Result added");
+            ResultsService.getTournamentInfoTable(tournamentID);
           })
           .catch(() => {
             toastr.error("Error adding result");
           });
         Utils.unblock_ui("#addResultModal .modal-content");
         $("#addResultModal").modal("hide");
-        setTimeout(() => {
-          window.location.reload();
-        }, 500);
       },
     });
   },
@@ -267,6 +261,7 @@ var Validate = {
 
         TournamentsService.editTournament(id, tournament)
           .then(() => {
+            window.location.hash = "tournaments";
             toastr.success("Tournament updated");
           })
           .catch(() => {
@@ -274,9 +269,6 @@ var Validate = {
           });
         Utils.unblock_ui("#updateTournamentModal .modal-content");
         $("#updateTournamentModal").modal("hide");
-        setTimeout(() => {
-          window.location.reload();
-        }, 500);
       },
     });
   },
@@ -321,6 +313,7 @@ var Validate = {
         MemberService.editMember(id, formData)
           .then(() => {
             Utils.block_ui("#playerProfileTable");
+            window.location.hash = "members";
             toastr.success("Member updated");
           })
           .catch(() => {
@@ -328,9 +321,6 @@ var Validate = {
           });
         Utils.unblock_ui("#updatePlayerModal .modal-content");
         $("#updatePlayerModal").modal("hide");
-        setTimeout(() => {
-          window.location.reload();
-        }, 500);
       },
     });
   },

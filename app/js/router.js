@@ -7,8 +7,9 @@ $(document).ready(() => {
   app.route({
     view: "dashboard",
     load: "dashboard.html",
-
-    onReady: DashboardController,
+    onReady: () => {
+      UserService.checkAuth(DashboardController);
+    },
   });
 
   // Members route
@@ -16,7 +17,9 @@ $(document).ready(() => {
     view: "members",
     load: "members.html",
 
-    onReady: MembersController,
+    onReady: () => {
+      UserService.checkAuth(MembersController);
+    },
   });
 
   // Tournaments route
@@ -24,7 +27,9 @@ $(document).ready(() => {
     view: "tournaments",
     load: "tournaments.html",
 
-    onReady: TournamentsController,
+    onReady: () => {
+      UserService.checkAuth(TournamentsController);
+    },
   });
 
   // Member Stats route
@@ -32,7 +37,9 @@ $(document).ready(() => {
     view: "member-stats",
     load: "member-stats.html",
 
-    onReady: MemberStatsController,
+    onReady: () => {
+      UserService.checkAuth(MemberStatsController);
+    },
   });
 
   // Registrations route
@@ -40,7 +47,9 @@ $(document).ready(() => {
     view: "registrations",
     load: "registrations.html",
 
-    onReady: RegistrationsController,
+    onReady: () => {
+      UserService.checkAuth(RegistrationsController);
+    },
   });
 
   // Tournament Info route
@@ -48,7 +57,9 @@ $(document).ready(() => {
     view: "tournament-info",
     load: "tournament-info.html",
 
-    onReady: TournamentInfoController,
+    onReady: () => {
+      UserService.checkAuth(TournamentInfoController);
+    },
   });
 
   // Player Profile route
@@ -56,7 +67,9 @@ $(document).ready(() => {
     view: "member-profile",
     load: "member-profile.html",
 
-    onReady: MemberProfileController,
+    onReady: () => {
+      UserService.checkAuth(MemberProfileController);
+    },
   });
 
   // Login route

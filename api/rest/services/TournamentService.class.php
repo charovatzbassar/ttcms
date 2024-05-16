@@ -12,8 +12,8 @@ class TournamentService {
         return $this->tournamentDao->getAllTournaments();
     }
 
-    public function getTournaments($offset, $limit, $order) {
-        return $this->tournamentDao->getTournaments($offset, $limit, $order);
+    public function getTournaments($page, $offset, $limit, $search, $order_column, $order_direction) {
+        return $this->tournamentDao->getTournaments($page, $offset, $limit, $search, $order_column, $order_direction);
     }
 
     public function getTournamentByID($id) {

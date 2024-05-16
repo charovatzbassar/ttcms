@@ -12,6 +12,7 @@ class ResultService {
         return $this->resultDao->getAllResults();
     }
 
+
     public function getResults($offset, $limit, $order) {
         return $this->resultDao->getResults($offset, $limit, $order);
     }
@@ -32,12 +33,20 @@ class ResultService {
         return $this->resultDao->deleteResult($id);
     }
 
-    public function getResultsByTournamentID($tournamentID) {
-        return $this->resultDao->getResultsByTournamentID($tournamentID);
+    public function getAllResultsByTournamentID($tournamentID) {
+        return $this->resultDao->getAllResultsByTournamentID($tournamentID);
     }
 
-    public function getResultsByClubMemberID($clubMemberID) {
-        return $this->resultDao->getResultsByClubMemberID($clubMemberID);
+    public function getAllResultsByClubMemberID($clubMemberID) {
+        return $this->resultDao->getAllResultsByClubMemberID($clubMemberID);
+    }
+
+    public function getResultsByTournamentID($tournamentID, $offset, $limit, $search, $order_column, $order_direction) {
+        return $this->resultDao->getResultsByTournamentID($tournamentID, $offset, $limit, $search, $order_column, $order_direction);
+    }
+
+    public function getResultsByClubMemberID($clubMemberID, $offset, $limit, $search, $order_column, $order_direction) {
+        return $this->resultDao->getResultsByClubMemberID($clubMemberID, $offset, $limit, $search, $order_column, $order_direction);
     }
 
     public function deleteResultsForTournament($tournamentID) {

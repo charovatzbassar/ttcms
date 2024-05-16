@@ -27,7 +27,7 @@ var MemberProfileController = () => {
 
     const badges = Utils.calculateBadges(member.score);
 
-    $("#playerBadges").html("Badges: " + badges);
+    $("#playerBadges").html(badges === "" ? "No badges" : "Badges: " + badges);
 
     $("#updatePlayerButton").click(() => {
       $("#updatePlayerModal").modal("show");
@@ -67,25 +67,6 @@ var MemberProfileController = () => {
         });
     });
 
-    ResultsService.getResultsByClubMemberId(id).then((data) => {
-      let results = "";
-
-      data.map((result) => {
-        results += `<tr>
-                  <td>${result.opponentFirstName} ${result.opponentLastName}</td>
-                  <td>${result.resultStatus}</td>
-              </tr>`;
-      });
-
-      $("#playerProfileTable > tbody").html(results);
-
-      if ($.fn.dataTable.isDataTable("#playerProfileTable")) {
-        $("#playerProfileTable").DataTable().destroy();
-      }
-
-      $("#playerProfileTable").DataTable({
-        columns: [{ data: "opponent" }, { data: "result" }],
-      });
-    });
+    ResultsService.getMemberProfileTable(id);
   });
 };
