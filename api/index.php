@@ -1,6 +1,10 @@
 <?php
 
 require './vendor/autoload.php';
+require './rest/middleware/CORSMiddleware.php';
+
+Flight::before('start', 'enableCORS');
+
 require_once dirname(__FILE__)."/rest/middleware/AuthMiddleware.php";
 require_once dirname(__FILE__)."/rest/dao/MemberDao.class.php";
 require_once dirname(__FILE__)."/rest/services/MemberService.class.php";
