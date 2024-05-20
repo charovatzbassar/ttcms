@@ -2,6 +2,15 @@
 
 require './vendor/autoload.php';
 
+Flight::before('start', function(&$params, &$output){
+    header('Access-Control-Allow-Origin: https://lionfish-app-vc4vk.ondigitalocean.app');
+    header('Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS');
+    header('Access-Control-Allow-Headers: Origin, Content-Type, X-Auth-Token, Authorization');
+    if (Flight::request()->method == 'OPTIONS') {
+        exit(0);
+    }
+});
+
 require_once dirname(__FILE__)."/rest/middleware/AuthMiddleware.php";
 require_once dirname(__FILE__)."/rest/dao/MemberDao.class.php";
 require_once dirname(__FILE__)."/rest/services/MemberService.class.php";
