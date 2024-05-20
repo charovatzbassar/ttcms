@@ -7,7 +7,7 @@ Flight::before('start', function(&$params, &$output){
     header('Access-Control-Allow-Methods: HEAD, GET, POST, PUT, DELETE, OPTIONS');
     header('Access-Control-Allow-Headers: Request, Origin, Content-Type, Authorization, X-Requested-With, Accept');
     header('Access-Control-Allow-Credentials: true');
-    if (Flight::request()->method == 'OPTIONS') {
+    if ($_SERVER['REQUEST_METHOD'] == 'OPTIONS') {
         // header('HTTP/1.1 204 No Content');
         // header('Content-Length: 0');
         exit(0);
