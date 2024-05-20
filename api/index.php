@@ -4,8 +4,8 @@ require './vendor/autoload.php';
 
 Flight::before('start', function(&$params, &$output){
     header('Access-Control-Allow-Origin: https://lionfish-app-vc4vk.ondigitalocean.app');
-    header('Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS');
-    header('Access-Control-Allow-Headers: *');
+    header('Access-Control-Allow-Methods: HEAD, GET, POST, PUT, DELETE, OPTIONS');
+    header('Access-Control-Allow-Headers: Request, Origin, Content-Type, Authorization');
     header('Access-Control-Allow-Credentials: true');
     if (Flight::request()->method == 'OPTIONS') {
         header('HTTP/1.1 204 No Content');
