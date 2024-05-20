@@ -10,7 +10,7 @@ function AuthMiddleware() {
         Flight::halt(401, json_encode(["message" => "Token is missing."]));
     } else {
         try {
-            $decoded = JWT::decode($headers['Authorization'], new Key(JWT_SECRET, "HS256"));
+            $decoded = JWT::decode($headers['Authorization'], new Key(Config::JWT_SECRET(), "HS256"));
 
             Flight::set('user', $decoded);
         } catch (Exception $e) {
