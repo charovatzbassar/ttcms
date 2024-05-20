@@ -7,6 +7,8 @@ Flight::before('start', function(&$params, &$output){
     header('Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS');
     header('Access-Control-Allow-Headers: Origin, Content-Type, X-Auth-Token, Authorization');
     if (Flight::request()->method == 'OPTIONS') {
+        header('HTTP/1.1 204 No Content');
+        header('Content-Length: 0');
         exit(0);
     }
 });
