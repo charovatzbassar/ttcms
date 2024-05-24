@@ -25,7 +25,7 @@ var UserService = {
         window.location.hash = "dashboard";
       },
       error: (xhr, status, error) => {
-        toastr.error(xhr.responseJSON.message);
+        toastr.error(error);
       },
     });
   },

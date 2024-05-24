@@ -60,7 +60,7 @@ var Validate = {
             .execute("6LfDPKspAAAAABrj0BsU6yudlW0Z_pFR3HhR0V_W", {
               action: "submit",
             })
-            .then(function (token) {
+            .then(function () {
               Utils.block_ui("#applyForm .card-body");
               const formData = $(f).serialize();
 

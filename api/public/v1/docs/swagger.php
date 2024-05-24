@@ -2,7 +2,7 @@
 
 require __DIR__ . '/../../../vendor/autoload.php';
 
-define('BASE_URL', 'http://localhost/ttcms/api/');
+define('BASE_URL', 'https://coral-app-oim7w.ondigitalocean.app/');
 
 error_reporting(0);
 

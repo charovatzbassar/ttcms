@@ -57,7 +57,7 @@ Flight::group('/auth', function () {
 
         unset($user['passwordHash']);
 
-        $token = JWT::encode($user, JWT_SECRET, 'HS256');
+        $token = JWT::encode($user, Config::JWT_SECRET(), 'HS256');
 
         Flight::json($token);
     });
@@ -112,7 +112,7 @@ Flight::group('/auth', function () {
 
         unset($user['passwordHash']);
 
-        $token = JWT::encode($user, JWT_SECRET, 'HS256');
+        $token = JWT::encode($user, Config::JWT_SECRET(), 'HS256');
 
         Flight::json($token);
     });

@@ -1,6 +1,20 @@
 <?php
 
 require './vendor/autoload.php';
+
+Flight::before('start', function(&$params, &$output){
+    header('Access-Control-Allow-Origin: https://lionfish-app-vc4vk.ondigitalocean.app');
+    header('Access-Control-Allow-Methods: HEAD, GET, POST, PUT, DELETE, OPTIONS');
+    header('Access-Control-Allow-Headers: Request, Origin, Content-Type, Authorization, X-Requested-With, Accept');
+    header('Access-Control-Allow-Credentials: true');
+    if ($_SERVER['REQUEST_METHOD'] == 'OPTIONS') {
+        // header('HTTP/1.1 204 No Content');
+        // header('Content-Length: 0');
+        exit(0);
+    }
+});
+
+
 require_once dirname(__FILE__)."/rest/middleware/AuthMiddleware.php";
 require_once dirname(__FILE__)."/rest/dao/MemberDao.class.php";
 require_once dirname(__FILE__)."/rest/services/MemberService.class.php";
