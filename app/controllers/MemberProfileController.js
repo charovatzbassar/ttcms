@@ -13,9 +13,9 @@ var MemberProfileController = async () => {
   const urlParams = new URLSearchParams(window.location.search);
   const id = urlParams.get("id");
 
-  var member = await MemberService.getMember(id);
+  const member = await MemberService.getMember(id);
 
-  var conn = new WebSocket("ws://localhost:8080");
+  const conn = new WebSocket("ws://localhost:8080");
 
   conn.onmessage = function (e) {
     Utils.updateMemberUI(JSON.parse(e.data));
@@ -39,6 +39,7 @@ var MemberProfileController = async () => {
           JSON.stringify({
             id: Number(id),
             token: localStorage.getItem("token"),
+            type: "members",
           })
         );
       })

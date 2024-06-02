@@ -23,8 +23,9 @@ class Chat implements MessageComponentInterface {
     public function onMessage(ConnectionInterface $from, $data) {
         $id = json_decode($data)->id;
         $token = json_decode($data)->token;
+        $type = json_decode($data)->type;
 
-        $url = 'http://localhost/ttcms/api/members/'.$id;
+        $url = 'http://localhost/ttcms/api/'.$type.'/'.$id;
 
         $headers = [
             'Content-Type: application/json',

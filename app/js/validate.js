@@ -210,7 +210,7 @@ var Validate = {
       },
     });
   },
-  validateUpdateTournamentForm: (id) => {
+  validateUpdateTournamentForm: (id, conn) => {
     $($("#updateTournamentForm")).validate({
       errorElement: "span",
       errorClass: "help-block help-block-error",
@@ -261,7 +261,13 @@ var Validate = {
 
         TournamentsService.editTournament(id, tournament)
           .then(() => {
-            window.location.hash = "tournaments";
+            conn.send(
+              JSON.stringify({
+                id: Number(id),
+                token: localStorage.getItem("token"),
+                type: "tournaments",
+              })
+            );
             toastr.success("Tournament updated");
           })
           .catch(() => {
@@ -317,6 +323,7 @@ var Validate = {
               JSON.stringify({
                 id: Number(id),
                 token: localStorage.getItem("token"),
+                type: "members",
               })
             );
             toastr.success("Member updated");

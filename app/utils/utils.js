@@ -97,5 +97,11 @@ var Utils = {
     $("#playerMembershipStatus").html(
       "Membership Status: " + member.membershipStatus
     );
-  }
+  },
+  updateTournamentUI: (tournament) => {
+    $("#tournamentName").html(tournament.tournamentName);
+    $("#tournamentDate").html("Date: " + tournament.tournamentDate);
+    $("#tournamentLocation").html("Location: " + tournament.tournamentLocation);
+    $("#tournamentCategories").html("Categories: " + tournament.categories);
+  },
 };
