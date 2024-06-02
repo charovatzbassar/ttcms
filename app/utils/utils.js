@@ -86,4 +86,16 @@ var Utils = {
       },
     });
   },
+  updateMemberUI: (member) => {
+    $("#playerName").html(member.firstName + " " + member.lastName);
+    $("#playerTournamentScore").html("Tournament Score: " + member.score);
+    $("#playerJoinDate").html("Joined on: " + member.joinDate);
+    $("#playerDateOfBirth").html("Date Of Birth: " + member.dateOfBirth);
+    $("#playerGender").html("Gender: " + member.gender);
+    $("#playerBirthplace").html("Birthplace: " + member.birthplace);
+    $("#playerCategory").html("Category: " + member.category);
+    $("#playerMembershipStatus").html(
+      "Membership Status: " + member.membershipStatus
+    );
+  }
 };

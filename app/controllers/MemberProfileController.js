@@ -1,4 +1,4 @@
-var MemberProfileController = () => {
+var MemberProfileController = async () => {
   $("#mainNav").show();
   $("#layoutSidenav_nav").show();
 
@@ -13,60 +13,63 @@ var MemberProfileController = () => {
   const urlParams = new URLSearchParams(window.location.search);
   const id = urlParams.get("id");
 
-  MemberService.getMember(id).then((member) => {
-    $("#playerName").html(member.firstName + " " + member.lastName);
-    $("#playerTournamentScore").html("Tournament Score: " + member.score);
-    $("#playerJoinDate").html("Joined on: " + member.joinDate);
-    $("#playerDateOfBirth").html("Date Of Birth: " + member.dateOfBirth);
-    $("#playerGender").html("Gender: " + member.gender);
-    $("#playerBirthplace").html("Birthplace: " + member.birthplace);
-    $("#playerCategory").html("Category: " + member.category);
-    $("#playerMembershipStatus").html(
-      "Membership Status: " + member.membershipStatus
-    );
+  var member = await MemberService.getMember(id);
 
-    const badges = Utils.calculateBadges(member.score);
+  var conn = new WebSocket("ws://localhost:8080");
 
-    $("#playerBadges").html(badges === "" ? "No badges" : "Badges: " + badges);
+  conn.onmessage = function (e) {
+    Utils.updateMemberUI(JSON.parse(e.data));
+  };
 
-    $("#updatePlayerButton").click(() => {
-      $("#updatePlayerModal").modal("show");
-    });
+  Utils.updateMemberUI(member);
 
-    $("#markAsPaid").click(() => {
-      MemberService.markMembershipAsPaid(id)
-        .then(() => {
-          toastr.success("Membership marked as paid");
-        })
-        .catch(() => {
-          toastr.error("Error marking membership as paid");
-        });
-    });
+  const badges = Utils.calculateBadges(member.score);
 
-    $("[name='firstName']").val(member.firstName);
-    $("[name='lastName']").val(member.lastName);
-    $("[name='dateOfBirth']").val(member.dateOfBirth);
-    $("select[name='gender']").val(member.gender);
+  $("#playerBadges").html(badges === "" ? "No badges" : "Badges: " + badges);
 
-    $("#closeModalButton").click(() => {
-      $("#updatePlayerModal").modal("hide");
-    });
-
-    Validate.validateUpdateMemberForm(id);
-
-    $("#removePlayer").click(() => {
-      MemberService.deleteMember(id)
-        .then(() => {
-          window.location.hash = "dashboard";
-          toastr.success("Member removed");
-          $("#removePlayerModal").modal("hide");
-        })
-        .catch(() => {
-          toastr.error("Error removing member");
-          $("#removePlayerModal").modal("hide");
-        });
-    });
-
-    ResultsService.getMemberProfileTable(id);
+  $("#updatePlayerButton").click(() => {
+    $("#updatePlayerModal").modal("show");
   });
+
+  $("#markAsPaid").click(() => {
+    MemberService.markMembershipAsPaid(id)
+      .then(() => {
+        toastr.success("Membership marked as paid");
+        conn.send(
+          JSON.stringify({
+            id: Number(id),
+            token: localStorage.getItem("token"),
+          })
+        );
+      })
+      .catch(() => {
+        toastr.error("Error marking membership as paid");
+      });
+  });
+
+  $("[name='firstName']").val(member.firstName);
+  $("[name='lastName']").val(member.lastName);
+  $("[name='dateOfBirth']").val(member.dateOfBirth);
+  $("select[name='gender']").val(member.gender);
+
+  $("#closeModalButton").click(() => {
+    $("#updatePlayerModal").modal("hide");
+  });
+
+  Validate.validateUpdateMemberForm(id);
+
+  $("#removePlayer").click(() => {
+    MemberService.deleteMember(id)
+      .then(() => {
+        window.location.hash = "dashboard";
+        toastr.success("Member removed");
+        $("#removePlayerModal").modal("hide");
+      })
+      .catch(() => {
+        toastr.error("Error removing member");
+        $("#removePlayerModal").modal("hide");
+      });
+  });
+
+  ResultsService.getMemberProfileTable(id);
 };
