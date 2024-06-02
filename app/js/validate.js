@@ -272,7 +272,7 @@ var Validate = {
       },
     });
   },
-  validateUpdateMemberForm: (id) => {
+  validateUpdateMemberForm: (id, conn) => {
     $($("#updatePlayerForm")).validate({
       errorElement: "span",
       errorClass: "help-block help-block-error",
@@ -313,7 +313,12 @@ var Validate = {
         MemberService.editMember(id, formData)
           .then(() => {
             Utils.block_ui("#playerProfileTable");
-            window.location.hash = "members";
+            conn.send(
+              JSON.stringify({
+                id: Number(id),
+                token: localStorage.getItem("token"),
+              })
+            );
             toastr.success("Member updated");
           })
           .catch(() => {

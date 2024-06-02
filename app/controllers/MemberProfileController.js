@@ -56,7 +56,7 @@ var MemberProfileController = async () => {
     $("#updatePlayerModal").modal("hide");
   });
 
-  Validate.validateUpdateMemberForm(id);
+  Validate.validateUpdateMemberForm(id, conn);
 
   $("#removePlayer").click(() => {
     MemberService.deleteMember(id)
