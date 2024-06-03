@@ -7,7 +7,7 @@ var TournamentInfoController = async () => {
 
   const tournament = await TournamentsService.getTournament(id);
 
-  const conn = new WebSocket("ws://localhost:8080");
+  const conn = new WebSocket("https://urchin-app-ngh8p.ondigitalocean.app/");
 
   conn.onmessage = function (e) {
     Utils.updateTournamentUI(JSON.parse(e.data));

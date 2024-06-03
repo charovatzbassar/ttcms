@@ -15,7 +15,7 @@ var MemberProfileController = async () => {
 
   const member = await MemberService.getMember(id);
 
-  const conn = new WebSocket("ws://localhost:8080");
+  const conn = new WebSocket("https://urchin-app-ngh8p.ondigitalocean.app/");
 
   conn.onmessage = function (e) {
     Utils.updateMemberUI(JSON.parse(e.data));
