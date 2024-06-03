@@ -40,6 +40,7 @@ class Chat implements MessageComponentInterface {
 
         curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
         
+        curl_setopt($ch, CURLOPT_HTTP_VERSION, CURL_HTTP_VERSION_2_0); 
         
         $response = curl_exec($ch);
         

@@ -11,7 +11,6 @@ var TournamentInfoController = async () => {
 
   conn.onmessage = function (e) {
     Utils.updateTournamentUI(JSON.parse(e.data));
-    console.log(JSON.parse(e.data));
   };
 
   Utils.updateTournamentUI(tournament);
