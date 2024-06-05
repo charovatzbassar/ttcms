@@ -25,8 +25,7 @@ class Chat implements MessageComponentInterface {
         $token = json_decode($data)->token;
         $type = json_decode($data)->type;
 
-        // $url = 'http://localhost/ttcms/api/'.$type.'/'.$id;
-        $url = 'https://coral-app-oim7w.ondigitalocean.app/'.$type.'/'.$id;
+        $url = 'http://localhost/ttcms/api/'.$type.'/'.$id;
 
         $headers = [
             'Content-Type: application/json',

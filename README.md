@@ -1,7 +1,6 @@
 # Table Tennis Club Management System
 
 ## Welcome to TTCMS!
-<a href="https://lionfish-app-vc4vk.ondigitalocean.app" target="_blank">https://lionfish-app-vc4vk.ondigitalocean.app</a>
 
 >A solution for table tennis clubs, where a head coach can manage members, their memberships, upcoming tournaments, results, and registrations for new members.
 >
